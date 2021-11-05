@@ -12,6 +12,7 @@ Build your own custom world:
 
 - Backend: Express
     - bcrypt
+    - jwt
     - nodemon
     - dotenv
     - mongoose
@@ -24,3 +25,11 @@ Build your own custom world:
 ## Project
 
 https://github.com/Asaroz/Expore/projects/1
+
+## Authors
+
+- Backend manager: André
+    - Lead Backend developer: Lars
+
+- Frontend manager: Lars
+    - Lead Frontend developer: André
