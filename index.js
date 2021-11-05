@@ -2,7 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path, {dirname} from 'path';
-import { wildcardEndpoint, globalErrorHandler } from './controllers/fallbackController';
+import { wildcardEndpoint, globalErrorHandler } from './controllers/fallbackController.js';
+import connect from './database.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,6 +11,8 @@ const __dirname = dirname(__filename);
 const app = express();
 
 dotenv.config();
+
+connect();
 
 // Routes here
 
