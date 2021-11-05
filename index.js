@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import path, {dirname} from 'path';
 import { wildcardEndpoint, globalErrorHandler } from './controllers/fallbackController.js';
 import connect from './database.js';
+import userRouter from './routes/userRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,6 +16,9 @@ dotenv.config();
 connect();
 
 // Routes here
+
+// Last route - login/register
+app.use('/', userRouter);
 
 // Serve static files from frontend
 app.use(express.static(path.join(__dirname, 'client/build')));
