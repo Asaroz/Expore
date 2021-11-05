@@ -7,17 +7,6 @@ export default function Login(props){
     const [ stay, setStay ] = useState(false);
     const setUser = props.setUser;
 
-    function runLogin (email, password, stay) {
-        const response = login(email, password, stay);
-        if (!response) {
-            alert(`Login failed!`);
-        }
-        if (!response.success) {
-            alert(`Login failed: ${response.message}`);
-        } else {
-            setUser(response.user);
-        }
-    }
     // axios request should contain the login data from the form{ email/username: "test",password:"test",stayLogedIn:true/false} and setUser if login/register is succesfull
     return <div>
         <form>
@@ -34,7 +23,7 @@ export default function Login(props){
             <input type="checkbox" id="stay" onChange={e => setStay(e.target.checked)}/>
             <button onClick={e => {
                 e.preventDefault();
-                runLogin(email, password, stay)
+                login(email, password, stay, setUser);
             }}>
                 Login
             </button>

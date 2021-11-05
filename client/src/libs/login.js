@@ -1,5 +1,6 @@
 import axios from 'axios';
-export default function login (email, password, stay) {
+
+export default function login (email, password, stay, setUser) {
     axios.post('/login', {
         email: email,
         password: password,
@@ -7,6 +8,7 @@ export default function login (email, password, stay) {
     })
         .then(response => {
             console.log(response);
+            setUser(response.body.user);
         })
         .catch(error => {
             console.log(error);
