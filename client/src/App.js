@@ -13,11 +13,11 @@ function App() {
 	return (
 		<div className="App">
 			<header className="App-header">
-				{(userEmail !== "null" | userEmail !== null) ? 
-					<Menu userEmail={userEmail}/> 
+				{(userEmail === "null" | userEmail === null) ? 
+					<Login setUserEmail={setUserEmail} setToken={setToken} />
 					:
-					<Login setUserEmail={setUserEmail} setToken={setToken} 
-				/>}
+					<Menu userEmail={userEmail}/> 
+				}
 			</header>
 		</div>
 	);
