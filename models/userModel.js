@@ -26,7 +26,7 @@ userSchema.statics.login = async (userData) => {
     // Generate auth token
     const token = makeToken(user._id,userData.stayLogged);
 
-    return { message: `User ${user.email} successfully login`, status: 200, token: token };
+    return { message: `User ${user.email} successfully login`, status: 200, email: user.email, token: token };
 };
 
 userSchema.statics.register = async (userData) => {
@@ -42,7 +42,5 @@ userSchema.statics.register = async (userData) => {
         }
     }
 };
-
-
 
 export const User = mongoose.model("users", userSchema);

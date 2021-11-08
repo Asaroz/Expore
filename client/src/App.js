@@ -4,15 +4,19 @@ import Menu from './components/Menu';
 import './App.css';
 
 function App() {
-  	const [user, setUser] = useState();
+  	const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail'));
+	const [token, setToken] = useState(localStorage.getItem('authToken'));
+
+	localStorage.setItem('authToken', token);
+	localStorage.setItem('userEmail', userEmail);
 
 	return (
 		<div className="App">
 			<header className="App-header">
-				{user ? 
+				{(userEmail !== "null") ? 
 					<Menu /> 
 					:
-					<Login setUser={setUser} 
+					<Login setUserEmail={setUserEmail} setToken={setToken} 
 				/>}
 			</header>
 		</div>
