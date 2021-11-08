@@ -1,0 +1,18 @@
+POST localhost:5000/login 
+content-type: application/json
+
+{
+    "email":"hi@hi.de",
+    "password": "12345",
+    "stayLogged": true
+}
+
+###
+
+POST localhost:5000/register
+content-type: application/json
+
+{
+    "email":"hi@hi.de",
+    "password": "12345"
+}
