@@ -11,7 +11,7 @@ export async function userLogin (req, res) {
         return;
     }
     const user = await User.login(req.body);
-    res.status(user.status).json({ message: user.message, token: user.token });
+    res.status(user.status).json(user);
 }
 
 // Register route:
