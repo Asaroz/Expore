@@ -17,11 +17,15 @@ export async function userLogin (req, res) {
 // Register route:
 export async function userRegister (req, res) {
     if (!req.body.email) {
-        res.status(400).send("Please provide an email.");
+        res.status(400).send("Please provide an Email.");
         return;
     }
     if (!req.body.password) {
-        res.status(400).send("Please provide a password.");
+        res.status(400).send("Please provide a Password.");
+        return;
+    }
+    if (!req.body.username) {
+        res.status(400).send("Please provide a Username.");
         return;
     }
     const user = await User.register(req.body);

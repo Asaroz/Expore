@@ -15,6 +15,8 @@ const userSchema = new mongoose.Schema({
     },
     username:{
         type: String,
+        minLength: 5, 
+        unique: true, 
         required: true
     }
 });
@@ -30,7 +32,7 @@ userSchema.statics.login = async (userData) => {
     // Generate auth token
     const token = makeToken(user._id,userData.stayLogged);
 
-    return { message: `User ${user.email} successfully login`, status: 200, email: user.email, token: token };
+    return { message: `User ${user.email} successfully login`, status: 200, email: user.email, token: token , userName: user.username};
 };
 
 userSchema.statics.register = async (userData) => {
@@ -41,6 +43,8 @@ userSchema.statics.register = async (userData) => {
     } catch (error) {
         if (error.message.indexOf("email") !== -1) {
             return { message: "Email already exists", status: 401 };
+        } else if (error.message.indexOf("username") !== -1){
+            return { message: "Username already exists", status: 401};
         } else {
             return { message: error.message, status: 500 };
         }

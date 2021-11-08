@@ -1,4 +1,4 @@
-POST localhost:5000/login 
+POST http://localhost:5000/login 
 content-type: application/json
 
 {
@@ -9,10 +9,11 @@ content-type: application/json
 
 ###
 
-POST localhost:5000/register
+POST http://localhost:5000/register
 content-type: application/json
 
 {
-    "email":"hi@hi.de",
-    "password": "12345"
+    "email":"l",
+    "password": "12345",
+    "username": "Larse12"
 }
