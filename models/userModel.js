@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     },
     username:{
         type: String,
-        minLength: 5, 
+        minLength: 3,
         unique: true, 
         required: true
     }
@@ -42,6 +42,7 @@ userSchema.statics.register = async (userData) => {
         return { message: `User ${user.email} successfully created`, status: 201 };
     } catch (error) {
         if (error.message.indexOf("email") !== -1) {
+            console.log(error.message);
             return { message: "Email already exists", status: 401 };
         } else if (error.message.indexOf("username") !== -1){
             return { message: "Username already exists", status: 401};

@@ -1,7 +1,13 @@
 export default function Menu (props) {
-    const userEmail = props.userEmail;
+    const userName = props.userName;
+    const setUserName = props.setUserName;
+    const setToken = props.setToken;
 
-    console.log(userEmail);
-
-    return <h1>Welcome {userEmail}</h1>;
+    return <>
+        <h1>Welcome {userName}</h1>
+        <button onClick={() => {
+            setToken(null);
+            setUserName(null);
+        }}>Logout</button>
+    </>;
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default function login (email, password, stay, setUserEmail, setMessage, setToken) {
+export default function login (email, password, stay, setUserName, setToken, setMessage) {
     axios.post('/login', {
         email: email,
         password: password,
@@ -8,8 +8,7 @@ export default function login (email, password, stay, setUserEmail, setMessage, 
     })
         .then(response => {
             console.log('Message:', response);
-            setUserEmail(response.data.email);
-            setMessage("");
+            setUserName(response.data.userName);
             setToken(response.data.token);
         })
         .catch(error => {
