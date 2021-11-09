@@ -5,6 +5,7 @@ import path, {dirname} from 'path';
 import { wildcardEndpoint, globalErrorHandler } from './controllers/fallbackController.js';
 import connect from './database.js';
 import userRouter from './routes/userRouter.js';
+import itemRouter from './routes/itemRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,9 +17,10 @@ app.use(express.json());
 connect();
 
 // Routes here
-
+app.use('/', itemRouter);
 // Last route - login/register
 app.use('/', userRouter);
+
 
 // Serve static files from frontend
 app.use(express.static(path.join(__dirname, 'client/build')));
