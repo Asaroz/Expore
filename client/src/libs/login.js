@@ -11,7 +11,7 @@ export default function login (email, password, stay, setUser, setToken, setMess
             setUser({ 
                 userEmail: response.data.email,
                 userName: response.data.userName,
-                userImage: response.data.imageName
+                imageIndex: response.data.imageIndex
             });
             setToken(response.data.token);
         })

@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema({
         unique: true, 
         required: true
     },
-    imageName: {
-        type: String,
+    imageIndex: {
+        type: Number,
         required: true
     }
 });
@@ -35,9 +35,16 @@ userSchema.statics.login = async (userData) => {
         return { message: "Please check your password and try again", status: 401 };
     }
     // Generate auth token
-    const token = makeToken(user._id,userData.stayLogged);
+    const token = makeToken(user._id, userData.stayLogged);
 
-    return { message: `User ${user.email} successfully login`, status: 200, email: user.email, token: token , userName: user.username};
+    return { 
+        message: `User ${user.email} successfully login`, 
+        status: 200, 
+        email: user.email, 
+        userName: user.username, 
+        imageIndex: user.imageIndex, 
+        token: token 
+    };
 };
 
 userSchema.statics.register = async (userData) => {
