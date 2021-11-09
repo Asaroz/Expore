@@ -17,3 +17,14 @@ content-type: application/json
     "password": "123456",
     "username": "Hifive"
 }
+
+###
+
+POST http://localhost:5000/createItem
+content-type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY0NjIwMTYsImV4cCI6MTYzNzA2NjgxNn0.K0eazEtbDKUynkAEnc2pGZagKBIBzI5lxXCnMoL9bng
+
+{
+    "name":"smallworld",
+    "description": "hey whats up?",
+}
