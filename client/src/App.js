@@ -1,22 +1,36 @@
 import { useState } from 'react';
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
-import Menu from './components/Menu';
+import UserMenu from './components/UserMenu';
+import Register from './components/Register';
 import './App.css';
 
 function App() {
-  	const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail'));
+  	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 	const [token, setToken] = useState(localStorage.getItem('authToken'));
 
 	localStorage.setItem('authToken', token);
-	localStorage.setItem('userEmail', userEmail);
+	localStorage.setItem('user', JSON.stringify(user));
 
 	return (
 		<div className="App">
 			<header className="App-header">
-				{(userEmail === "null" | userEmail === null) ? 
-					<Login setUserEmail={setUserEmail} setToken={setToken} />
+				{(user === "null" | (!user)) ? 
+					<div>
+						<div>
+							<NavLink to="login">Login</NavLink>
+							<NavLink to="register">Register</NavLink>
+						</div>
+						<Switch>
+							<Route path='/login' component={() => <Login setUser={setUser} setToken={setToken}/>}/>
+							<Route path='/register' component={() => <Register setUser={setUser} setToken={setToken}/>}/>
+							<Route path='*'>
+								<Redirect to="/login" />
+							</Route>
+						</Switch>
+					</div>
 					:
-					<Menu userEmail={userEmail}/> 
+					<UserMenu user={user} setUser={setUser} setToken={setToken}/> 
 				}
 			</header>
 		</div>

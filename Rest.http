@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "email":"hi@hi.de",
-    "password": "12345",
+    "password": "123456",
     "stayLogged": true
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:5000/register
 content-type: application/json
 
 {
-    "email":"l",
-    "password": "12345",
-    "username": "Larse12"
+    "email":"hi@hi.de",
+    "password": "123456",
+    "username": "Hifive"
 }

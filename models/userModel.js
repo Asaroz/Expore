@@ -13,13 +13,18 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    username:{
+    username: {
         type: String,
-        minLength: 5, 
+        minLength: 3,
         unique: true, 
+        required: true
+    },
+    imageName: {
+        type: String,
         required: true
     }
 });
+
 userSchema.statics.login = async (userData) => {
     const user = await User.findOne({ email: userData.email });
     if (!user) {
@@ -42,6 +47,7 @@ userSchema.statics.register = async (userData) => {
         return { message: `User ${user.email} successfully created`, status: 201 };
     } catch (error) {
         if (error.message.indexOf("email") !== -1) {
+            console.log(error.message);
             return { message: "Email already exists", status: 401 };
         } else if (error.message.indexOf("username") !== -1){
             return { message: "Username already exists", status: 401};

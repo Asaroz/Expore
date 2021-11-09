@@ -6,12 +6,16 @@ export default function Login(props){
     const [ email, setEmail ] = useState("");
     const [ stay, setStay ] = useState(false);
     const [ message, setMessage ] = useState("");
-    const setUserEmail = props.setUserEmail;
+    const setUser = props.setUser;
     const setToken = props.setToken;
 
-    // axios request should contain the login data from the form{ email/username: "test",password:"test",stayLogedIn:true/false} and setUser if login/register is succesfull
+    function submitHandler(e) {
+        e.preventDefault();
+        login(email, password, stay, setUser, setToken, setMessage);
+    }
+
     return <div>
-        <form>
+        <form onSubmit={submitHandler}>
             <div>
                 <label htmlFor="email">Email:</label>
                 <input 
@@ -29,14 +33,10 @@ export default function Login(props){
                 <label htmlFor="stay">Stay logged-in:</label>
                 <input type="checkbox" id="stay" onChange={e => setStay(e.target.checked)}/>
             </div>
-            <button onClick={e => {
-                e.preventDefault();
-                login(email, password, stay, setUserEmail, setMessage, setToken);
-            }}>
+            <button type="submit">
                 Login
             </button>
             <div>{`${message}`}</div>
         </form>
-    
     </div>
 }

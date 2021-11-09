@@ -3,11 +3,11 @@ import { User } from '../models/userModel.js';
 // Login route:
 export async function userLogin (req, res) {
     if (!req.body.email) {
-        res.status(400).send("Please provide an email.");
+        res.status(400).json({ message: "Please provide an email." });
         return;
     }
     if (!req.body.password) {
-        res.status(400).send("Please provide a password.");
+        res.status(400).json({ message: "Please provide a password." });
         return;
     }
     const user = await User.login(req.body);
@@ -17,17 +17,17 @@ export async function userLogin (req, res) {
 // Register route:
 export async function userRegister (req, res) {
     if (!req.body.email) {
-        res.status(400).send("Please provide an Email.");
+        res.status(400).json({ message: "Please provide an Email." });
         return;
     }
     if (!req.body.password) {
-        res.status(400).send("Please provide a Password.");
+        res.status(400).json({ message: "Please provide a Password." });
         return;
     }
     if (!req.body.username) {
-        res.status(400).send("Please provide a Username.");
+        res.status(400).json({ message: "Please provide a Username." });
         return;
     }
     const user = await User.register(req.body);
-    res.status(user.status).send(user.message);
+    res.status(user.status).json(user);
 }
