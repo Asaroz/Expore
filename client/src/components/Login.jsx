@@ -6,12 +6,12 @@ export default function Login(props){
     const [ email, setEmail ] = useState("");
     const [ stay, setStay ] = useState(false);
     const [ message, setMessage ] = useState("");
-    const setUserName = props.setUserName;
+    const setUser = props.setUser;
     const setToken = props.setToken;
 
     function submitHandler(e) {
         e.preventDefault();
-        login(email, password, stay, setUserName, setToken, setMessage);
+        login(email, password, stay, setUser, setToken, setMessage);
     }
 
     return <div>
@@ -38,6 +38,5 @@ export default function Login(props){
             </button>
             <div>{`${message}`}</div>
         </form>
-    
     </div>
 }

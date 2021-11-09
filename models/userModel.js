@@ -13,13 +13,18 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    username:{
+    username: {
         type: String,
         minLength: 3,
         unique: true, 
         required: true
+    },
+    imageName: {
+        type: String,
+        required: true
     }
 });
+
 userSchema.statics.login = async (userData) => {
     const user = await User.findOne({ email: userData.email });
     if (!user) {

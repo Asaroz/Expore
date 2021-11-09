@@ -1,36 +1,36 @@
 import { useState } from 'react';
 import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
-import Menu from './components/Menu';
+import UserMenu from './components/UserMenu';
 import Register from './components/Register';
 import './App.css';
 
 function App() {
-  	const [userName, setUserName] = useState(localStorage.getItem('userName'));
+  	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 	const [token, setToken] = useState(localStorage.getItem('authToken'));
 
 	localStorage.setItem('authToken', token);
-	localStorage.setItem('userName', userName);
+	localStorage.setItem('user', JSON.stringify(user));
 
 	return (
 		<div className="App">
 			<header className="App-header">
-				{(userName === "null" | (!userName)) ? 
+				{(user === "null" | (!user)) ? 
 					<div>
 						<div>
 							<NavLink to="login">Login</NavLink>
 							<NavLink to="register">Register</NavLink>
 						</div>
 						<Switch>
-							<Route path='/login' component={() => <Login setUserName={setUserName} setToken={setToken}/>}/>
-							<Route path='/register' component={() => <Register setUserName={setUserName} setToken={setToken}/>}/>
+							<Route path='/login' component={() => <Login setUser={setUser} setToken={setToken}/>}/>
+							<Route path='/register' component={() => <Register setUser={setUser} setToken={setToken}/>}/>
 							<Route path='*'>
 								<Redirect to="/login" />
 							</Route>
 						</Switch>
 					</div>
 					:
-					<Menu userName={userName} setUserName={setUserName} setToken={setToken}/> 
+					<UserMenu user={user} setUser={setUser} setToken={setToken}/> 
 				}
 			</header>
 		</div>

@@ -1,5 +1,13 @@
 import { useState } from 'react';
 import register from '../libs/register.js';
+import avaCat from '../img/avaCat.jpg';
+import avaDogOne from '../img/avaDogOne.jpg';
+import avaDogTwo from '../img/avaDogTwo.jpg';
+import avaFaceOne from '../img/avaFaceOne.jpg';
+import avaFaceTwo from '../img/avaFaceTwo.jpg';
+import avaLion from '../img/avaLion.jpg';
+import avaOwl from '../img/avaOwl.jpg';
+import avaYoda from '../img/avaYoda.jpg';
 
 export default function Register(props) {
     const [ password, setPassword ] = useState("");
@@ -7,16 +15,19 @@ export default function Register(props) {
     const [ email, setEmail ] = useState("");
     const [ name, setName ] = useState("");
     const [ message, setMessage ] = useState("");
-    const setUserName = props.setUserName;
+    const [ imageName, setImageName ] = useState("");
+    const setUser = props.setUser;
     const setToken = props.setToken;
 
     function submitHandler(e) {
         e.preventDefault();
         if (password !== passwordConfirm) {
             setMessage("Passwords must match");
+        } else if (!imageName) { 
+            setMessage("Must select an avatar");
         } else {
             setMessage("");
-            register(email, name, password, setUserName, setToken, setMessage);
+            register(email, name, imageName, password, setUser, setToken, setMessage);
         }
     };
 
@@ -27,13 +38,6 @@ export default function Register(props) {
                 <input 
                     type="email" id="email" placeholder="type your email..." required maxLength={60}
                     onChange={e => setEmail(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="name">Name:</label>
-                <input 
-                    type="text" id="name" placeholder="type your name..." required minLength={3} maxLength={30}
-                    onChange={e => setName(e.target.value)}
                 />
             </div>
             <div>
@@ -50,11 +54,60 @@ export default function Register(props) {
                     onChange={e => setPasswordConfirm(e.target.value)}
                 />
             </div>
+            <div>
+                <label htmlFor="name">Name:</label>
+                <input 
+                    type="text" id="name" placeholder="type your name..." required minLength={3} maxLength={30}
+                    onChange={e => setName(e.target.value)}
+                />
+            </div>
+            <div>
+                <p>Please select your avatar:</p>
+                <input 
+                    type="radio" name="action" id="avaDogOne" value="avaDogOne"
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaDogOne"><img className="avatar" src={avaDogOne} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaDogTwo" value="avaDogTwo"
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaDogTwo"><img className="avatar" src={avaDogTwo} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaFaceOne" value="avaFaceOne" 
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaFaceOne"><img className="avatar" src={avaFaceOne} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaFaceTwo" value="avaFaceTwo" 
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaFaceTwo"><img className="avatar" src={avaFaceTwo} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaCat" value="avaCat" 
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaCat"><img className="avatar" src={avaCat} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaLion" value="avaLion"
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaLion"><img className="avatar" src={avaLion} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaOwl" value="avaOwl"
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaOwl"><img className="avatar" src={avaOwl} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaYoda" value="avaYoda"
+                    onChange={e => setImageName(e.target.value)}
+                />
+                <label htmlFor="avaYoda"><img className="avatar" src={avaYoda} alt="avatar" /></label>
+            </div>
             <button type="submit">
                 Register
             </button>
             <div>{`${message}`}</div>
         </form>
-    
     </div>
 }
