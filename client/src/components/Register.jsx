@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import register from '../libs/register.js';
-import avaCat from '../img/avaCat.jpg';
+import avaPoultryOne from '../img/avaPoultryOne.jpg';
 import avaDogOne from '../img/avaDogOne.jpg';
 import avaDogTwo from '../img/avaDogTwo.jpg';
 import avaFaceOne from '../img/avaFaceOne.jpg';
 import avaFaceTwo from '../img/avaFaceTwo.jpg';
+import avaCat from '../img/avaCat.jpg';
 import avaLion from '../img/avaLion.jpg';
 import avaOwl from '../img/avaOwl.jpg';
 import avaYoda from '../img/avaYoda.jpg';
@@ -15,7 +16,7 @@ export default function Register(props) {
     const [ email, setEmail ] = useState("");
     const [ name, setName ] = useState("");
     const [ message, setMessage ] = useState("");
-    const [ imageName, setImageName ] = useState("");
+    const [ imageIndex, setImageIndex ] = useState("");
     const setUser = props.setUser;
     const setToken = props.setToken;
 
@@ -23,11 +24,11 @@ export default function Register(props) {
         e.preventDefault();
         if (password !== passwordConfirm) {
             setMessage("Passwords must match");
-        } else if (!imageName) { 
+        } else if (!imageIndex) { 
             setMessage("Must select an avatar");
         } else {
             setMessage("");
-            register(email, name, imageName, password, setUser, setToken, setMessage);
+            register(email, name, imageIndex, password, setUser, setToken, setMessage);
         }
     };
 
@@ -64,43 +65,48 @@ export default function Register(props) {
             <div>
                 <p>Please select your avatar:</p>
                 <input 
-                    type="radio" name="action" id="avaDogOne" value="avaDogOne"
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaPoultryOne" value={0}
+                    onChange={e => setImageIndex(e.target.value)}
+                />
+                <label htmlFor="avaPoultryOne"><img className="avatar" src={avaPoultryOne} alt="avatar" /></label>
+                <input 
+                    type="radio" name="action" id="avaDogOne" value={1}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaDogOne"><img className="avatar" src={avaDogOne} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaDogTwo" value="avaDogTwo"
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaDogTwo" value={2}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaDogTwo"><img className="avatar" src={avaDogTwo} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaFaceOne" value="avaFaceOne" 
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaFaceOne" value={3}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaFaceOne"><img className="avatar" src={avaFaceOne} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaFaceTwo" value="avaFaceTwo" 
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaFaceTwo" value={4}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaFaceTwo"><img className="avatar" src={avaFaceTwo} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaCat" value="avaCat" 
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaCat" value={5}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaCat"><img className="avatar" src={avaCat} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaLion" value="avaLion"
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaLion" value={6}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaLion"><img className="avatar" src={avaLion} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaOwl" value="avaOwl"
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaOwl" value={7}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaOwl"><img className="avatar" src={avaOwl} alt="avatar" /></label>
                 <input 
-                    type="radio" name="action" id="avaYoda" value="avaYoda"
-                    onChange={e => setImageName(e.target.value)}
+                    type="radio" name="action" id="avaYoda" value={8}
+                    onChange={e => setImageIndex(e.target.value)}
                 />
                 <label htmlFor="avaYoda"><img className="avatar" src={avaYoda} alt="avatar" /></label>
             </div>

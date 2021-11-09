@@ -1,11 +1,11 @@
 import axios from 'axios';
 import login from './login.js';
 
-export default function register (email, name, imageName, password, setUser, setToken, setMessage) {
+export default function register (email, name, imageIndex, password, setUser, setToken, setMessage) {
     axios.post('/register', {
         email: email,
         username: name,
-        imageName: imageName,
+        imageIndex: imageIndex,
         password: password
     })
         .then(response => {
