@@ -45,7 +45,7 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 
 GET http://localhost:5000/getItem
 content-type: application/json
-Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThhOGFkOWU3ZDU1MmUwZjI3OGQ0MGEiLCJpYXQiOjE2MzY1NDgxOTksImV4cCI6MTYzNjU1MTc5OX0.kowDyzQPjMos26nsEWx_rw_7wOmxjIexekmEJ-4F8gQ
 
 {
     "isRoot": true

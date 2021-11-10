@@ -6,9 +6,9 @@ export async function getItems (req, res) {
 };
 
 
-export async function createItems (req, res) {
+export async function createItem (req, res) {
     if(!req.body.title){
-        res.status(400).json("Please provide a title for your Item");
+        res.status(400).json({ message: "Please provide a title for your Item" });
         return;
     }
     const item = await Item.createItems(req.body);
