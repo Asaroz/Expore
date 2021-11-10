@@ -22,9 +22,20 @@ content-type: application/json
 
 POST http://localhost:5000/createItem
 content-type: application/json
-Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY0NjIwMTYsImV4cCI6MTYzNzA2NjgxNn0.K0eazEtbDKUynkAEnc2pGZagKBIBzI5lxXCnMoL9bng
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
 
 {
     "name":"smallworld",
     "description": "hey whats up?",
+    "isRoot": true
+}
+
+###
+
+GET http://localhost:5000/getItem
+content-type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
+
+{
+    "isRoot": true
 }

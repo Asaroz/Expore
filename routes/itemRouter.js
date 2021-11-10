@@ -1,11 +1,11 @@
 import express from 'express';
 import tokenController from '../controllers/tokenController.js'
-import {getChildren,createItem } from '../controllers/itemController.js';
+import {getItems,createItem } from '../controllers/itemController.js';
 
 const itemRouter = express.Router();
 
 //get Children Route:
-itemRouter.get('/getChildren', tokenController , getChildren);
+itemRouter.get('/getItem', tokenController , getItems);
 //create universe Route: 
 itemRouter.post('/createItem', tokenController , createItem);
 

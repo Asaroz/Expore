@@ -33,9 +33,19 @@ const itemSchema = new mongoose.Schema({
 });
 
 itemSchema.statics.getItems = async (userData) => {
-    const children = await User.find({ email: userData.email });
+    try {
+        console.log(userData)
+        const item = await Item.find(userData);
+        return { 
+            message:  `${item.length} Items found`,
+            status: 201,
+            Items: [...item]
+        };
+    } catch (error){
+        console.log(error);
+        return { message: "no Items found", status: 401 };
+    }
     
-    return {};
 };
 
 itemSchema.statics.createItem = async (userData) => {

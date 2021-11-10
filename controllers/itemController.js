@@ -3,9 +3,10 @@ import { Item } from '../models/itemModel.js';
 
 
 
-export async function getChildren (req, res) {
-
-}
+export async function getItems (req, res) {
+    const item = await Item.getItems(req.body);
+    res.status(item.status).json(item);
+};
 
 
 export async function createItem (req, res) {
@@ -15,4 +16,4 @@ export async function createItem (req, res) {
     }
     const item = await Item.createItem(req.body);
     res.status(item.status).json(item);
-}
+};
