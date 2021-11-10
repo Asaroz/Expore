@@ -1,13 +1,14 @@
 import express from 'express';
 import tokenController from '../controllers/tokenController.js'
-import {getItems,createItem } from '../controllers/itemController.js';
+import {getItems, createItem, deleteItem } from '../controllers/itemController.js';
 
 const itemRouter = express.Router();
 
-//get Children Route:
+//get Items Route:
 itemRouter.get('/getItem', tokenController , getItems);
-//create universe Route: 
+//create Item Route: 
 itemRouter.post('/createItem', tokenController , createItem);
-
+//remove Items Route:
+itemRouter.post('/deleteItem',tokenController, deleteItem)
 
 export default itemRouter;

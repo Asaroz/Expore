@@ -17,3 +17,9 @@ export async function createItem (req, res) {
     const item = await Item.createItem(req.body);
     res.status(item.status).json(item);
 };
+
+
+export async function deleteItem (req, res){
+    const item = await item.deleteItem(req.body);
+    res.status(item.status).json(item);
+};

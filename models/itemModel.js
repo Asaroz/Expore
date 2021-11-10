@@ -32,9 +32,32 @@ const itemSchema = new mongoose.Schema({
     },
 });
 
+
+itemSchema.statics.createItem = async (userData) => {
+    try {
+        const item = await Item.create(userData);
+        return { message: `Item ${item.name} successfully created`, status: 201 };
+    } catch (error) {
+        console.log(error)
+        return { message: "Something went wrong", status: 401 };
+    }
+}
+
+itemSchema.statics.deleteItems = async (userData) => {
+    try {
+        const item = await Item.deleteMany(userData);
+        return { 
+            message:  `${item.length} Items found and deleted`, status: 401
+        };
+    } catch (error){
+        console.log(error);
+        return { message: "no Items found", status: 401 };
+    }
+    
+};
+
 itemSchema.statics.getItems = async (userData) => {
     try {
-        console.log(userData)
         const item = await Item.find(userData);
         return { 
             message:  `${item.length} Items found`,
@@ -48,15 +71,6 @@ itemSchema.statics.getItems = async (userData) => {
     
 };
 
-itemSchema.statics.createItem = async (userData) => {
-    try {
-        const item = await Item.create(userData);
-        return { message: `Item ${item.name} successfully created`, status: 201 };
-    } catch (error) {
-        console.log(error)
-        return { message: "Something went wrong", status: 401 };
-    }
-}
 
 
 
