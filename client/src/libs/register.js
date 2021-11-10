@@ -9,7 +9,6 @@ export default function register (email, name, imageIndex, password, setUser, se
         password: password
     })
         .then(response => {
-            console.log(response);
             if (response.data.status === 201) {
                 // login if user is successfully created
                 login(email, password, false, setUser, setToken, setMessage);

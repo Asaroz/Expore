@@ -30,7 +30,7 @@ function App() {
 						</Switch>
 					</div>
 					:
-					<UserMenu user={user} setUser={setUser} setToken={setToken}/> 
+					<UserMenu user={user} setUser={setUser} token={token} setToken={setToken}/> 
 				}
 			</header>
 		</div>
