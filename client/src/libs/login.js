@@ -8,12 +8,12 @@ export default function login (email, password, stay, setUser, setToken, setMess
     })
         .then(response => {
             console.log('Message:', response);
+            localStorage.setItem('authToken', response.data.token);
             setUser({ 
                 userEmail: response.data.email,
                 userName: response.data.userName,
                 imageIndex: response.data.imageIndex
             });
-            setToken(response.data.token);
         })
         .catch(error => {
             console.log('Error:', error);

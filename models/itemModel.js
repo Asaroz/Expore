@@ -1,18 +1,19 @@
 import mongoose  from 'mongoose';
 
-
-
 const itemSchema = new mongoose.Schema({
-    name: { 
+    title: { 
         type: String, 
-        required: true 
+        required: true,
+        minLength: 2,
+        maxLength: 60
     },
     _userId: { 
         type: String, 
         required: true 
     },
     description:{
-        type: String
+        type: String,
+        maxLength: 9000, /* 3 pages */
     },
     imgPath:{
         type: String

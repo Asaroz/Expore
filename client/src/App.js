@@ -30,7 +30,12 @@ function App() {
 						</Switch>
 					</div>
 					:
-					<UserMenu user={user} setUser={setUser} token={token} setToken={setToken}/> 
+					<Switch>
+						<Route path='*'>
+							<Redirect to="/" />
+							<UserMenu user={user} setUser={setUser} token={token} setToken={setToken}/>
+						</Route>
+					</Switch>
 				}
 			</header>
 		</div>
