@@ -1,18 +1,19 @@
 import mongoose  from 'mongoose';
 
-
-
 const itemSchema = new mongoose.Schema({
-    name: { 
+    title: { 
         type: String, 
-        required: true 
+        required: true,
+        minLength: 2,
+        maxLength: 60
     },
     _userId: { 
         type: String, 
         required: true 
     },
     description:{
-        type: String
+        type: String,
+        maxLength: 9000, /* 3 pages */
     },
     imgPath:{
         type: String
@@ -51,7 +52,7 @@ itemSchema.statics.getItems = async (userData) => {
 itemSchema.statics.createItem = async (userData) => {
     try {
         const item = await Item.create(userData);
-        return { message: `Item ${item.name} successfully created`, status: 201 };
+        return { message: `Item ${item.title} successfully created`, status: 201 };
     } catch (error) {
         console.log(error)
         return { message: "Something went wrong", status: 401 };

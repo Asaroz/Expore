@@ -1,19 +1,34 @@
 import axios from "axios";
 
-export default function getItem (token, isRoot) {
+export default async function getItem (token, isRoot) {
     let universes;
+    let errorMessage;
 
-    axios.get('/register', 
+    await axios.get('/getItem',
     {
         headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
+        },
+        body: {
+            "isRoot": true
         }
     })
         .then(response => {
-            response.data = universes;
+            universes = response.data.Items;
         })
-        .catch(error => console.log());
-    if
-    return universes;
+        .catch(error => {
+            if (error.response) {
+                // If token is unauthorized
+                if (error.response.status === 401) {
+                    errorMessage = 401;
+                }
+            }
+            errorMessage = error;
+        });
+    if (universes) {
+        return { success: true, result: universes }
+    } else {
+        return { success: false, result: errorMessage }
+    }
 }
