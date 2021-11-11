@@ -9,9 +9,9 @@ itemRouter.get('/getItem', tokenController , getItems);
 //create Item Route: 
 itemRouter.post('/createItem', tokenController , createItems);
 //remove Items Route:
-itemRouter.post('/deleteItem',tokenController, deleteItems);
+itemRouter.delete('/deleteItem',tokenController, deleteItems);
 //move Items Route: 
-itemRouter.post('/moveItem',tokenController, moveItems);
+itemRouter.put('/moveItem',tokenController, moveItems);
 
 
 export default itemRouter;
