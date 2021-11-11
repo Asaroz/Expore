@@ -18,7 +18,6 @@ export default function Register(props) {
     const [ message, setMessage ] = useState("");
     const [ imageIndex, setImageIndex ] = useState("");
     const setUser = props.setUser;
-    const setToken = props.setToken;
 
     function submitHandler(e) {
         e.preventDefault();
@@ -28,7 +27,7 @@ export default function Register(props) {
             setMessage("Must select an avatar");
         } else {
             setMessage("");
-            register(email, name, imageIndex, password, setUser, setToken, setMessage);
+            register(email, name, imageIndex, password, setUser, setMessage);
         }
     };
 

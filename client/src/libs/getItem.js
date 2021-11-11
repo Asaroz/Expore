@@ -1,8 +1,9 @@
 import axios from "axios";
 
-export default async function getItem (token, isRoot) {
+export default async function getItem (isRoot) {
     let universes;
     let errorMessage;
+    const token = localStorage.getItem('authToken');
 
     await axios.get('/getItem',
     {

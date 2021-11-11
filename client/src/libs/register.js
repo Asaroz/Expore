@@ -1,7 +1,7 @@
 import axios from 'axios';
 import login from './login.js';
 
-export default function register (email, name, imageIndex, password, setUser, setToken, setMessage) {
+export default function register (email, name, imageIndex, password, setUser, setMessage) {
     axios.post('/register', {
         email: email,
         username: name,
@@ -11,7 +11,7 @@ export default function register (email, name, imageIndex, password, setUser, se
         .then(response => {
             if (response.data.status === 201) {
                 // login if user is successfully created
-                login(email, password, false, setUser, setToken, setMessage);
+                login(email, password, false, setUser, setMessage);
             }
         })
         .catch(error => {

@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-export default function login (email, password, stay, setUser, setToken, setMessage) {
+export default function login (email, password, stay, setUser, setMessage) {
     axios.post('/login', {
         email: email,
         password: password,
         stay: stay
     })
         .then(response => {
-            console.log('Message:', response);
             localStorage.setItem('authToken', response.data.token);
             setUser({ 
                 userEmail: response.data.email,

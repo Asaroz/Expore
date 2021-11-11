@@ -7,9 +7,7 @@ import './App.css';
 
 function App() {
   	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-	const [token, setToken] = useState(localStorage.getItem('authToken'));
 
-	localStorage.setItem('authToken', token);
 	localStorage.setItem('user', JSON.stringify(user));
 
 	return (
@@ -22,8 +20,8 @@ function App() {
 							<NavLink to="register">Register</NavLink>
 						</div>
 						<Switch>
-							<Route path='/login' component={() => <Login setUser={setUser} setToken={setToken}/>}/>
-							<Route path='/register' component={() => <Register setUser={setUser} setToken={setToken}/>}/>
+							<Route path='/login' component={() => <Login setUser={setUser}/>}/>
+							<Route path='/register' component={() => <Register setUser={setUser}/>}/>
 							<Route path='*'>
 								<Redirect to="/login" />
 							</Route>
@@ -33,7 +31,7 @@ function App() {
 					<Switch>
 						<Route path='*'>
 							<Redirect to="/" />
-							<UserMenu user={user} setUser={setUser} token={token} setToken={setToken}/>
+							<UserMenu user={user} setUser={setUser}/>
 						</Route>
 					</Switch>
 				}
