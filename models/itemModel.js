@@ -21,9 +21,6 @@ const itemSchema = new mongoose.Schema({
     parentId:{ 
         type: String
     },
-    childId:{
-        type: [String]
-    },
     referenceId:{
         type: [String]
     },
@@ -33,13 +30,36 @@ const itemSchema = new mongoose.Schema({
     },
 });
 
+
+itemSchema.statics.createItems = async (userData) => {
+    try {
+        const item = await Item.create(userData);
+        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 200 , _id: item._id };
+    } catch (error) {
+        console.log(error)
+        return { message: "Something went wrong", status: 401 };
+    }
+}
+
+itemSchema.statics.deleteItems = async (userData) => {
+    try {
+        const item = await Item.deleteMany(userData);
+        return { 
+            message:  `${item.deletedCount} Items found and deleted`, status: 200
+        };
+    } catch (error){
+        console.log(error);
+        return { message: "no Items found", status: 401 };
+    }
+    
+};
+
 itemSchema.statics.getItems = async (userData) => {
     try {
-        console.log(userData)
         const item = await Item.find(userData);
         return { 
             message:  `${item.length} Items found`,
-            status: 201,
+            status: 200,
             Items: [...item]
         };
     } catch (error){
@@ -49,14 +69,20 @@ itemSchema.statics.getItems = async (userData) => {
     
 };
 
-itemSchema.statics.createItem = async (userData) => {
+itemSchema.statics.moveItems = async (userData) => {
     try {
-        const item = await Item.create(userData);
-        return { message: `Item ${item.title} successfully created`, status: 201 };
-    } catch (error) {
-        console.log(error)
-        return { message: "Something went wrong", status: 401 };
+        const {newparentId , ...searchData} = userData
+        const item = await Item.updateMany(searchData,{parentId: newparentId});
+        return { 
+            message:  `${item.length} Items moved to`,
+            status: 200
+        };
+    } catch (error){
+        console.log(error);
+        return { message: "Not able to move items", status: 401 };
     }
+    
+    
 }
 
 
