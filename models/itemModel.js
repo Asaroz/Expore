@@ -38,7 +38,7 @@ itemSchema.statics.createItems = async (userData) => {
         console.log(error)
         return { message: "Something went wrong", status: 401 };
     }
-}
+};
 
 itemSchema.statics.deleteItems = async (userData) => {
     try {
@@ -50,7 +50,6 @@ itemSchema.statics.deleteItems = async (userData) => {
         console.log(error);
         return { message: "no Items found", status: 401 };
     }
-    
 };
 
 itemSchema.statics.getItems = async (userData) => {
@@ -65,7 +64,6 @@ itemSchema.statics.getItems = async (userData) => {
         console.log(error);
         return { message: "no Items found", status: 401 };
     }
-    
 };
 
 itemSchema.statics.moveItems = async (userData) => {
@@ -79,11 +77,7 @@ itemSchema.statics.moveItems = async (userData) => {
     } catch (error){
         console.log(error);
         return { message: "Not able to move items", status: 401 };
-    }
-    
-    
-}
-
-
+    }  
+};
 
 export const Item = mongoose.model("Items", itemSchema);
