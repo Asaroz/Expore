@@ -51,4 +51,13 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThhOGFk
     "isRoot": true
 }
 
-### Move Item
+### MovveItem
+
+POST http://localhost:5000/createItem
+content-type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
+
+{
+    "_parentId": "618cddfe5fb95660b6e3886b",
+    "newParentId": "1234567"
+}
