@@ -21,17 +21,15 @@ export default async function createItem (title, description, isRoot, parentId, 
             if (response.status !== 201 ) {
                 errorMessage = response.message;
             }
-            item = response;
+            item = response.data._id;
             alert("Created successfully");
         })
         .catch(error => {
             errorMessage = error;
         });
-
-    console.log("errorMessage:", errorMessage);
     if (errorMessage) {
         return { success: false, result: errorMessage }
     } else {
-        return { success: true, item:  item }
+        return { success: true, id:  item }
     }
 }

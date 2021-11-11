@@ -23,6 +23,7 @@ export default async function getItem (isRoot) {
                 // If token is unauthorized
                 if (error.response.status === 401) {
                     errorMessage = 401;
+                    return;
                 }
             }
             errorMessage = error;

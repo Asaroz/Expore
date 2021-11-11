@@ -26,7 +26,6 @@ export default function UserMenu (props) {
         let rootRequest;
         async function fetchData () {
             rootRequest = await getItem(true);
-            console.log('rootRequest', rootRequest)
             if (rootRequest.success) {
                 setUniverses(rootRequest.result);
             } else if (rootRequest.result === 401 ){
@@ -61,7 +60,9 @@ export default function UserMenu (props) {
             universes.length === 0 ?
             /* If request goes through and it's an empty array */
             <p>You don't have any universes</p> :
-            universes.map(universe => <UniverseCard universe={universe} />) :
+            universes.map(universe => <UniverseCard 
+                universe={universe} universes={universes} setUniverses={setUniverses}
+            />) :
             /* If can't get a result from the request */
             <p>You don't have any universes</p>
         }
