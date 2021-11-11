@@ -9,14 +9,20 @@ export default function CreatePage (props) {
 
     const isRoot = props.isRoot;
     const parentId = props.parentId ? props.parentId : null;
-    const fetchData = props.fetchData;
+    const universes = props.universes;
+    const setUniverses = props.setUniverses;
     
     async function submitHandler (e) {
         e.preventDefault();
         const request = await createItem(title, description, isRoot, parentId);
         if (request.success) {
+            console.log("req:", request.item);
+            // add universe to current state
+            if (universes) {
+                universes.push({ title: title, description: description });
+                setUniverses(universes);
+            }
             handleClose();
-            fetchData();
         } else {
             setMessage(request.result);
         }

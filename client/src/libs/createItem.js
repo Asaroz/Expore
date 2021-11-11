@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export default async function createItem (title, description, isRoot, parentId, imgPath, referenceId) {
     let errorMessage;
+    let item;
     const token = localStorage.getItem('authToken');
 
     await axios.post('/createItem', {
@@ -20,6 +21,7 @@ export default async function createItem (title, description, isRoot, parentId, 
             if (response.status !== 201 ) {
                 errorMessage = response.message;
             }
+            item = response;
             alert("Created successfully");
         })
         .catch(error => {
@@ -30,6 +32,6 @@ export default async function createItem (title, description, isRoot, parentId, 
     if (errorMessage) {
         return { success: false, result: errorMessage }
     } else {
-        return { success: true }
+        return { success: true, item:  item }
     }
 }

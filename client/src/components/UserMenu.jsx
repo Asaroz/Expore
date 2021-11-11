@@ -13,8 +13,9 @@ import CreatePage from './CreatePage';
 import UniverseCard from './UniverseCard';
 
 export default function UserMenu (props) {
-    const [showCreatePage, setShowCreatePage] = useState(false);
     const [universes, setUniverses] = useState(false);
+    // This state controls the modal "CreatePage":
+    const [showCreatePage, setShowCreatePage] = useState(false);
     
     const user = props.user;
     const setUser = props.setUser;
@@ -49,6 +50,7 @@ export default function UserMenu (props) {
 				setShow={setShowCreatePage}
 				show={showCreatePage}
                 isRoot={true}
+                universes={universes}
                 setUniverses={setUniverses}
 			/> :
 			<button onClick={() => setShowCreatePage(true)}>
@@ -56,8 +58,12 @@ export default function UserMenu (props) {
             </button>
 		}
         {universes ?
+            universes.length === 0 ?
+            /* If request goes through and it's an empty array */
+            <p>You don't have any universes</p> :
             universes.map(universe => <UniverseCard universe={universe} />) :
-            <p>You haven't made any universes yet</p>
+            /* If can't get a result from the request */
+            <p>You don't have any universes</p>
         }
         <button onClick={() => {
             localStorage.clear();
