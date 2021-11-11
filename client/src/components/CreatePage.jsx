@@ -16,10 +16,10 @@ export default function CreatePage (props) {
         e.preventDefault();
         const request = await createItem(title, description, isRoot, parentId);
         if (request.success) {
-            console.log("req:", request.item);
+            console.log("req:", request.id);
             // add universe to current state
             if (universes) {
-                universes.push({ title: title, description: description });
+                universes.push({ title: title, description: description, _id: request.id });
                 setUniverses(universes);
             }
             handleClose();
