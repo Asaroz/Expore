@@ -10,7 +10,7 @@ export default function UniverseCard (props) {
     return <li key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
             {title}
-            <button onClick={deleteItem(id, universes, setUniverses)}>X</button>
+            <button onClick={() => deleteItem(id, universes, setUniverses)}>X</button>
         </h3>
         <p>{description}</p>
     </li>
