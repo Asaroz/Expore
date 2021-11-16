@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-
+// Validation
 function getSavedValue(key){
-    const savedValue = JSON.parse(localStorage.getItem('user'));
+    let savedValue = JSON.parse(localStorage.getItem(key));
+    
+    if (savedValue === "null") {
+        savedValue = null;
+    };
+
     if(savedValue) return savedValue;
+    // check if 'else' is really necessary
+    else return null;
 
 };
 
@@ -12,10 +19,7 @@ function useUserContext (key) {
         return getSavedValue(key);
     });
 
-    if (user === "null") {
-        setUser(null);
-    };
-
+    // Set localStorage when user is set
     useEffect(()=>{
         localStorage.setItem(key, JSON.stringify(user));
     },[user]);
