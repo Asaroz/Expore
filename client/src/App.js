@@ -1,14 +1,17 @@
-import { useContext, useState } from 'react';
+import React , { useContext, useState } from 'react';
 import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
 import UserMenu from './components/UserMenu';
 import Register from './components/Register';
 import './App.css';
-import UserContextProvider from './contexts/userContext';
+import useUserContext from './contexts/useUserContext';
+
+export const UserContext = React.createContext()
+
 
 function App(props) {
+	const [user,setUser] = useUserContext('user')
 
-	console.log('props', props)
 	/* 
   	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
@@ -16,7 +19,7 @@ function App(props) {
 
 	return (
 		<div className="App">
-			
+			<UserContext.Provider value={[user,setUser]}>
 				<header className="App-header">
 					{(!props.user) ? 
 						<div>
@@ -41,6 +44,7 @@ function App(props) {
 						</Switch>
 					}
 				</header>
+			</UserContext.Provider>
 		</div>
 	);
 }
