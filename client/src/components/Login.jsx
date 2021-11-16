@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import login from '../libs/login.js';
+import UserContext from '../contexts/UserContext';
 
 export default function Login(props){
     const [ password, setPassword ] = useState("");
     const [ email, setEmail ] = useState("");
     const [ stay, setStay ] = useState(false);
     const [ message, setMessage ] = useState("");
-    const setUser = props.setUser;
+
+    const setUser = useContext(UserContext)[1];
+
     const setToken = props.setToken;
+
 
     function submitHandler(e) {
         e.preventDefault();

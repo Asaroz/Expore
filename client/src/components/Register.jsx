@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import register from '../libs/register.js';
 import avaPoultryOne from '../img/avaPoultryOne.jpg';
 import avaDogOne from '../img/avaDogOne.jpg';
@@ -9,6 +9,7 @@ import avaCat from '../img/avaCat.jpg';
 import avaLion from '../img/avaLion.jpg';
 import avaOwl from '../img/avaOwl.jpg';
 import avaYoda from '../img/avaYoda.jpg';
+import UserContext from '../contexts/UserContext';
 
 export default function Register(props) {
     const [ password, setPassword ] = useState("");
@@ -17,7 +18,8 @@ export default function Register(props) {
     const [ name, setName ] = useState("");
     const [ message, setMessage ] = useState("");
     const [ imageIndex, setImageIndex ] = useState("");
-    const setUser = props.setUser;
+
+    const setUser = useContext(UserContext)[1];
 
     function submitHandler(e) {
         e.preventDefault();

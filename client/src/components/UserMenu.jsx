@@ -11,14 +11,15 @@ import { useEffect, useState } from 'react';
 import getItem from '../libs/getItem.js';
 import CreatePage from './CreatePage';
 import UniverseCard from './UniverseCard';
+import UserContext from '../contexts/UserContext';
+import { useContext } from 'react';
 
 export default function UserMenu (props) {
     const [universes, setUniverses] = useState(false);
     // This state controls the modal "CreatePage":
     const [showCreatePage, setShowCreatePage] = useState(false);
     
-    const user = props.user;
-    const setUser = props.setUser;
+    const [ user, setUser ] = useContext(UserContext);
 
     const images = [zero, one, two, three, four, five, six, seven, eight];
 
