@@ -9,6 +9,8 @@ export default function Login(props){
     const setUser = props.setUser;
     const setToken = props.setToken;
 
+    console.log('serUser login:', setUser)
+
     function submitHandler(e) {
         e.preventDefault();
         login(email, password, stay, setUser, setToken, setMessage);

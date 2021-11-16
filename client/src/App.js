@@ -1,41 +1,46 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
 import UserMenu from './components/UserMenu';
 import Register from './components/Register';
 import './App.css';
+import UserContextProvider from './contexts/userContext';
 
-function App() {
+function App(props) {
+
+	console.log('props', props)
+	/* 
   	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
-	localStorage.setItem('user', JSON.stringify(user));
+	localStorage.setItem('user', JSON.stringify(user)); */
 
 	return (
 		<div className="App">
-			<header className="App-header">
-				{(user === "null" | (!user)) ? 
-					<div>
+			
+				<header className="App-header">
+					{(!props.user) ? 
 						<div>
-							<NavLink to="login">Login</NavLink>
-							<NavLink to="register">Register</NavLink>
+							<div>
+								<NavLink to="login">Login</NavLink>
+								<NavLink to="register">Register</NavLink>
+							</div>
+							<Switch>
+								<Route path='/login' component={() => <Login />}/>
+								<Route path='/register' component={() => <Register />}/>
+								<Route path='*'>
+									<Redirect to="/login" />
+								</Route>
+							</Switch>
 						</div>
+						:
 						<Switch>
-							<Route path='/login' component={() => <Login setUser={setUser}/>}/>
-							<Route path='/register' component={() => <Register setUser={setUser}/>}/>
 							<Route path='*'>
-								<Redirect to="/login" />
+								<Redirect to="/" />
+								<UserMenu/>
 							</Route>
 						</Switch>
-					</div>
-					:
-					<Switch>
-						<Route path='*'>
-							<Redirect to="/" />
-							<UserMenu user={user} setUser={setUser}/>
-						</Route>
-					</Switch>
-				}
-			</header>
+					}
+				</header>
 		</div>
 	);
 }
