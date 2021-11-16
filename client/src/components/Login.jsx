@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import login from '../libs/login.js';
-import {UserContext} from '../App.js';
+import UserContext from '../contexts/UserContext';
 
 export default function Login(props){
     const [ password, setPassword ] = useState("");
@@ -8,10 +8,9 @@ export default function Login(props){
     const [ stay, setStay ] = useState(false);
     const [ message, setMessage ] = useState("");
 
-    const hello = useContext(UserContext);
-    console.log(hello)
-        const setUser = props.setUser;
-     const setToken = props.setToken;
+    const setUser = useContext(UserContext)[1];
+
+    const setToken = props.setToken;
 
 
     function submitHandler(e) {

@@ -1,27 +1,21 @@
-import React , { useContext, useState } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
 import UserMenu from './components/UserMenu';
 import Register from './components/Register';
 import './App.css';
 import useUserContext from './contexts/useUserContext';
+import UserContext from './contexts/UserContext';
 
-export const UserContext = React.createContext()
+function App() {
 
-
-function App(props) {
-	const [user,setUser] = useUserContext('user')
-
-	/* 
-  	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-
-	localStorage.setItem('user', JSON.stringify(user)); */
+	const [ user, setUser ] = useUserContext('user');
 
 	return (
 		<div className="App">
 			<UserContext.Provider value={[user,setUser]}>
 				<header className="App-header">
-					{(!props.user) ? 
+					{(!user) ? 
 						<div>
 							<div>
 								<NavLink to="login">Login</NavLink>
