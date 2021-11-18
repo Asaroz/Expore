@@ -30,7 +30,6 @@ const itemSchema = new mongoose.Schema({
     },
 });
 
-
 itemSchema.statics.createItems = async (userData) => {
     try {
         const item = await Item.create(userData);
@@ -77,8 +76,24 @@ itemSchema.statics.moveItems = async (userData) => {
         };
     } catch (error){
         console.log(error);
-        return { message: "Not able to move items", status: 401 };
+        return { message: "Not able to move items" , status: 401 };
     }  
+};
+
+itemSchema.statics.hasChildren = async (userData)=> {
+    console.log(userData)
+    try {
+        const children = await Item.find({parentId:userData._id});
+        return{
+            message: `${children.length} items found.`, 
+            status: 200,
+            children: children.length
+        }
+    }catch (error){
+        console.log(error);
+        return {message:"Something whent wrong" , status: 401};
+    }
+    
 };
 
 export const Item = mongoose.model("Items", itemSchema);
