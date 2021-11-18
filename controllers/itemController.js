@@ -14,7 +14,6 @@ export async function createItems (req, res) {
     res.status(item.status).json(item);
 };
 
-
 export async function deleteItems (req, res){
     const item = await Item.deleteItems(req.body);
     res.status(item.status).json(item);
@@ -22,5 +21,11 @@ export async function deleteItems (req, res){
 
 export async function moveItems (req, res){
     const item = await Item.moveItems(req.body);
+    res.status(item.status).json(item);
+};
+
+export async function hasChildren(req , res){
+    const item = await Item.hasChildren(req.body);
+    console.log(item)
     res.status(item.status).json(item);
 };
