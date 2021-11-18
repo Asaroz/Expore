@@ -40,12 +40,18 @@ itemSchema.statics.createItems = async (userData) => {
     }
 };
 
-itemSchema.statics.deleteItems = async (userData) => {
+itemSchema.statics.deleteItems = async (id) => {
     try {
-        const item = await Item.deleteMany(userData);
-        return { 
-            message:  `${item.deletedCount} Items found and deleted`, status: 200
-        };
+        const item = await Item.deleteMany({ _id: id });
+        if (item.deletedCount === 1) {
+            return { 
+                message: `${item.deletedCount} item found and deleted`, status: 200
+            };
+        } else {
+            return { 
+                message: `${item.deletedCount} items found and deleted`, status: 200
+            };
+        }
     } catch (error){
         console.log(error);
         return { message: "no Items found", status: 401 };
@@ -80,10 +86,10 @@ itemSchema.statics.moveItems = async (userData) => {
     }  
 };
 
-itemSchema.statics.hasChildren = async (userData)=> {
-    console.log(userData)
+itemSchema.statics.hasChildren = async (id) => {
+    console.log('data', id);
     try {
-        const children = await Item.find({parentId:userData._id});
+        const children = await Item.find({parentId: id});
         return{
             message: `${children.length} items found.`, 
             status: 200,
@@ -91,7 +97,7 @@ itemSchema.statics.hasChildren = async (userData)=> {
         }
     }catch (error){
         console.log(error);
-        return {message:"Something whent wrong" , status: 401};
+        return {message:"Something went wrong" , status: 401};
     }
     
 };
