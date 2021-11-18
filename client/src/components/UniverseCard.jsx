@@ -1,4 +1,4 @@
-import deleteItem from '../libs/deleteItem.js';
+import deleteItemCheck from '../libs/deleteItem.js';
 import Confirm from 'react-confirm-bootstrap';
 
 export default function UniverseCard (props) {
@@ -12,7 +12,7 @@ export default function UniverseCard (props) {
         <h3>
             {title}
             <Confirm
-                onConfirm={() => deleteItem(id, universes, setUniverses)}
+                onConfirm={() => deleteItemCheck(id, universes, setUniverses)}
                 body="This action cannot be undone."
                 confirmText="Delete Universe"
                 title="Are you sure you want to delete this?">

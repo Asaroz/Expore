@@ -1,18 +1,36 @@
 import axios from "axios";
 
-export default function deleteItem(id, universes, setUniverses) {
+export default function deleteItemCheck(id, universes, setUniverses) {
     const token = localStorage.getItem('authToken');
     
-    axios.delete('/deleteItem',
+    axios.get('/hasChildren',
     {
         headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         }
     },
     {
         _id: id
     })
-        .then(response => console.log(response))
+        .then(response => { 
+            if (response.data.children === 0) {
+                axios.delete('/deleteItem',
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                },
+                {
+                    _id: id
+                })
+                .then(response => console.log(response))
+                .catch(error => console.log(error));
+            } else {
+                const message = `This item has ${response.data.children} children`;
+                return message;
+            }
+        })
         .catch(error => console.log(error));
 }
