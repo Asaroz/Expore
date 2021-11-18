@@ -33,12 +33,12 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 
 POST http://localhost:5000/createItem
 content-type: application/json
-Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzcyMzE3NjcsImV4cCI6MTYzNzgzNjU2N30.bmW9aOvgXWUpqdbAN_032gAXdSroZ3ki9XoR9h-GTNE
 
 {
-    "name":"testworld child",
+    "title":"testworld child2",
     "description": "hey whats up?",
-    "parentId": "618cddfe5fb95660b6e3886b"
+    "parentId": "618cde285fb95660b6e3886d"
 }
 
 ###
@@ -51,13 +51,13 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThhOGFk
     "isRoot": true
 }
 
-### MovveItem
 
-POST http://localhost:5000/createItem
-content-type: application/json
-Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
+### Check for Children
+
+GET http://localhost:5000/hasChildren
+Content-Type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzcyMzE3NjcsImV4cCI6MTYzNzgzNjU2N30.bmW9aOvgXWUpqdbAN_032gAXdSroZ3ki9XoR9h-GTNE
 
 {
-    "_parentId": "618cddfe5fb95660b6e3886b",
-    "newParentId": "1234567"
+    "_id":"618cde285fb95660b6e3886d"
 }
