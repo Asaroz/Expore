@@ -33,7 +33,7 @@ const itemSchema = new mongoose.Schema({
 itemSchema.statics.createItems = async (userData) => {
     try {
         const item = await Item.create(userData);
-        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 200 , _id: item._id };
+        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
     } catch (error) {
         console.log(error)
         return { message: "Something went wrong", status: 401 };

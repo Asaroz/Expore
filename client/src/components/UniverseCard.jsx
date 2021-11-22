@@ -1,7 +1,11 @@
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
+import { useState } from 'react';
+import CreatePage from './CreatePage';
 
 export default function UniverseCard (props) {
+    const [ showCreatePage, setShowCreatePage] = useState(false);
+
     const title = props.universe.title;
     const description = props.universe.description;
     const id = props.universe._id;
@@ -21,7 +25,7 @@ export default function UniverseCard (props) {
  
             alert (deleteCheck.message);
         } else {
-            // logic to move or delete
+            // logic to move or delete items with children
         }
     }
 
@@ -37,5 +41,19 @@ export default function UniverseCard (props) {
             </Confirm>
         </h3>
         <p>{description}</p>
+        {/* Button to add child item */}
+        {showCreatePage ?
+			<CreatePage 
+				setShow={setShowCreatePage}
+				show={showCreatePage}
+                isRoot={false}
+                universes={universes}
+                setUniverses={setUniverses}
+                parentId={id}
+			/> :
+			<button onClick={() => setShowCreatePage(true)}>
+                New item
+            </button>
+		}
     </li>
 }
