@@ -6,7 +6,7 @@ export async function getItems (req, res) {
 };
 
 export async function createItems (req, res) {
-    if(!req.body.title){
+    if(!req.body.title) {
         res.status(400).json({ message: "Please provide a title for your Item" });
         return;
     }
@@ -24,7 +24,7 @@ export async function moveItems (req, res) {
     res.status(item.status).json(item);
 };
 
-export async function hasChildren(req , res) {
+export async function hasChildren (req , res) {
     const item = await Item.hasChildren(req.query.id);
     console.log(item);
     res.status(item.status).json(item);

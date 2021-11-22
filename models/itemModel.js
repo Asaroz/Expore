@@ -64,7 +64,7 @@ itemSchema.statics.getItems = async (userData) => {
         return { 
             message:  `${item.length} Items found`,
             status: 200,
-            Items: [...item]
+            items: [...item]
         };
     } catch (error){
         console.log(error);
@@ -74,13 +74,13 @@ itemSchema.statics.getItems = async (userData) => {
 
 itemSchema.statics.moveItems = async (userData) => {
     try {
-        const {newparentId , ...searchData} = userData
-        const item = await Item.updateMany(searchData,{parentId: newparentId});
+        const { newparentId, ...searchData } = userData
+        const item = await Item.updateMany(searchData, {parentId: newparentId});
         return { 
-            message:  `${item.length} Items moved to`,
+            message: `${item.length} items moved to`,
             status: 200
         };
-    } catch (error){
+    } catch (error) {
         console.log(error);
         return { message: "Not able to move items" , status: 401 };
     }  
@@ -95,9 +95,9 @@ itemSchema.statics.hasChildren = async (id) => {
             status: 200,
             children: children.length
         }
-    }catch (error){
+    } catch (error) {
         console.log(error);
-        return {message:"Something went wrong" , status: 401};
+        return { message:"Something went wrong" , status: 401 };
     }
     
 };
