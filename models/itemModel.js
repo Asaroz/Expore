@@ -54,21 +54,22 @@ itemSchema.statics.deleteItems = async (id) => {
         }
     } catch (error){
         console.log(error);
-        return { message: "no Items found", status: 401 };
+        return { message: "no items found", status: 401 };
     }
 };
 
-itemSchema.statics.getItems = async (userData) => {
+itemSchema.statics.getItems = async (userData, queryData) => {
     try {
-        const item = await Item.find(userData);
+        // user data comes from token, query data come from GET request
+        const item = await Item.find({ ...userData, ...queryData});
         return { 
-            message:  `${item.length} Items found`,
+            message:  `${item.length} items found`,
             status: 200,
             items: [...item]
         };
     } catch (error){
         console.log(error);
-        return { message: "no Items found", status: 401 };
+        return { message: "no items found", status: 401 };
     }
 };
 

@@ -11,12 +11,12 @@ export default async function getItem (isRoot) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
         },
-        body: {
-            "isRoot": true
+        params: {
+            "isRoot": isRoot
         }
     })
         .then(response => {
-            universes = response.data.Items;
+            universes = response.data.items;
         })
         .catch(error => {
             if (error.response) {

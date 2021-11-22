@@ -1,7 +1,7 @@
 import { Item } from '../models/itemModel.js';
 
 export async function getItems (req, res) {
-    const item = await Item.getItems(req.body);
+    const item = await Item.getItems(req.body, req.query);
     res.status(item.status).json(item);
 };
 
