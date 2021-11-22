@@ -4,12 +4,14 @@ export default function ChildrenPrompt (props) {
     const handleClose = () => props.setShow(false);
 
     const info = props.itemInfo;
+    const setChildren = props.setChildren;
 
     const handleDelete = async () => {
         // as it is now the parent is not deleted
         // SHOULD THE PARENT BE DELETED VIA FRONTEND OR BACKEND?
         const message = await deleteItem(info.id);
         alert(message);
+        setChildren([]);
         handleClose();
     } 
 

@@ -51,8 +51,8 @@ export default function UserMenu (props) {
 				setShow={setShowCreatePage}
 				show={showCreatePage}
                 isRoot={true}
-                universes={universes}
-                setUniverses={setUniverses}
+                items={universes}
+                setItems={setUniverses}
 			/> :
 			<button onClick={() => setShowCreatePage(true)}>
                 New universe

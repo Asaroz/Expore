@@ -1,13 +1,18 @@
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CreatePage from './CreatePage';
 import ChildrenPrompt from './ChildrenPrompt.jsx';
+import getItem from '../libs/getItem.js';
+import UserContext from '../contexts/UserContext';
+import ChildCard from './ChildCard.jsx';
 
 export default function UniverseCard (props) {
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showChildrenPrompt, setShowChildrenPrompt] = useState(false);
+    const [ children, setChildren ] = useState(false);
     const [ itemInfo, setItemInfo ] = useState({});
+    const setUser = useContext(UserContext)[1];
 
     const title = props.universe.title;
     const description = props.universe.description;
@@ -15,19 +20,33 @@ export default function UniverseCard (props) {
     const universes = props.universes;
     const setUniverses = props.setUniverses;
 
-    async function deleteItemHandler (id) {
+    useEffect(() => {
+        let childrenRequest;
+        async function fetchData () {
+            childrenRequest = await getItem({ parentId: id});
+            if (childrenRequest.success) {
+                setChildren(childrenRequest.result);
+            } else if (childrenRequest.result === 401 ) {
+                // token is unauthorized => log out
+                localStorage.clear();
+                setUser(null);
+            } else {
+                console.log(childrenRequest.result);
+            }
+        };
+        fetchData();
+    }, [setUser, id])
+
+    async function deleteItemHandler(id) {
         console.log('id', id);
         const deleteCheck = await deleteItemCheck(id);
         if (deleteCheck.pass === true) {
             const index = universes.map(universe => universe._id).indexOf(id);
-            console.log('uniOld', universes.length);
             universes.splice(index, 1);
-            console.log('uniNew', universes.length);
-            
             // Cloning by value and not by reference (same pointer)
             setUniverses([...universes]);
- 
             alert (deleteCheck.message);
+
         } else if (deleteCheck.pass === "continue") {
             // logic to move or delete items with children
             setItemInfo(deleteCheck.message);
@@ -50,14 +69,19 @@ export default function UniverseCard (props) {
             </Confirm>
         </h3>
         <p>{description}</p>
+        {children ? <ul>
+            {children.map(child => <ChildCard 
+                child={child} children={children} setChildren={setChildren}
+            />)}
+        </ul> : null}
         {/* Button to add child item */}
         {showCreatePage ?
 			<CreatePage 
 				setShow={setShowCreatePage}
 				show={showCreatePage}
                 isRoot={false}
-                universes={universes}
-                setUniverses={setUniverses}
+                items={children}
+                setItems={setChildren}
                 parentId={id}
 			/> :
 			<button onClick={() => setShowCreatePage(true)}>
@@ -69,6 +93,7 @@ export default function UniverseCard (props) {
                 setShow={setShowChildrenPrompt}
                 show={showChildrenPrompt}
                 itemInfo={itemInfo}
+                setChildren={setChildren}
             /> : null
         }
     </li>
