@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function deleteItemCheck(id, universes, setUniverses) {
+export default async function deleteItemCheck(id) {
     let result = {};
     const token = localStorage.getItem('authToken');
     const request = {
@@ -9,12 +9,12 @@ export default async function deleteItemCheck(id, universes, setUniverses) {
             'Authorization': `Bearer: ${token}`
         },   
         params: {
-            id: id
+            _id: id
         }
     };
     
     await axios.get('/hasChildren', request)
-        .then(async response => { 
+        .then(async response => {
             console.log(response.data.children);
             if (response.data.children === 0) {
                 await axios.delete('/deleteItems', request)
@@ -26,7 +26,11 @@ export default async function deleteItemCheck(id, universes, setUniverses) {
                     })
                     .catch(error => result = { pass: false, message: error} );
             } else {
-                result = { pass: false, message: response.data.message};
+                result = { pass: "continue", message: {
+                        children: response.data.children,
+                        id: id
+                    }
+                };
                 return;
             }
         })

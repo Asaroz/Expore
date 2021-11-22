@@ -18,7 +18,7 @@ export default function Login(props){
         login(email, password, stay, setUser, setToken, setMessage);
     }
 
-    return <div>
+    return <div className="modal">
         <form onSubmit={submitHandler}>
             <div>
                 <label htmlFor="email">Email:</label>

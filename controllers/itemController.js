@@ -15,7 +15,7 @@ export async function createItems (req, res) {
 };
 
 export async function deleteItems (req, res) {
-    const item = await Item.deleteItems(req.query.id);
+    const item = await Item.deleteItems(req.body, req.query);
     res.status(item.status).json(item);
 };
 
@@ -25,7 +25,7 @@ export async function moveItems (req, res) {
 };
 
 export async function hasChildren (req , res) {
-    const item = await Item.hasChildren(req.query.id);
+    const item = await Item.hasChildren(req.query);
     console.log(item);
     res.status(item.status).json(item);
 };

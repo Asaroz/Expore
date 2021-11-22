@@ -27,7 +27,7 @@ export default function UserMenu (props) {
     useEffect(() => {
         let rootRequest;
         async function fetchData () {
-            rootRequest = await getItem(true);
+            rootRequest = await getItem({ isRoot: true });
             if (rootRequest.success) {
                 setUniverses(rootRequest.result);
             } else if (rootRequest.result === 401 ) {

@@ -40,9 +40,10 @@ itemSchema.statics.createItems = async (userData) => {
     }
 };
 
-itemSchema.statics.deleteItems = async (id) => {
+itemSchema.statics.deleteItems = async (userData, queryData) => {
     try {
-        const item = await Item.deleteMany({ _id: id });
+        // Using user data ensures only userItems are being deleted even if something wrong happens
+        const item = await Item.deleteMany({ ...userData, ...queryData});
         if (item.deletedCount === 1) {
             return { 
                 message: `${item.deletedCount} item found and deleted`, status: 200
@@ -87,11 +88,11 @@ itemSchema.statics.moveItems = async (userData) => {
     }  
 };
 
-itemSchema.statics.hasChildren = async (id) => {
-    console.log('data', id);
+itemSchema.statics.hasChildren = async (queryData) => {
+    console.log('data', queryData._id);
     try {
-        const children = await Item.find({parentId: id});
-        return{
+        const children = await Item.find({parentId: queryData._id});
+        return {
             message: `${children.length} items found.`, 
             status: 200,
             children: children.length

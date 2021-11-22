@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function getItem (isRoot) {
+export default async function getItem (params) {
     let universes;
     let errorMessage;
     const token = localStorage.getItem('authToken');
@@ -11,9 +11,7 @@ export default async function getItem (isRoot) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
         },
-        params: {
-            "isRoot": isRoot
-        }
+        params: params
     })
         .then(response => {
             universes = response.data.items;

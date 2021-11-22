@@ -28,7 +28,7 @@ export default function CreatePage (props) {
         }
     }
 
-    return <div>
+    return <div className="modal">
         <h2>
             New {isRoot ? "Universe" : "Item"}
             <button onClick={handleClose}>

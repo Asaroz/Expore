@@ -33,7 +33,7 @@ export default function Register(props) {
         }
     };
 
-    return <div>
+    return <div className="modal">
         <form onSubmit={submitHandler}>
             <div>
                 <label htmlFor="email">Email:</label>
