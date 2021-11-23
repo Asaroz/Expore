@@ -14,6 +14,8 @@ itemRouter.delete('/deleteItem',tokenController, deleteItems);
 itemRouter.put('/moveItem',tokenController, moveItems);
 //check Children Route:
 itemRouter.get('/hasChildren', tokenController, hasChildren)
+//get all Children Route:
+itemRouter.get('/getAllChildren',)
 
 
 export default itemRouter;

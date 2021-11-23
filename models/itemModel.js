@@ -81,7 +81,6 @@ itemSchema.statics.moveItems = async (userData) => {
 };
 
 itemSchema.statics.hasChildren = async (userData)=> {
-    console.log(userData)
     try {
         const children = await Item.find({parentId:userData._id});
         return{
@@ -95,5 +94,39 @@ itemSchema.statics.hasChildren = async (userData)=> {
     }
     
 };
+
+
+itemSchema.statics.getAllChildren = async (userData)=> {
+    try{
+        const childArray = getAllChildren(userData._Id);
+        return{
+            message: `${childArray.length} children found.`, 
+            status: 200,
+            children: children.length
+        };
+    } catch (error) {
+        console.log(error);
+        return {message:"Something whent wrong" , status: 401};
+    }
+
+};
+ 
+async function getAllChildren (parentId){
+    const childArray = [];
+    const allChildren = [];
+    try{
+        const children = await Item.find({parentId:parentId});
+        children.map((child)=>{
+            const tempArray = getAllChildren(child._Id);
+            childArray.push(child._Id);
+            allChildren = [...allChildren,...tempArray];
+         });
+         return childArray;
+    } catch (error) {
+        console.log(error);
+        return {message:"Something whent wrong" , status: 401};
+    }
+};
+
 
 export const Item = mongoose.model("Items", itemSchema);

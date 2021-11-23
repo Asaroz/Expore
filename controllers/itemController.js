@@ -26,6 +26,5 @@ export async function moveItems (req, res){
 
 export async function hasChildren(req , res){
     const item = await Item.hasChildren(req.body);
-    console.log(item)
     res.status(item.status).json(item);
 };
