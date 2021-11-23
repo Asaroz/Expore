@@ -1,6 +1,6 @@
 import express from 'express';
 import tokenController from '../controllers/tokenController.js'
-import {getItems, createItems, deleteItems, moveItems , hasChildren} from '../controllers/itemController.js';
+import {getItems, createItems, deleteItems, moveItems , hasChildren, getDescendants} from '../controllers/itemController.js';
 
 const itemRouter = express.Router();
 
@@ -14,6 +14,8 @@ itemRouter.delete('/deleteItems',tokenController, deleteItems);
 itemRouter.put('/moveItem',tokenController, moveItems);
 //check Children Route:
 itemRouter.get('/hasChildren', tokenController, hasChildren)
+//get all Children Route:
+itemRouter.get('/getDescendants',tokenController, getDescendants)
 
 
 export default itemRouter;
