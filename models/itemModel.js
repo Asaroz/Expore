@@ -7,7 +7,10 @@ const itemSchema = new mongoose.Schema({
         minLength: 2,
         maxLength: 60
     },
-    _userId: { 
+    universeId:{
+        type:String
+    },
+    userId: { 
         type: String, 
         required: true 
     },
@@ -33,6 +36,9 @@ const itemSchema = new mongoose.Schema({
 itemSchema.statics.createItems = async (userData) => {
     try {
         const item = await Item.create(userData);
+        if (!item.universeId){
+            await Item.findByIdAndUpdate(item._id,{universeId:item._id});
+        }
         return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
     } catch (error) {
         console.log(error)
@@ -101,17 +107,16 @@ itemSchema.statics.hasChildren = async (queryData) => {
         console.log(error);
         return { message:"Something went wrong" , status: 401 };
     }
-    
 };
 
-
-itemSchema.statics.getAllChildren = async (userData)=> {
+//parentData only needs to contain the parentID
+itemSchema.statics.getDescendants = async (userData, parentData )=> {
     try{
-        const childArray = getAllChildren(userData._Id);
+        const childArray = getAllDescendants(parentData._Id);
         return{
             message: `${childArray.length} children found.`, 
             status: 200,
-            children: children.length
+            descentend: childArray
         };
     } catch (error) {
         console.log(error);
@@ -120,17 +125,15 @@ itemSchema.statics.getAllChildren = async (userData)=> {
 
 };
  
-async function getAllChildren (parentId){
-    const childArray = [];
+async function getAllDescendants (parentId){
     const allChildren = [];
     try{
         const children = await Item.find({parentId:parentId});
         children.map((child)=>{
-            const tempArray = getAllChildren(child._Id);
-            childArray.push(child._Id);
+            const tempArray = getAllDescendants(child._Id);
             allChildren = [...allChildren,...tempArray];
          });
-         return childArray;
+         return allChildren;
     } catch (error) {
         console.log(error);
         return {message:"Something whent wrong" , status: 401};

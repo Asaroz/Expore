@@ -28,3 +28,8 @@ export async function hasChildren(req , res){
     const item = await Item.hasChildren(req.body);
     res.status(item.status).json(item);
 };
+
+export async function getDescendants(req , res){
+    const item = await Item.getDescendants(req.body, req.query);
+    res.status(item.status).json(item);
+}
