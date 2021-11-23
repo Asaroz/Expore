@@ -22,9 +22,9 @@ export default function ChildrenPrompt (props) {
     }
 
     return <div className="modal">
-        {info.children === 1 ? 
-            <h3>This item has {info.children} children do you wanna delete it?</h3> :
-            <h3>This item has {info.children} children do you wanna delete them all?</h3>
+        {info.childrenLength === 1 ? 
+            <h3>This item has {info.childrenLength} children{info.descendants ? `, and ${info.descendants} descendants `: null} do you wanna delete it?</h3> :
+            <h3>This item has {info.childrenLength} children do you wanna delete them all?</h3>
         }
         <button onClick={handleMove}>
             No, I want to move {info.children === 1 ? "it" : "them" }

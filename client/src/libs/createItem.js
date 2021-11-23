@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function createItem (title, description, isRoot, parentId, imgPath, referenceId) {
+export default async function createItem (title, description, isRoot, parentId, universeId, imgPath, referenceId) {
     let errorMessage;
     let item;
     const token = localStorage.getItem('authToken');
@@ -9,7 +9,8 @@ export default async function createItem (title, description, isRoot, parentId, 
         title: title,
         description: description,
         isRoot: isRoot,
-        parentId: parentId
+        parentId: parentId,
+        universeId: universeId
     },
     {
         headers: {

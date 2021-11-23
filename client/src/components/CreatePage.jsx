@@ -11,10 +11,11 @@ export default function CreatePage (props) {
     const parentId = props.parentId ? props.parentId : null;
     const items = props.items;
     const setItems = props.setItems;
+    const universeId = isRoot ? null : props.universeId;
     
     async function submitHandler (e) {
         e.preventDefault();
-        const request = await createItem(title, description, isRoot, parentId);
+        const request = await createItem(title, description, isRoot, parentId, universeId);
         if (request.success) {
             console.log("req:", request.id);
             // add universe to current state

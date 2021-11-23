@@ -71,7 +71,7 @@ export default function UniverseCard (props) {
         <p>{description}</p>
         {children ? <ul>
             {children.map(child => <ChildCard 
-                child={child} children={children} setChildren={setChildren}
+                child={child} children={children} setChildren={setChildren} setShowCreatePage={setShowCreatePage} showCreatePage={showCreatePage}
             />)}
         </ul> : null}
         {/* Button to add child item */}
@@ -83,6 +83,7 @@ export default function UniverseCard (props) {
                 items={children}
                 setItems={setChildren}
                 parentId={id}
+                universeId={id}
 			/> :
 			<button onClick={() => setShowCreatePage(true)}>
                 New item
