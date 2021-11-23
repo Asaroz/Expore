@@ -15,9 +15,10 @@ import UserContext from '../contexts/UserContext';
 import { useContext } from 'react';
 
 export default function UserMenu (props) {
-    const [universes, setUniverses] = useState(false);
+    const [ universes, setUniverses] = useState([]);
+    console.log('Universes:', universes);
     // This state controls the modal "CreatePage":
-    const [showCreatePage, setShowCreatePage] = useState(false);
+    const [ showCreatePage, setShowCreatePage] = useState(false);
     
     const [ user, setUser ] = useContext(UserContext);
 
@@ -26,11 +27,11 @@ export default function UserMenu (props) {
     useEffect(() => {
         let rootRequest;
         async function fetchData () {
-            rootRequest = await getItem(true);
+            rootRequest = await getItem({ isRoot: true });
             if (rootRequest.success) {
                 setUniverses(rootRequest.result);
-            } else if (rootRequest.result === 401 ){
-                // token is unauthorized
+            } else if (rootRequest.result === 401 ) {
+                // token is unauthorized => log out
                 localStorage.clear();
                 setUser(null);
             } else {
@@ -50,22 +51,20 @@ export default function UserMenu (props) {
 				setShow={setShowCreatePage}
 				show={showCreatePage}
                 isRoot={true}
-                universes={universes}
-                setUniverses={setUniverses}
+                items={universes}
+                setItems={setUniverses}
 			/> :
 			<button onClick={() => setShowCreatePage(true)}>
                 New universe
             </button>
 		}
-        {universes ?
-            universes.length === 0 ?
-            /* If request goes through and it's an empty array */
-            <p>You don't have any universes</p> :
+        {/* check if length is not 0 */}
+        {universes.length ?
             universes.map(universe => <UniverseCard 
                 universe={universe} universes={universes} setUniverses={setUniverses}
-            />) :
-            /* If can't get a result from the request */
-            <p>You don't have any universes</p>
+                />) :
+            /* If request goes through and it's an empty array */
+            <p>You don't have any universes</p> 
         }
         <button onClick={() => {
             localStorage.clear();

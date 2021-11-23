@@ -9,7 +9,7 @@ itemRouter.get('/getItem', tokenController , getItems);
 //create Item Route: 
 itemRouter.post('/createItem', tokenController , createItems);
 //remove Items Route:
-itemRouter.delete('/deleteItem',tokenController, deleteItems);
+itemRouter.delete('/deleteItems',tokenController, deleteItems);
 //move Items Route: 
 itemRouter.put('/moveItem',tokenController, moveItems);
 //check Children Route:
