@@ -4,11 +4,11 @@ import UserContext from '../contexts/UserContext';
 import getItem from '../libs/getItem.js';
 
 export default function ChildCard (props) { 
+    const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ children, setChildren ] = useState(false);
     const title = props.child.title;
     const description = props.child.description;
     const id = props.child._id;
-    const universeId = props.child.universeId;
     const setUser = useContext(UserContext)[1];
 
     useEffect(() => {
@@ -32,27 +32,23 @@ export default function ChildCard (props) {
     return <li key={Math.floor(Math.random() * 10000)} data={id}>
         <h4>{title}</h4>
         <p>{description}</p>
-        {props.show ?
+        {showCreatePage ?
 			<CreatePage 
-                setShow={props.setShowCreatePage} 
-                show={props.showCreatePage}
+                setShow={setShowCreatePage} 
+                show={showCreatePage}
                 isRoot={false}
                 items={children}
                 setItems={setChildren}
                 parentId={id}
-                universeId={universeId}
+                universeId={props.child.universeId}
 			/> :
-			<button onClick={() => props.setShow(true)}>
+			<button onClick={() => setShowCreatePage(true)}>
                 New item
             </button>
 		}
         {children ? <ul>
             {children.map(child => 
-                <ChildCard 
-                    child={child} children={children} setChildren={setChildren} 
-                    setShowCreatePage={props.setShowCreatePage} 
-                    showCreatePage={props.showCreatePage}
-                />)
+                <ChildCard child={child} children={children} setChildren={setChildren} />)
             }
         </ul> : null}
     </li>

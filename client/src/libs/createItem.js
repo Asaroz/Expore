@@ -31,6 +31,6 @@ export default async function createItem (title, description, isRoot, parentId, 
     if (errorMessage) {
         return { success: false, result: errorMessage }
     } else {
-        return { success: true, id:  item }
+        return { success: true, id: item }
     }
 }

@@ -69,11 +69,6 @@ export default function UniverseCard (props) {
             </Confirm>
         </h3>
         <p>{description}</p>
-        {children ? <ul>
-            {children.map(child => <ChildCard 
-                child={child} children={children} setChildren={setChildren} setShowCreatePage={setShowCreatePage} showCreatePage={showCreatePage}
-            />)}
-        </ul> : null}
         {/* Button to add child item */}
         {showCreatePage ?
 			<CreatePage 
@@ -89,6 +84,12 @@ export default function UniverseCard (props) {
                 New item
             </button>
 		}
+        {/* List of children */}
+        {children ? <ul>
+            {children.map(child => <ChildCard 
+                child={child} children={children} setChildren={setChildren}
+            />)}
+        </ul> : null}
         {showChildrenPrompt ?
             <ChildrenPrompt
                 setShow={setShowChildrenPrompt}
