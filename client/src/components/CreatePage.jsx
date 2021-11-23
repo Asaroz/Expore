@@ -9,8 +9,8 @@ export default function CreatePage (props) {
 
     const isRoot = props.isRoot;
     const parentId = props.parentId ? props.parentId : null;
-    const universes = props.universes;
-    const setUniverses = props.setUniverses;
+    const items = props.items;
+    const setItems = props.setItems;
     
     async function submitHandler (e) {
         e.preventDefault();
@@ -18,9 +18,12 @@ export default function CreatePage (props) {
         if (request.success) {
             console.log("req:", request.id);
             // add universe to current state
-            if (universes) {
-                universes.push({ title: title, description: description, _id: request.id });
-                setUniverses(universes);
+            console.log('items', items)
+            if (items) {
+                console.log("adding universe to current state");
+                items.push({ title: title, description: description, _id: request.id });
+                // add values and not pointers:
+                setItems([...items]);
             }
             handleClose();
         } else {
@@ -28,7 +31,7 @@ export default function CreatePage (props) {
         }
     }
 
-    return <div>
+    return <div className="modal">
         <h2>
             New {isRoot ? "Universe" : "Item"}
             <button onClick={handleClose}>

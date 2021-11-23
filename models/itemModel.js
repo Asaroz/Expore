@@ -33,64 +33,73 @@ const itemSchema = new mongoose.Schema({
 itemSchema.statics.createItems = async (userData) => {
     try {
         const item = await Item.create(userData);
-        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 200 , _id: item._id };
+        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
     } catch (error) {
         console.log(error)
         return { message: "Something went wrong", status: 401 };
     }
 };
 
-itemSchema.statics.deleteItems = async (userData) => {
+itemSchema.statics.deleteItems = async (userData, queryData) => {
     try {
-        const item = await Item.deleteMany(userData);
-        return { 
-            message:  `${item.deletedCount} Items found and deleted`, status: 200
-        };
+        // Using user data ensures only userItems are being deleted even if something wrong happens
+        const item = await Item.deleteMany({ ...userData, ...queryData});
+        if (item.deletedCount === 1) {
+            return { 
+                message: `${item.deletedCount} item found and deleted`, status: 200
+            };
+        } else {
+            return { 
+                message: `${item.deletedCount} items found and deleted`, status: 200
+            };
+        }
     } catch (error){
         console.log(error);
-        return { message: "no Items found", status: 401 };
+        return { message: "no items found", status: 401 };
     }
 };
 
-itemSchema.statics.getItems = async (userData) => {
+itemSchema.statics.getItems = async (userData, queryData) => {
     try {
-        const item = await Item.find(userData);
+        // user data comes from token, query data come from GET request
+        const item = await Item.find({ ...userData, ...queryData});
         return { 
-            message:  `${item.length} Items found`,
+            message:  `${item.length} items found`,
             status: 200,
-            Items: [...item]
+            items: [...item]
         };
     } catch (error){
         console.log(error);
-        return { message: "no Items found", status: 401 };
+        return { message: "no items found", status: 401 };
     }
 };
 
 itemSchema.statics.moveItems = async (userData) => {
     try {
-        const {newparentId , ...searchData} = userData
-        const item = await Item.updateMany(searchData,{parentId: newparentId});
+        const { newparentId, ...searchData } = userData
+        const item = await Item.updateMany(searchData, {parentId: newparentId});
         return { 
-            message:  `${item.length} Items moved to`,
+            message: `${item.length} items moved to`,
             status: 200
         };
-    } catch (error){
+    } catch (error) {
         console.log(error);
         return { message: "Not able to move items" , status: 401 };
     }  
 };
 
-itemSchema.statics.hasChildren = async (userData)=> {
+itemSchema.statics.hasChildren = async (queryData) => {
+    console.log('data', queryData._id);
     try {
-        const children = await Item.find({parentId:userData._id});
-        return{
+        const children = await Item.find({parentId: queryData._id});
+        return {
             message: `${children.length} items found.`, 
             status: 200,
             children: children.length
         }
-    }catch (error){
+    } catch (error) {
         console.log(error);
-        return {message:"Something whent wrong" , status: 401};
+        return { message:"Something went wrong" , status: 401 };
     }
     
 };

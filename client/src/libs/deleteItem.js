@@ -1,18 +1,26 @@
 import axios from "axios";
 
-export default function deleteItem(id, universes, setUniverses) {
+export default async function deleteItem(id) {
+    let message = '';
     const token = localStorage.getItem('authToken');
-    
-    axios.delete('/deleteItem',
-    {
+    const request = {
         headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer: ${token}`
+        },   
+        params: {
+            parentId: id
         }
-    },
-    {
-        _id: id
-    })
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+    };
+    
+    await axios.delete('/deleteItems', request)
+        .then(response => { 
+            if ( response.status === 200 ) {
+                message = response.data.message;
+                return;
+            }
+        })
+        .catch(error => message = error);
+
+    return message;
 }
