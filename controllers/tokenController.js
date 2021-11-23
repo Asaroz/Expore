@@ -15,6 +15,6 @@ export default function tokenCheck(req,res,next){
     if(!check.success){
         return res.status(401).json("Invalid Token. 3");
     }
-    req.body._userId = check.userId;
+    req.body.userId = check.userId;
     next();
 }
