@@ -11,17 +11,20 @@ export default function CreatePage (props) {
     const parentId = props.parentId ? props.parentId : null;
     const items = props.items;
     const setItems = props.setItems;
+    const universeId = isRoot ? null : props.universeId;
+
+    console.log('UniverseId:', props.universeId, 'ParentId:', props.parentId);
     
     async function submitHandler (e) {
         e.preventDefault();
-        const request = await createItem(title, description, isRoot, parentId);
+        const request = await createItem(title, description, isRoot, parentId, universeId);
         if (request.success) {
             console.log("req:", request.id);
             // add universe to current state
             console.log('items', items)
             if (items) {
                 console.log("adding universe to current state");
-                items.push({ title: title, description: description, _id: request.id });
+                items.push({ title: title, description: description, _id: request.id, universeId: universeId });
                 // add values and not pointers:
                 setItems([...items]);
             }

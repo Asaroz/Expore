@@ -1,14 +1,16 @@
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
 import { useContext, useEffect, useState } from 'react';
+import CreatePage from './CreatePage';
 import ChildrenPrompt from './ChildrenPrompt.jsx';
 import getItem from '../libs/getItem.js';
 import UserContext from '../contexts/UserContext';
-import { NavLink } from 'react-router-dom';
+import ChildCard from './ChildCard.jsx';
 
-export default function UniverseCard (props) {
+export default function UniversePage (props) {
+    const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showChildrenPrompt, setShowChildrenPrompt] = useState(false);
-    const [ childrenLength, setChildrenLength ] = useState(false);
+    const [ children, setChildren ] = useState(false);
     const [ itemInfo, setItemInfo ] = useState({});
     const setUser = useContext(UserContext)[1];
 
@@ -23,7 +25,7 @@ export default function UniverseCard (props) {
         async function fetchData () {
             childrenRequest = await getItem({ parentId: id});
             if (childrenRequest.success) {
-                setChildrenLength(childrenRequest.result);
+                setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
                 // token is unauthorized => log out
                 localStorage.clear();
@@ -57,7 +59,7 @@ export default function UniverseCard (props) {
 
     return <li key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
-            <NavLink to='universe'>{title}</NavLink>
+            {title}
             <Confirm
                 onConfirm={() => deleteItemHandler(id)}
                 body="This action cannot be undone."
@@ -67,12 +69,33 @@ export default function UniverseCard (props) {
             </Confirm>
         </h3>
         <p>{description}</p>
+        {/* Button to add child item */}
+        {showCreatePage ?
+			<CreatePage 
+				setShow={setShowCreatePage}
+				show={showCreatePage}
+                isRoot={false}
+                items={children}
+                setItems={setChildren}
+                parentId={id}
+                universeId={id}
+			/> :
+			<button onClick={() => setShowCreatePage(true)}>
+                New item
+            </button>
+		}
+        {/* List of children */}
+        {children ? <ul>
+            {children.map(child => <ChildCard 
+                child={child} children={children} setChildren={setChildren}
+            />)}
+        </ul> : null}
         {showChildrenPrompt ?
             <ChildrenPrompt
                 setShow={setShowChildrenPrompt}
                 show={showChildrenPrompt}
                 itemInfo={itemInfo}
-                setChildrenLength={setChildrenLength}
+                setChildren={setChildren}
             /> : null
         }
     </li>
