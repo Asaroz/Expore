@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
 import UserMenu from './components/UserMenu';
 import Register from './components/Register';
+import UniversePage from './components/UniversePage';
 import './App.css';
 import useUserContext from './contexts/useUserContext';
 import UserContext from './contexts/UserContext';
@@ -18,21 +19,23 @@ function App() {
 					{(!user) ? 
 						<div>
 							<div>
-								<NavLink to="login">Login</NavLink>
-								<NavLink to="register">Register</NavLink>
+								<NavLink to='login'>Login</NavLink>
+								<NavLink to='register'>Register</NavLink>
 							</div>
 							<Switch>
 								<Route path='/login' component={() => <Login />}/>
 								<Route path='/register' component={() => <Register />}/>
 								<Route path='*'>
-									<Redirect to="/login" />
+									<Redirect to='/login' />
 								</Route>
 							</Switch>
 						</div>
 						:
 						<Switch>
+							<Route path='/universe' component={() => <UniversePage />} />
+							<Route path='/' component={() => <UserMenu />} />
 							<Route path='*'>
-								<Redirect to="/" />
+								<Redirect to='/' />
 								<UserMenu/>
 							</Route>
 						</Switch>
