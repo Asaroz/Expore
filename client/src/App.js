@@ -15,7 +15,7 @@ function App() {
 	return (
 		<div className="App">
 			<UserContext.Provider value={[user,setUser]}>
-				<header className="App-header">
+				<div className="App-header">
 					{(!user) ? 
 						<div>
 							<div>
@@ -40,7 +40,7 @@ function App() {
 							</Route>
 						</Switch>
 					}
-				</header>
+				</div>
 			</UserContext.Provider>
 		</div>
 	);
