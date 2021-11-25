@@ -3,7 +3,6 @@ import { Item } from '../models/itemModel.js';
 
 //recursive function that returns nothing but edits the descendants array by reference which is given into it
 export async function getAllDescendants(parentId, descendants, userId) {
-    console.log('find params', { parentId: parentId, userId: userId })
     const children = await Item.find({ parentId: parentId, userId: userId });
     //children.map returns an array of promises which need to be awaited
     const promises = children.map(child => {
