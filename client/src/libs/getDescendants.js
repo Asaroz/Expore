@@ -1,20 +1,20 @@
 import axios from "axios";
 
-export default async function getItem (params) {
-    let universes;
+export default async function getDescendants (params) {
+    let descendantsLength;
     let errorMessage;
     const token = localStorage.getItem('authToken');
 
-    await axios.get('/getItem',
+    await axios.get('/getDescendants',
     {
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
         },
         params: params
     })
         .then(response => {
-            universes = response.data.items;
+            descendantsLength = response.data.descendants.length;
         })
         .catch(error => {
             if (error.response) {
@@ -26,8 +26,8 @@ export default async function getItem (params) {
             }
             errorMessage = error;
         });
-    if (universes) {
-        return { success: true, result: universes }
+    if (descendantsLength) {
+        return { success: true, result: descendantsLength }
     } else {
         return { success: false, result: errorMessage }
     }

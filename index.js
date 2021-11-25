@@ -6,7 +6,6 @@ import { wildcardEndpoint, globalErrorHandler } from './controllers/fallbackCont
 import connect from './database.js';
 import userRouter from './routes/userRouter.js';
 import itemRouter from './routes/itemRouter.js';
-import { nextTick } from 'process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,10 +16,9 @@ app.use(express.json());
 
 connect();
 
-
 //Console logging out the request
 app.use('/',(req,res,next)=>{
-    console.log(req.body)
+    console.log('REQUEST: body', req.body, 'query', req.query);
     next()
 })
 

@@ -1,5 +1,6 @@
 import mongoose  from 'mongoose';
-import {getAllDescendants} from '../libs/itemFunctions.js';
+import { getAllDescendants } from '../libs/itemFunctions.js';
+import dotenv from 'dotenv';
 
 const itemSchema = new mongoose.Schema({
     title: { 
@@ -43,7 +44,7 @@ itemSchema.statics.createItems = async (userData) => {
         return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
     } catch (error) {
         console.log(error)
-        return { message: "Something went wrong", status: 401 };
+        return { message: "Something went wrong", status: 400 };
     }
 };
 
@@ -62,7 +63,7 @@ itemSchema.statics.deleteItems = async (userData, queryData) => {
         }
     } catch (error){
         console.log(error);
-        return { message: "no items found", status: 401 };
+        return { message: "no items found", status: 400 };
     }
 };
 
@@ -77,15 +78,15 @@ itemSchema.statics.getItems = async (userData, queryData) => {
         };
     } catch (error){
         console.log(error);
-        return { message: "no items found", status: 401 };
+        return { message: "no items found", status: 400 };
     }
 };
 
 //userData needs to have a new Property called newParentId 
 itemSchema.statics.moveItems = async (userData) => {
     try {
-        // we deconstruct the userData wich is "req.body" into the newParentId and searchData.
-        // searchData now includes only propertys that are part of the item Schema
+        // we deconstruct the userData which is "req.body" into the newParentId and searchData.
+        // searchData now includes only properties that are part of the item Schema
         const { newParentId, ...searchData } = userData
         const item = await Item.updateMany(searchData, {parentId: newParentId});
         return { 
@@ -94,19 +95,19 @@ itemSchema.statics.moveItems = async (userData) => {
         };
     } catch (error) {
         console.log(error);
-        return { message: "Not able to move items" , status: 401 };
+        return { message: "Not able to move items" , status: 400 };
     }  
 };
 
 //parentData only needs to contain the parentID
-itemSchema.statics.getDescendants = async (userData, parentData )=> {
+itemSchema.statics.getDescendants = async (userData, parentData) => {
     //this array will be given into the imported function getAllDescendants
     //where it will be edited by reference
     let descendants = [];
-    try{
-        await getAllDescendants(parentData._Id, descendants, userData.userId);
-        const children = await Item.find({parentId:parentData._Id});
-        return{
+    try {
+        await getAllDescendants(parentData._id, descendants, userData.userId);
+        const children = await Item.find({ parentId: parentData._id });
+        return {
             message: `${descendants.length} descendants found.`, 
             status: 200,
             descendants: descendants,
@@ -114,14 +115,14 @@ itemSchema.statics.getDescendants = async (userData, parentData )=> {
         };
     } catch (error) {
         console.log(error);
-        return {message:"Something whent wrong" , status: 401};
+        return { message:"Something went wrong" , status: 400 };
     };
 };
 
 itemSchema.statics.deleteDescendants = async (userData, queryData)=> {
     let descendants = [];
     let count = 1;
-    try{
+    try {
         await getAllDescendants(queryData._Id, descendants, userData.userId);
         const promises = descendants.map(async (descendant)=>{
             count++;
@@ -135,14 +136,16 @@ itemSchema.statics.deleteDescendants = async (userData, queryData)=> {
         };
     } catch (error) {
         console.log(error);
-        return {message:"Something whent wrong" , status: 401};
+        return { message:"Something went wrong" , status: 400 };
     };
 
 
 }
- 
 
-export const Item = mongoose.model("TestItems", itemSchema);
+dotenv.config();
+console.log('env', process.env.DB_ITEM_COLLECTION);
+
+export const Item = mongoose.model(process.env.DB_ITEM_COLLECTION, itemSchema);
 
 
 

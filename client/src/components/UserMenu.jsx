@@ -46,23 +46,28 @@ export default function UserMenu (props) {
             <div><img className="avatar" src={images[user.imageIndex]} alt="avatar"/></div>
             <h1>Welcome {user.userName}</h1>
         </header>
-        {showCreatePage ?
-			<CreatePage 
-				setShow={setShowCreatePage}
-				show={showCreatePage}
-                isRoot={true}
-                items={universes}
-                setItems={setUniverses}
-			/> :
-			<button onClick={() => setShowCreatePage(true)}>
-                New universe
-            </button>
-		}
+        <div>
+            {universes.length ? <h2>My universes</h2> : null}
+            {showCreatePage ?
+                <CreatePage 
+                    setShow={setShowCreatePage}
+                    show={showCreatePage}
+                    isRoot={true}
+                    items={universes}
+                    setItems={setUniverses}
+                /> :
+                <button onClick={() => setShowCreatePage(true)}>
+                    New universe
+                </button>
+            }
+        </div>
         {/* check if length is not 0 */}
-        {universes.length ?
-            universes.map(universe => <UniverseCard 
-                universe={universe} universes={universes} setUniverses={setUniverses}
-                />) :
+        {universes.length ? 
+            <ul>
+                {universes.map(universe => <UniverseCard 
+                    universe={universe} universes={universes} setUniverses={setUniverses}
+                />)} 
+            </ul> :
             /* If request goes through and it's an empty array */
             <p>You don't have any universes</p> 
         }

@@ -15,7 +15,7 @@ export default async function deleteItemCheck(id) {
     
     await axios.get('/getDescendants', request)
         .then(async response => {
-            if (response.data.childrenLength === 0) {
+            if (response.data.children.length === 0) {
                 await axios.delete('/deleteItems', request)
                     .then(response => {
                         if ( response.status === 200 ) {
@@ -26,7 +26,7 @@ export default async function deleteItemCheck(id) {
                     .catch(error => result = { pass: false, message: error} );
             } else {
                 result = { pass: "continue", message: {
-                        childrenLength: response.data.childrenLength,
+                        childrenLength: response.data.children.length,
                         descendants: response.data.descendants,
                         id: id
                     }
