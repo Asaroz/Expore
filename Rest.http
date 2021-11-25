@@ -21,10 +21,10 @@ content-type: application/json
 
 POST http://localhost:5000/createItem
 content-type: application/json
-Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzY1MzQxMTgsImV4cCI6MTYzNzEzODkxOH0.Xcn_LXci6aabQoVbeEYZMUJtWgBKf2-PsYGn3eYDG6o
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2Mzc2NjMxNDAsImV4cCI6MTYzODI2Nzk0MH0.xNk7oGIMxE0OWy8Um-iRiqYwgrYDdQ0DUqw8GOJ5f60
 
 {
-    "name":"targetworld",
+    "title":"Universe Layer 0",
     "description": "hey whats up?",
     "isRoot": true
 }
@@ -36,9 +36,10 @@ content-type: application/json
 Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzcyMzE3NjcsImV4cCI6MTYzNzgzNjU2N30.bmW9aOvgXWUpqdbAN_032gAXdSroZ3ki9XoR9h-GTNE
 
 {
-    "title":"testworld child2",
-    "description": "hey whats up?",
-    "parentId": "618cde285fb95660b6e3886d"
+    "title":"Universe layer 3",
+    "description": "child 1 of 2 of 2",
+    "parentId": "619cc615965435b57c54f408",
+    "universeId": "619cc37e965435b57c54f3fb"
 }
 
 ###
@@ -61,3 +62,10 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 {
     "_id":"618cde285fb95660b6e3886d"
 }
+
+### get all descendents
+
+GET http://localhost:5000/getDescendants?_Id=619cc431965435b57c54f400
+content-type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2Mzc2NjMxNDAsImV4cCI6MTYzODI2Nzk0MH0.xNk7oGIMxE0OWy8Um-iRiqYwgrYDdQ0DUqw8GOJ5f60
+

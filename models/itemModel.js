@@ -1,4 +1,5 @@
 import mongoose  from 'mongoose';
+import {getAllDescendants} from '../libs/itemFunctions.js';
 
 const itemSchema = new mongoose.Schema({
     title: { 
@@ -37,7 +38,7 @@ itemSchema.statics.createItems = async (userData) => {
     try {
         const item = await Item.create(userData);
         if (!item.universeId){
-            await Item.findByIdAndUpdate(item._id,{universeId:item._id});
+            await Item.findByIdAndUpdate(item._id,{universeId: item._id});
         }
         return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
     } catch (error) {
@@ -80,12 +81,15 @@ itemSchema.statics.getItems = async (userData, queryData) => {
     }
 };
 
+//userData needs to have a new Property called newParentId 
 itemSchema.statics.moveItems = async (userData) => {
     try {
-        const { newparentId, ...searchData } = userData
-        const item = await Item.updateMany(searchData, {parentId: newparentId});
+        // we deconstruct the userData wich is "req.body" into the newParentId and searchData.
+        // searchData now includes only propertys that are part of the item Schema
+        const { newParentId, ...searchData } = userData
+        const item = await Item.updateMany(searchData, {parentId: newParentId});
         return { 
-            message: `${item.length} items moved to`,
+            message: `${item.length} items moved to ${newParentId}`,
             status: 200
         };
     } catch (error) {
@@ -94,51 +98,66 @@ itemSchema.statics.moveItems = async (userData) => {
     }  
 };
 
-itemSchema.statics.hasChildren = async (queryData) => {
-    console.log('data', queryData._id);
-    try {
-        const children = await Item.find({parentId: queryData._id});
-        return {
-            message: `${children.length} items found.`, 
-            status: 200,
-            children: children.length
-        }
-    } catch (error) {
-        console.log(error);
-        return { message:"Something went wrong" , status: 401 };
-    }
-};
-
 //parentData only needs to contain the parentID
 itemSchema.statics.getDescendants = async (userData, parentData )=> {
+    //this array will be given into the imported function getAllDescendants
+    //where it will be edited by reference
+    let descendants = [];
     try{
-        const childArray = getAllDescendants(parentData._Id);
+        await getAllDescendants(parentData._Id, descendants, userData.userId);
+        const children = await Item.find({parentId:parentData._Id});
         return{
-            message: `${childArray.length} children found.`, 
+            message: `${descendants.length} descendants found.`, 
             status: 200,
-            descentend: childArray
+            descendants: descendants,
+            children: children
         };
     } catch (error) {
         console.log(error);
         return {message:"Something whent wrong" , status: 401};
-    }
-
+    };
 };
- 
-async function getAllDescendants (parentId){
-    const allChildren = [];
+
+itemSchema.statics.deleteDescendants = async (userData, queryData)=> {
+    let descendants = [];
+    let count = 1;
     try{
-        const children = await Item.find({parentId:parentId});
-        children.map((child)=>{
-            const tempArray = getAllDescendants(child._Id);
-            allChildren = [...allChildren,...tempArray];
-         });
-         return allChildren;
+        await getAllDescendants(queryData._Id, descendants, userData.userId);
+        const promises = descendants.map(async (descendant)=>{
+            count++;
+            return await Item.findByIdAndDelete(descendant);
+        })
+        await Item.findOneAndDelete({_id:queryData._Id, userId:userData.userId})
+        await Promise.all(promises);
+        return{
+            message: `${count} items where deleted`, 
+            status: 200,
+        };
     } catch (error) {
         console.log(error);
         return {message:"Something whent wrong" , status: 401};
-    }
-};
+    };
 
 
-export const Item = mongoose.model("Items", itemSchema);
+}
+ 
+
+export const Item = mongoose.model("TestItems", itemSchema);
+
+
+
+
+// itemSchema.statics.hasChildren = async (queryData) => {
+//     console.log('data', queryData._id);
+//     try {
+//         const children = await Item.find({parentId: queryData._id});
+//         return {
+//             message: `${children.length} items found.`, 
+//             status: 200,
+//             children: children.length
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         return { message:"Something went wrong" , status: 401 };
+//     }
+// };
