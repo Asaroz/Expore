@@ -48,25 +48,6 @@ itemSchema.statics.createItems = async (userData) => {
     }
 };
 
-itemSchema.statics.deleteItems = async (userData, queryData) => {
-    try {
-        // Using user data ensures only userItems are being deleted even if something wrong happens
-        const item = await Item.deleteMany({ ...userData, ...queryData});
-        if (item.deletedCount === 1) {
-            return { 
-                message: `${item.deletedCount} item found and deleted`, status: 200
-            };
-        } else {
-            return { 
-                message: `${item.deletedCount} items found and deleted`, status: 200
-            };
-        }
-    } catch (error){
-        console.log(error);
-        return { message: "no items found", status: 400 };
-    }
-};
-
 itemSchema.statics.getItems = async (userData, queryData) => {
     try {
         // user data comes from token, query data come from GET request
@@ -110,14 +91,13 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     try{
         await getAllDescendants(parentData._id, descendants, userData.userId);
         const children = await Item.find({parentId:parentData._id});
-        if ( children.lenght > 0){
-            const universe = await Item.find({universeId:children[0].universeId});
+            const universe = await Item.find({universeId: parentData.universeId});
             const promises =universe.map((universe)=>{
                 allItems.push(universe._id.toString())
             });
             await Promise.all(promises);
-            validParents = allItems.filter(item => descendants.indexOf(item) === -1);
-        }
+            const validParents = allItems.filter(item => descendants.indexOf(item) === -1);
+        
         return{
             message: `${descendants.length} descendants found.`, 
             status: 200,
@@ -131,7 +111,7 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     };
 };
 
-itemSchema.statics.deleteDescendants = async (userData, queryData)=> {
+itemSchema.statics.deleteItems = async (userData, queryData)=> {
     let descendants = [];
     let count = 0;
     try{
