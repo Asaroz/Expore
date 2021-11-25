@@ -1,10 +1,10 @@
 import { Item } from '../models/itemModel.js';
 
 
-//recursive function that returns nothing but edits the descendants array by reference wich is given into it
+//recursive function that returns nothing but edits the descendants array by reference which is given into it
 export async function getAllDescendants (parentId,descendants,userId){
     const children = await Item.find({parentId:parentId,userId:userId});
-    //children.map returns an array of promises wich need to be awaited
+    //children.map returns an array of promises which need to be awaited
     const promises = children.map((child)=>{
         descendants.push(child._id.toString());
         return getAllDescendants(child._id,descendants,userId);
