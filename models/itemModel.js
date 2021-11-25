@@ -115,12 +115,12 @@ itemSchema.statics.deleteItems = async (userData, queryData)=> {
     let descendants = [];
     let count = 0;
     try{
-        await getAllDescendants(queryData._Id, descendants, userData.userId);
+        await getAllDescendants(queryData._id, descendants, userData.userId);
         const promises = descendants.map(async (descendant)=>{
             count++;
             return await Item.findByIdAndDelete(descendant);
         })
-        await Item.findOneAndDelete({_id:queryData._Id, userId:userData.userId})
+        await Item.findOneAndDelete({_id:queryData._id, userId:userData.userId})
         await Promise.all(promises);
         return{
             message: `${count} items where deleted`, 
