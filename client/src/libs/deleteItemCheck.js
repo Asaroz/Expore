@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function deleteItemCheck(id) {
+export default async function deleteItemCheck(id, universeId) {
     let result = {};
     const token = localStorage.getItem('authToken');
     const request = {
@@ -9,7 +9,8 @@ export default async function deleteItemCheck(id) {
             'Authorization': `Bearer: ${token}`
         },   
         params: {
-            _id: id
+            _id: id,
+            universeId: universeId
         }
     };
     

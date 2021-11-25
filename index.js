@@ -18,8 +18,7 @@ connect();
 
 //Console logging out the request
 app.use('/',(req,res,next)=>{
-    console.log("body:" , req.body)
-    console.log("query:", req.query)
+    console.log('REQUEST: body', req.body, 'query', req.query);
     next()
 })
 

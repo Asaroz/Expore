@@ -15,6 +15,7 @@ export default function UniverseCard (props) {
     const title = props.universe.title;
     const description = props.universe.description;
     const id = props.universe._id;
+    const universeId = props.universe.universeId;
     const universes = props.universes;
     const setUniverses = props.setUniverses;
 
@@ -36,9 +37,9 @@ export default function UniverseCard (props) {
         fetchData();
     }, [setUser, id])
 
-    async function deleteItemHandler(id) {
-        console.log('id', id);
-        const deleteCheck = await deleteItemCheck(id);
+    async function deleteItemHandler(id, universeId) {
+        console.log('universeId', universeId);
+        const deleteCheck = await deleteItemCheck(id, universeId);
         if (deleteCheck.pass === true) {
             const index = universes.map(universe => universe._id).indexOf(id);
             universes.splice(index, 1);
@@ -63,7 +64,7 @@ export default function UniverseCard (props) {
                 {title}
             </NavLink>
             <Confirm
-                onConfirm={() => deleteItemHandler(id)}
+                onConfirm={() => deleteItemHandler(id, universeId)}
                 body="This action cannot be undone."
                 confirmText="Delete Universe"
                 title="Are you sure you want to delete this universe?">
