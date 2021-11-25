@@ -65,7 +65,7 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 
 ### get all descendents
 
-GET http://localhost:5000/getDescendants?_id=619f535fe7f655bcd246f6c8
+GET http://localhost:5000/getDescendants?_id=619f53d6e7f655bcd246f6d8
 content-type: application/json
 Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2Mzc2NjMxNDAsImV4cCI6MTYzODI2Nzk0MH0.xNk7oGIMxE0OWy8Um-iRiqYwgrYDdQ0DUqw8GOJ5f60
 

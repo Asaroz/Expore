@@ -106,23 +106,24 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     //where it will be edited by reference
     let descendants = [];
     let allItems = [];
-    
+    let validParents = [];
     try{
         await getAllDescendants(parentData._id, descendants, userData.userId);
         const children = await Item.find({parentId:parentData._id});
-        const universe = await Item.find({universeId:children[0].universeId})
-        const promises =universe.map((universe)=>{
-            allItems.push(universe._id.toString())
-        });
-        await Promise.all(promises);
-        const validParents = allItems.filter(item => descendants.indexOf(item) === -1);
+        if ( children.lenght > 0){
+            const universe = await Item.find({universeId:children[0].universeId});
+            const promises =universe.map((universe)=>{
+                allItems.push(universe._id.toString())
+            });
+            await Promise.all(promises);
+            validParents = allItems.filter(item => descendants.indexOf(item) === -1);
+        }
         return{
             message: `${descendants.length} descendants found.`, 
             status: 200,
             descendants: descendants,
             validParents: validParents,
-            children: children
-            
+            children: children 
         };
     } catch (error) {
         console.log(error);
@@ -147,7 +148,7 @@ itemSchema.statics.deleteDescendants = async (userData, queryData)=> {
         };
     } catch (error) {
         console.log(error);
-        return { message:"Something went wrong" , status: 400 };
+        return { message:"Something whent wrong" , status: 400 };
     };
 
 
