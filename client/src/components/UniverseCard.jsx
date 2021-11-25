@@ -2,7 +2,7 @@ import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import ChildrenPrompt from './ChildrenPrompt.jsx';
-import getItem from '../libs/getItem.js';
+import getDescendants from '../libs/getDescendants.js';
 import UserContext from '../contexts/UserContext';
 import { NavLink } from 'react-router-dom';
 
@@ -18,10 +18,11 @@ export default function UniverseCard (props) {
     const universes = props.universes;
     const setUniverses = props.setUniverses;
 
+    // TODO: Change so that it get's only the total descendant count
     useEffect(() => {
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: id});
+            childrenRequest = await getDescendants({ parentId: id});
             if (childrenRequest.success) {
                 setChildrenLength(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
@@ -57,12 +58,14 @@ export default function UniverseCard (props) {
 
     return <li key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
-            <NavLink to='universe'>{title}</NavLink>
+            <NavLink to={{ pathname:'/universe', hash: `${id}`, state: { universe: props.universe } }}>
+                {title}
+            </NavLink>
             <Confirm
                 onConfirm={() => deleteItemHandler(id)}
                 body="This action cannot be undone."
                 confirmText="Delete Universe"
-                title="Are you sure you want to delete this?">
+                title="Are you sure you want to delete this universe?">
                 <button>X</button>
             </Confirm>
         </h3>

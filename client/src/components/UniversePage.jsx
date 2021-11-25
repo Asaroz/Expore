@@ -1,30 +1,35 @@
-import deleteItemCheck from '../libs/deleteItemCheck.js';
-import Confirm from 'react-confirm-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import CreatePage from './CreatePage';
 import ChildrenPrompt from './ChildrenPrompt.jsx';
 import getItem from '../libs/getItem.js';
 import UserContext from '../contexts/UserContext';
 import ChildCard from './ChildCard.jsx';
+import { useLocation } from 'react-router-dom';
 
 export default function UniversePage (props) {
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showChildrenPrompt, setShowChildrenPrompt] = useState(false);
+    const [ universe, setUniverse ] = useState(false);
     const [ children, setChildren ] = useState(false);
     const [ itemInfo, setItemInfo ] = useState({});
     const setUser = useContext(UserContext)[1];
+    const location = useLocation();
 
-    const title = props.universe.title;
-    const description = props.universe.description;
-    const id = props.universe._id;
-    const universes = props.universes;
-    const setUniverses = props.setUniverses;
+    // add on redirect
+    //localStorage.removeItem('universe')
 
     useEffect(() => {
+        if (location.state) {
+            localStorage.setItem('universe', location.state.universe);
+            setUniverse(location.state.universe);
+        }
+
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: id});
+            childrenRequest = await getItem({ parentId: universe._id});
             if (childrenRequest.success) {
+                console.log('result from request', childrenRequest.result)
+                console.log('id on request', universe._id)
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
                 // token is unauthorized => log out
@@ -35,40 +40,13 @@ export default function UniversePage (props) {
             }
         };
         fetchData();
-    }, [setUser, id])
+    }, [setUser, universe, location])
 
-    async function deleteItemHandler(id) {
-        console.log('id', id);
-        const deleteCheck = await deleteItemCheck(id);
-        if (deleteCheck.pass === true) {
-            const index = universes.map(universe => universe._id).indexOf(id);
-            universes.splice(index, 1);
-            // Cloning by value and not by reference (same pointer)
-            setUniverses([...universes]);
-            alert (deleteCheck.message);
-
-        } else if (deleteCheck.pass === "continue") {
-            // logic to move or delete items with children
-            setItemInfo(deleteCheck.message);
-            setShowChildrenPrompt(true);
-        } else {
-            // display error message
-            alert(deleteCheck.message);
-        }
-    }
-
-    return <li key={Math.floor(Math.random() * 10000)} data={id}>
+    return <div key={Math.floor(Math.random() * 10000)} data={universe._id}>
         <h3>
-            {title}
-            <Confirm
-                onConfirm={() => deleteItemHandler(id)}
-                body="This action cannot be undone."
-                confirmText="Delete Universe"
-                title="Are you sure you want to delete this?">
-                <button>X</button>
-            </Confirm>
+            {universe.title}
         </h3>
-        <p>{description}</p>
+        <p>{universe.description}</p>
         {/* Button to add child item */}
         {showCreatePage ?
 			<CreatePage 
@@ -77,8 +55,8 @@ export default function UniversePage (props) {
                 isRoot={false}
                 items={children}
                 setItems={setChildren}
-                parentId={id}
-                universeId={id}
+                parentId={universe._id}
+                universeId={universe._id}
 			/> :
 			<button onClick={() => setShowCreatePage(true)}>
                 New item
@@ -98,5 +76,5 @@ export default function UniversePage (props) {
                 setChildren={setChildren}
             /> : null
         }
-    </li>
+    </div>
 }
