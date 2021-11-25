@@ -33,3 +33,8 @@ export async function getDescendants(req , res){
     const item = await Item.getDescendants(req.body, req.query);
     res.status(item.status).json(item);
 }
+
+export async function deleteDescendants(req , res){
+    const item = await Item.deleteDescendants(req.body, req.query);
+    res.status(item.status).json(item);
+}
