@@ -105,8 +105,9 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     //where it will be edited by reference
     let descendants = [];
     try {
-        await getAllDescendants(parentData._Id, descendants, userData.userId);
-        const children = await Item.find({ parentId: parentData._Id });
+        console.log('parentData._id', parentData._id)
+        await getAllDescendants(parentData._id, descendants, userData.userId);
+        const children = await Item.find({ parentId: parentData._id });
         return {
             message: `${descendants.length} descendants found.`, 
             status: 200,

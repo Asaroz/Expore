@@ -1,13 +1,13 @@
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
 import { useContext, useEffect, useState } from 'react';
-import ChildrenPrompt from './ChildrenPrompt.jsx';
 import getDescendants from '../libs/getDescendants.js';
 import UserContext from '../contexts/UserContext';
 import { NavLink } from 'react-router-dom';
+import UniverseDescPrompt from './UniverseDescPrompt.jsx';
 
 export default function UniverseCard (props) {
-    const [ showChildrenPrompt, setShowChildrenPrompt] = useState(false);
+    const [ showDescPrompt, setShowDescPrompt] = useState(false);
     const [ descendantsLength, setDescendantsLength ] = useState(false);
     const [ itemInfo, setItemInfo ] = useState({});
     const setUser = useContext(UserContext)[1];
@@ -22,7 +22,7 @@ export default function UniverseCard (props) {
     useEffect(() => {
         let descendantsRequest;
         async function fetchData () {
-            descendantsRequest = await getDescendants({ parentId: id});
+            descendantsRequest = await getDescendants({ _id: id});
             if (descendantsRequest.success) {
                 setDescendantsLength(descendantsRequest.result);
             } else if (descendantsRequest.result === 401 ) {
@@ -47,9 +47,10 @@ export default function UniverseCard (props) {
             alert (deleteCheck.message);
 
         } else if (deleteCheck.pass === "continue") {
-            // logic to move or delete items with children
-            setItemInfo(deleteCheck.message);
-            setShowChildrenPrompt(true);
+            // logic to delete universe with children
+            const index = universes.map(universe => universe._id).indexOf(id);
+            setItemInfo({...deleteCheck.message, index: index});
+            setShowDescPrompt(true);
         } else {
             // display error message
             alert(deleteCheck.message);
@@ -73,12 +74,13 @@ export default function UniverseCard (props) {
         { descendantsLength ?
             <p> {descendantsLength} items</p> : null
         }
-        {showChildrenPrompt ?
-            <ChildrenPrompt
-                setShow={setShowChildrenPrompt}
-                show={showChildrenPrompt}
+        {showDescPrompt ?
+            <UniverseDescPrompt
+                setShow={setShowDescPrompt}
+                show={showDescPrompt}
+                universes={universes}
+                setUniverses={setUniverses}
                 itemInfo={itemInfo}
-                setChildrenLength={setDescendantsLength}
             /> : null
         }
     </li>
