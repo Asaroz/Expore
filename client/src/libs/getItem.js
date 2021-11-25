@@ -8,8 +8,8 @@ export default async function getItem (params) {
     await axios.get('/getItem',
     {
         headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         params: params
     })

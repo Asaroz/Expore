@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function UniverseCard (props) {
     const [ showChildrenPrompt, setShowChildrenPrompt] = useState(false);
-    const [ childrenLength, setChildrenLength ] = useState(false);
+    const [ descendantsLength, setDescendantsLength ] = useState(false);
     const [ itemInfo, setItemInfo ] = useState({});
     const setUser = useContext(UserContext)[1];
 
@@ -20,17 +20,17 @@ export default function UniverseCard (props) {
 
     // TODO: Change so that it get's only the total descendant count
     useEffect(() => {
-        let childrenRequest;
+        let descendantsRequest;
         async function fetchData () {
-            childrenRequest = await getDescendants({ parentId: id});
-            if (childrenRequest.success) {
-                setChildrenLength(childrenRequest.result);
-            } else if (childrenRequest.result === 401 ) {
+            descendantsRequest = await getDescendants({ parentId: id});
+            if (descendantsRequest.success) {
+                setDescendantsLength(descendantsRequest.result);
+            } else if (descendantsRequest.result === 401 ) {
                 // token is unauthorized => log out
                 localStorage.clear();
                 setUser(null);
             } else {
-                console.log(childrenRequest.result);
+                console.log(descendantsRequest.result);
             }
         };
         fetchData();
@@ -70,12 +70,15 @@ export default function UniverseCard (props) {
             </Confirm>
         </h3>
         <p>{description}</p>
+        { descendantsLength ?
+            <p> {descendantsLength} items</p> : null
+        }
         {showChildrenPrompt ?
             <ChildrenPrompt
                 setShow={setShowChildrenPrompt}
                 show={showChildrenPrompt}
                 itemInfo={itemInfo}
-                setChildrenLength={setChildrenLength}
+                setChildrenLength={setDescendantsLength}
             /> : null
         }
     </li>
