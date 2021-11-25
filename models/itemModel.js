@@ -81,6 +81,7 @@ itemSchema.statics.getItems = async (userData, queryData) => {
     }
 };
 
+
 //userData needs to have a new Property called newParentId 
 itemSchema.statics.moveItems = async (userData) => {
     try {
@@ -103,24 +104,34 @@ itemSchema.statics.getDescendants = async (userData, parentData )=> {
     //this array will be given into the imported function getAllDescendants
     //where it will be edited by reference
     let descendants = [];
+    let allItems = [];
+    
     try{
-        await getAllDescendants(parentData._Id, descendants, userData.userId);
-        const children = await Item.find({parentId:parentData._Id});
+        await getAllDescendants(parentData._id, descendants, userData.userId);
+        const children = await Item.find({parentId:parentData._id});
+        const universe = await Item.find({universeId:children[0].universeId})
+        const promises =universe.map((universe)=>{
+            allItems.push(universe._id.toString())
+        });
+        await Promise.all(promises);
+        const validParents = allItems.filter(item => descendants.indexOf(item) === -1);
         return{
             message: `${descendants.length} descendants found.`, 
             status: 200,
             descendants: descendants,
+            validParents: validParents,
             children: children
+            
         };
     } catch (error) {
         console.log(error);
-        return {message:"Something whent wrong" , status: 401};
+        return {message:"Something whent wrong" , status: 400};
     };
 };
 
 itemSchema.statics.deleteDescendants = async (userData, queryData)=> {
     let descendants = [];
-    let count = 1;
+    let count = 0;
     try{
         await getAllDescendants(queryData._Id, descendants, userData.userId);
         const promises = descendants.map(async (descendant)=>{

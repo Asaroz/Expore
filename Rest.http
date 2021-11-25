@@ -25,7 +25,7 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 
 {
     "title":"Universe Layer 0",
-    "description": "hey whats up?",
+    "description": "Rootworld",
     "isRoot": true
 }
 
@@ -36,17 +36,17 @@ content-type: application/json
 Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2MzcyMzE3NjcsImV4cCI6MTYzNzgzNjU2N30.bmW9aOvgXWUpqdbAN_032gAXdSroZ3ki9XoR9h-GTNE
 
 {
-    "title":"Universe layer 3",
-    "description": "child 1 of 2 of 2",
-    "parentId": "619cc615965435b57c54f408",
-    "universeId": "619cc37e965435b57c54f3fb"
+    "title":"Universe layer 2",
+    "description": "child 3 - 3",
+    "parentId": "619f537de7f655bcd246f6cc",
+    "universeId": "619f533ee7f655bcd246f6c5"
 }
 
 ###
 
 GET http://localhost:5000/getItem
 content-type: application/json
-Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThhOGFkOWU3ZDU1MmUwZjI3OGQ0MGEiLCJpYXQiOjE2MzY1NDgxOTksImV4cCI6MTYzNjU1MTc5OX0.kowDyzQPjMos26nsEWx_rw_7wOmxjIexekmEJ-4F8gQ
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2Mzc2NjMxNDAsImV4cCI6MTYzODI2Nzk0MH0.xNk7oGIMxE0OWy8Um-iRiqYwgrYDdQ0DUqw8GOJ5f60
 
 {
     "isRoot": true
@@ -65,7 +65,12 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 
 ### get all descendents
 
-GET http://localhost:5000/getDescendants?_Id=619cc431965435b57c54f400
+GET http://localhost:5000/getDescendants?_id=619f535fe7f655bcd246f6c8
 content-type: application/json
 Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2Mzc2NjMxNDAsImV4cCI6MTYzODI2Nzk0MH0.xNk7oGIMxE0OWy8Um-iRiqYwgrYDdQ0DUqw8GOJ5f60
 
+###
+
+DELETE http://localhost:5000/deleteDescendants?_Id=619cc37e965435b57c54f3f b
+content-type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3M2EwNjI2M2UyMGM1YjhiZDgiLCJpYXQiOjE2Mzc2NjMxNDAsImV4cCI6MTYzODI2Nzk0MH0.xNk7oGIMxE0OWy8Um-iRiqYwgrYDdQ0DUqw8GOJ5f60

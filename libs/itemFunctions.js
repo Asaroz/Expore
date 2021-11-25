@@ -6,7 +6,7 @@ export async function getAllDescendants (parentId,descendants,userId){
     const children = await Item.find({parentId:parentId,userId:userId});
     //children.map returns an array of promises wich need to be awaited
     const promises = children.map((child)=>{
-        descendants.push(child._id);
+        descendants.push(child._id.toString());
         return getAllDescendants(child._id,descendants,userId);
      });
      //we make sure that every promise of children.map is done until we exit the function
