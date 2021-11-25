@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function deleteItemCheck(id) {
+export default async function deleteItemCheck(params) {
     let result = {};
     const token = localStorage.getItem('authToken');
     const request = {
@@ -8,9 +8,7 @@ export default async function deleteItemCheck(id) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer: ${token}`
         },   
-        params: {
-            _id: id
-        }
+        params
     };
     
     await axios.get('/getDescendants', request)
@@ -28,7 +26,7 @@ export default async function deleteItemCheck(id) {
                 result = { pass: "continue", message: {
                         childrenLength: response.data.children.length,
                         descendants: response.data.descendants,
-                        id: id
+                        ...params
                     }
                 };
                 return;
