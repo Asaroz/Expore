@@ -19,14 +19,18 @@ export default function UniversePage (props) {
     //localStorage.removeItem('universe')
 
     useEffect(() => {
-        if (location.state) {
-            localStorage.setItem('universe', location.state.universe);
-            setUniverse(location.state.universe);
+        if (!universe) {
+            if (location.state) { // page is loaded from UniverseCard:
+                localStorage.setItem('universe', location.state.universe);
+                setUniverse(location.state.universe);
+            } else { // page is refreshed
+            setUniverse(localStorage.getItem('universe'));
+            }
         }
 
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: universe._id});
+            childrenRequest = await getItem({ parentId: universe._id });
             if (childrenRequest.success) {
                 console.log('result from request', childrenRequest.result)
                 console.log('id on request', universe._id)
@@ -39,7 +43,9 @@ export default function UniversePage (props) {
                 console.log(childrenRequest.result);
             }
         };
-        fetchData();
+        if (universe._id) {
+            fetchData();
+        }
     }, [setUser, universe, location])
 
     return <div key={Math.floor(Math.random() * 10000)} data={universe._id}>

@@ -73,7 +73,7 @@ export default function UniverseCard (props) {
         </h3>
         <p>{description}</p>
         { descendantsLength ?
-            <p> {descendantsLength} items</p> : null
+            <p> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </p> : null
         }
         {showDescPrompt ?
             <UniverseDescPrompt
