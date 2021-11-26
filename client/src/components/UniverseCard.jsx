@@ -38,7 +38,6 @@ export default function UniverseCard (props) {
     }, [setUser, id])
 
     async function deleteItemHandler(id, universeId) {
-        console.log('universeId', universeId);
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
         if (deleteCheck.pass === true) {
             const index = universes.map(universe => universe._id).indexOf(id);

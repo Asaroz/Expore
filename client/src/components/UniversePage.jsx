@@ -71,7 +71,8 @@ export default function UniversePage (props) {
         {/* List of children */}
         {children ? <ul>
             {children.map(child => <ChildCard 
-                child={child} children={children} setChildren={setChildren}
+                child={child} children={children} setChildren={setChildren} 
+                itemInfo={itemInfo} setItemInfo={setItemInfo}
             />)}
         </ul> : null}
         {showChildrenPrompt ?
