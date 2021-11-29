@@ -7,8 +7,11 @@ export default function ItemDescPrompt (props) {
     const children = props.children;
     const setChildren = props.setChildren;
 
+    console.log('deleteDescendants props', props)
+
     const handleDelete = async () => {
         const message = await deleteDescendants({ _id: info._id, universeId: info.universeId });
+        console.log('index', info.index)
         children.splice(info.index, 1);
         setChildren([...children]);
         alert(message);
@@ -19,8 +22,8 @@ export default function ItemDescPrompt (props) {
         
         // TODO
 
-        children.splice(info.index, 1);
-        setChildren([...children]);
+        //children.splice(info.index, 1);
+        //setChildren([...children]);
         alert('under construction');
         handleClose();
     }
@@ -31,10 +34,10 @@ export default function ItemDescPrompt (props) {
             <h3>This item has {info.descendants.length} subitems are you sure you wanna delete them all?</h3>
         }
         <button onClick={handleDelete}>
-            Yes I would like to delete this item and the {info.descendants.length === 1 ? "subitem" : "subitems" }
+            Yes, delete this item and the {info.descendants.length === 1 ? "subitem" : "subitems" }
         </button>
         <button onClick={handleMove}>
-            Yes I would like to move this item and the {info.descendants.length === 1 ? "subitem" : "subitems" }
+            Yes, but I wanna move the {info.descendants.length === 1 ? "subitem" : "subitems" } first
         </button>
         <button onClick={handleClose}>
             Cancel
