@@ -1,0 +1,42 @@
+.App {
+  text-align: center;
+  font-family: Sora;
+
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    
+    .logRegNav{
+      display: grid;
+      justify-content: space-around;
+      border: white 1px solid;
+      text-decoration: none;
+      color: white;
+      margin-bottom: 30px;
+      grid-template-columns: repeat(2, 50%);
+      grid-template-rows: repeat(1, auto);
+
+      :hover{
+        cursor: pointer;
+      }
+
+      div{
+        border: white 1px solid;
+      }
+    }
+
+  }
+}
+
+
+
+.avatar {
+  width: 100px;
+  border-radius: 50%;
+}

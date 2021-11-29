@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import login from '../libs/login.js';
 import UserContext from '../contexts/UserContext';
 
+import '../scss/Login.scss'
+
 export default function Login(props){
     const [ password, setPassword ] = useState("");
     const [ email, setEmail ] = useState("");
@@ -18,7 +20,7 @@ export default function Login(props){
         login(email, password, stay, setUser, setToken, setMessage);
     }
 
-    return <div className="modal">
+    return <div className="loginContainer">
         <form onSubmit={submitHandler}>
             <div>
                 <label htmlFor="email">Email:</label>

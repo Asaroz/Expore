@@ -35,19 +35,6 @@ const itemSchema = new mongoose.Schema({
     },
 });
 
-itemSchema.statics.createItems = async (userData) => {
-    try {
-        const item = await Item.create(userData);
-        if (!item.universeId){
-            await Item.findByIdAndUpdate(item._id,{universeId: item._id});
-        }
-        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
-    } catch (error) {
-        console.log(error)
-        return { message: "Something went wrong", status: 400 };
-    }
-};
-
 itemSchema.statics.getItems = async (userData, queryData) => {
     try {
         // user data comes from token, query data come from GET request
@@ -62,6 +49,20 @@ itemSchema.statics.getItems = async (userData, queryData) => {
         return { message: "no items found", status: 400 };
     }
 };
+
+itemSchema.statics.createItems = async (userData) => {
+    try {
+        const item = await Item.create(userData);
+        if (!item.universeId){
+            await Item.findByIdAndUpdate(item._id,{universeId: item._id});
+        }
+        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
+    } catch (error) {
+        console.log(error)
+        return { message: "Something went wrong", status: 400 };
+    }
+};
+
 
 
 //userData needs to have a new Property called newParentId 
@@ -91,18 +92,26 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     try{
         await getAllDescendants(parentData._id, descendants, userData.userId);
         const children = await Item.find({parentId:parentData._id});
-            const universe = await Item.find({universeId: parentData.universeId});
-            const promises =universe.map((universe)=>{
-                allItems.push(universe._id.toString())
-            });
-            await Promise.all(promises);
-            const validParents = allItems.filter(item => descendants.indexOf(item) === -1);
-        
+
+        const universe = await Item.find({universeId: parentData.universeId});
+        const promises =universe.map((universe)=>{
+            allItems.push(universe._id.toString())
+        });
+        await Promise.all(promises);
+        const validParents = allItems.filter((item) => descendants.indexOf(item) === -1);
+        validParents.splice(validParents.indexOf(parentData._id),1);
+        console.log(validParents)
+        const finalValidParents = []
+        const parentPromises = validParents.map(async (parent)=>{
+            const valid = await Item.findById({_id:parent})
+            finalValidParents.push({_id:parent, title:valid.title});
+        })
+        await Promise.all(parentPromises);
         return{
             message: `${descendants.length} descendants found.`, 
             status: 200,
             descendants: descendants,
-            validParents: validParents,
+            validParents: finalValidParents,
             children: children 
         };
     } catch (error) {
@@ -113,7 +122,7 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
 
 itemSchema.statics.deleteItems = async (userData, queryData)=> {
     let descendants = [];
-    let count = 0;
+    let count = 1;
     try{
         await getAllDescendants(queryData._id, descendants, userData.userId);
         const promises = descendants.map(async (descendant)=>{
