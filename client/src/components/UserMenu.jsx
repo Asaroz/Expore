@@ -15,7 +15,7 @@ import UserContext from '../contexts/UserContext';
 import { useContext } from 'react';
 
 export default function UserMenu (props) {
-    const [ universes, setUniverses] = useState([]);
+    const [ universes, setUniverses] = useState(false);
     console.log('Universes:', universes);
     // This state controls the modal "CreatePage":
     const [ showCreatePage, setShowCreatePage] = useState(false);
@@ -46,7 +46,8 @@ export default function UserMenu (props) {
             <div><img className="avatar" src={images[user.imageIndex]} alt="avatar"/></div>
             <h1>Welcome {user.userName}</h1>
         </header>
-        <div>
+        {universes ? <>
+            <div>
             {universes.length ? <h2>My universes</h2> : null}
             {showCreatePage ?
                 <CreatePage 
@@ -60,16 +61,17 @@ export default function UserMenu (props) {
                     New universe
                 </button>
             }
-        </div>
-        {/* check if length is not 0 */}
-        {universes.length ? 
-            <ul>
-                {universes.map(universe => <UniverseCard 
-                    universe={universe} universes={universes} setUniverses={setUniverses}
-                />)} 
-            </ul> :
+            </div>
+            {/* check if length is not 0 */}
+            {universes.length ? 
+                 <ul>
+                    {universes.map(universe => <UniverseCard 
+                        universe={universe} universes={universes} setUniverses={setUniverses}
+                    />)} 
+                </ul> :
             /* If request goes through and it's an empty array */
-            <p>You don't have any universes</p> 
+            <p>You don't have any universes</p>}
+            </> : <div>Loading universes...</div>
         }
         <button onClick={() => {
             localStorage.clear();

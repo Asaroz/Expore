@@ -18,8 +18,7 @@ connect();
 
 //Console logging out the request
 app.use('/',(req,res,next)=>{
-    console.log("body:" , req.body)
-    console.log("query:", req.query)
+    console.log('REQUEST: body', req.body, 'query', req.query);
     next()
 })
 
@@ -33,7 +32,7 @@ app.use('/', userRouter);
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // GET wildcard for any request that doesn't match one above
-app.post('*', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 

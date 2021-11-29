@@ -11,7 +11,7 @@ export default async function deleteDescendants (params) {
         params
     };
 
-    await axios.delete('/deleteDescendants', request)
+    await axios.delete('/deleteItems', request)
         .then(response => { 
             if ( response.status === 200 ) {
                 message = response.data.message;

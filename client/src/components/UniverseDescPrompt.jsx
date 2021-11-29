@@ -9,7 +9,7 @@ export default function UniverseDescPrompt (props) {
     const setUniverses = props.setUniverses;
 
     const handleDelete = async () => {
-        const message = await deleteDescendants({ _id: info.id });
+        const message = await deleteDescendants({ _id: info._id, universeId: info.universeId });
         universes.splice(info.index, 1);
         setUniverses([...universes]);
         alert(message);
