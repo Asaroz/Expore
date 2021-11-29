@@ -21,10 +21,10 @@ export default function UniversePage (props) {
     useEffect(() => {
         if (!universe) {
             if (location.state) { // page is loaded from UniverseCard:
-                localStorage.setItem('universe', location.state.universe);
+                localStorage.setItem('universe', JSON.stringify(location.state.universe));
                 setUniverse(location.state.universe);
             } else { // page is refreshed
-            setUniverse(localStorage.getItem('universe'));
+            setUniverse(JSON.parse(localStorage.getItem('universe')));
             }
         }
 
@@ -71,7 +71,7 @@ export default function UniversePage (props) {
         {/* List of children */}
         {children ? <ul>
             {children.map(child => <ChildCard 
-                child={child} children={children} setChildren={setChildren} 
+                child={child} siblings={children} setSiblings={setChildren} 
                 itemInfo={itemInfo} setItemInfo={setItemInfo}
             />)}
         </ul> : null}

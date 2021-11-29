@@ -19,7 +19,6 @@ export default function UniverseCard (props) {
     const universes = props.universes;
     const setUniverses = props.setUniverses;
 
-    // TODO: Change so that it get's only the total descendant count
     useEffect(() => {
         let descendantsRequest;
         async function fetchData () {
@@ -35,7 +34,7 @@ export default function UniverseCard (props) {
             }
         };
         fetchData();
-    }, [setUser, id])
+    }, [setUser, id/* , props.universes doesn't change the bug */])
 
     async function deleteItemHandler(id, universeId) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
@@ -51,6 +50,7 @@ export default function UniverseCard (props) {
             const index = universes.map(universe => universe._id).indexOf(id);
             setItemInfo({...deleteCheck.message, index: index});
             setShowDescPrompt(true);
+
         } else {
             // display error message
             alert(deleteCheck.message);

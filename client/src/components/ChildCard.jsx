@@ -10,13 +10,13 @@ import ItemDescPrompt from './ItemDescPrompt';
 export default function ChildCard (props) { 
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
-    const [ children, setChildren ] = useState(false);
+    const [ children, setChildren ] = useState([]);
+    const [ siblings, setSiblings ] = [ props.siblings, props.setSiblings ]
+    const [ itemInfo, setItemInfo ] = [ props.itemInfo, props.setItemInfo ];
     const title = props.child.title;
     const description = props.child.description;
     const id = props.child._id;
     const setUser = useContext(UserContext)[1];
-    const itemInfo = props.itemInfo;
-    const setItemInfo = props.setItemInfo;
 
     useEffect(() => {
         let childrenRequest;
@@ -39,10 +39,10 @@ export default function ChildCard (props) {
     async function deleteItemHandler(id, universeId) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
         if (deleteCheck.pass === true) {
-            const index = children.map(item => item._id).indexOf(id);
-            children.splice(index, 1);
+            const index = siblings.map(item => item._id).indexOf(id);
+            siblings.splice(index, 1);
             // Cloning by value and not by reference (same pointer)
-            setChildren([...children]);
+            setSiblings([...siblings]);
             alert(deleteCheck.message);
 
         } else if (deleteCheck.pass === "continue") {
@@ -85,7 +85,7 @@ export default function ChildCard (props) {
         {children ? <ul>
             {children.map(child => 
                 <ChildCard 
-                    child={child} children={children} setChildren={setChildren} 
+                    child={child} siblings={children} setSiblings={setChildren} 
                     itemInfo={itemInfo} setItemInfo={setItemInfo}
                 />)
             }
