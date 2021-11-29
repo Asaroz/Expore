@@ -70,7 +70,7 @@ export default function UniversePage (props) {
 		}
         {/* List of children */}
         {children ? <ul>
-            {children.map(child => <ChildCard 
+            {children.map(child => <ChildCard key={child._id}
                 child={child} siblings={children} setSiblings={setChildren} 
                 itemInfo={itemInfo} setItemInfo={setItemInfo}
             />)}

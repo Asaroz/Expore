@@ -13,7 +13,8 @@ export default function UniverseDescPrompt (props) {
         universes.splice(info.index, 1);
         setUniverses([...universes]);
         alert(message);
-        handleClose();
+        // Not required because the parent that rendered the component is deleted
+        // handleClose();
     }
 
     return <div className="modal">
