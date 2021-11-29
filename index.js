@@ -32,7 +32,7 @@ app.use('/', userRouter);
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // GET wildcard for any request that doesn't match one above
-app.post('*', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
