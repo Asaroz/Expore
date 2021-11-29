@@ -5,11 +5,13 @@ import getItem from '../libs/getItem.js';
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
 import ItemDescPrompt from './ItemDescPrompt';
+import MoveItemsPrompt from './MoveItemsPrompt';
 
 
 export default function ChildCard (props) { 
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
+    const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
     const [ children, setChildren ] = useState([]);
     const [ siblings, setSiblings ] = [ props.siblings, props.setSiblings ];
     const [ itemInfo, setItemInfo ] = useState(props.itemInfo);
@@ -35,7 +37,6 @@ export default function ChildCard (props) {
         fetchData();
     }, [setUser, id])
 
-    // TODO:
     async function deleteItemHandler(id, universeId) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
         console.log('deleteCheck response', deleteCheck)
@@ -85,7 +86,7 @@ export default function ChildCard (props) {
 		}
         {children ? <ul>
             {children.map(child => 
-                <ChildCard 
+                <ChildCard key={child._id}
                     child={child} siblings={children} setSiblings={setChildren} 
                     itemInfo={itemInfo} setItemInfo={setItemInfo}
                 />)
@@ -95,6 +96,16 @@ export default function ChildCard (props) {
             <ItemDescPrompt
                 setShow={setShowDescPrompt}
                 show={showDescPrompt}
+                children={siblings}
+                setChildren={setSiblings}
+                itemInfo={itemInfo}
+                setShowMoveItemsPrompt={setShowMoveItemsPrompt}
+            /> : null
+        }
+        {showMoveItemsPrompt ?
+            <MoveItemsPrompt
+                setShow={setShowMoveItemsPrompt}
+                show={showMoveItemsPrompt}
                 children={siblings}
                 setChildren={setSiblings}
                 itemInfo={itemInfo}

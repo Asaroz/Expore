@@ -65,7 +65,7 @@ export default function UserMenu (props) {
             {/* check if length is not 0 */}
             {universes.length ? 
                  <ul>
-                    {universes.map(universe => <UniverseCard 
+                    {universes.map(universe => <UniverseCard key={universe._id}
                         universe={universe} universes={universes} setUniverses={setUniverses}
                     />)} 
                 </ul> :
