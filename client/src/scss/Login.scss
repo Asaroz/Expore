@@ -1,0 +1,29 @@
+.loginContainer{
+    input[type=email] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      input[type=checkbox] {
+        transform: scale(1.5);
+      }
+      .stayLoggedIn{
+          padding-bottom: 10px;
+      }
+      button{
+          margin-top: 20px;
+          height: 40px;
+          width: 200px;
+          font-family: Sora;
+          font-weight: bold;
+          border-radius: 5px;
+          background-color: #e7e7e7;
+      }
+}

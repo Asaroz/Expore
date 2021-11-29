@@ -1,4 +1,5 @@
 import deleteDescendants from '../libs/deleteDescendants.js';
+import '../scss/UniverseDescPrompt.scss'
 
 export default function UniverseDescPrompt (props) {
     const handleClose = () => props.setShow(false);

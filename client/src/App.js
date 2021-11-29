@@ -4,7 +4,7 @@ import Login from './components/Login';
 import UserMenu from './components/UserMenu';
 import Register from './components/Register';
 import UniversePage from './components/UniversePage';
-import './App.css';
+import './scss/App.scss';
 import useUserContext from './contexts/useUserContext';
 import UserContext from './contexts/UserContext';
 
@@ -18,9 +18,9 @@ function App() {
 				<div className="App-header">
 					{(!user) ? 
 						<div>
-							<div>
-								<NavLink to='login'>Login</NavLink>
-								<NavLink to='register'>Register</NavLink>
+							<div className="logRegNav">
+								<NavLink to='login'><div >Login</div></NavLink>
+								<NavLink to='register'><div >Register</div></NavLink>
 							</div>
 							<Switch>
 								<Route path='/login' component={() => <Login />}/>
