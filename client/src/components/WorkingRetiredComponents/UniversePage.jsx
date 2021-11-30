@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import CreatePage from './CreatePage';
-import getItem from '../libs/getItem.js';
-import UserContext from '../contexts/UserContext';
+import CreatePage from '../CreatePage';
+import getItem from '../../libs/getItem.js';
+import UserContext from '../../contexts/UserContext';
 import ChildCard from './ChildCard.jsx';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export default function UniversePage (props) {
     const [ showCreatePage, setShowCreatePage] = useState(false);
@@ -11,9 +11,6 @@ export default function UniversePage (props) {
     const [ children, setChildren ] = useState(false);
     const setUser = useContext(UserContext)[1];
     const location = useLocation();
-
-    // add on redirect
-    //localStorage.removeItem('universe')
 
     useEffect(() => {
         if (!universe) {
@@ -43,7 +40,10 @@ export default function UniversePage (props) {
         }
     }, [setUser, universe, location])
 
-    return <div key={Math.floor(Math.random() * 10000)} data={universe._id}>
+    return <div data={universe._id}>
+        <NavLink to="/" onClick={() => localStorage.removeItem('universe')}>
+            Back to main page
+        </NavLink>
         <h3>
             {universe.title}
         </h3>
