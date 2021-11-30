@@ -19,8 +19,8 @@ function App() {
 					{(!user) ? 
 						<div>
 							<div className="logRegNav">
-								<NavLink to='login'><div >Login</div></NavLink>
-								<NavLink to='register'><div >Register</div></NavLink>
+								<NavLink to='login'><div>Login</div></NavLink>
+								<NavLink to='register'><div>Register</div></NavLink>
 							</div>
 							<Switch>
 								<Route path='/login' component={() => <Login />}/>
