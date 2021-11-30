@@ -17,8 +17,6 @@ export default function ItemDescPrompt (props) {
     }
     
     const handleMove = async () => {
-        alert('under construction');
-        // Not required because the parent that rendered the component is deleted
         handleClose();
         props.setShowMoveItemsPrompt(true);
     }

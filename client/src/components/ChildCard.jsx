@@ -14,7 +14,7 @@ export default function ChildCard (props) {
     const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
     const [ children, setChildren ] = useState([]);
     const [ siblings, setSiblings ] = [ props.siblings, props.setSiblings ];
-    const [ itemInfo, setItemInfo ] = useState(props.itemInfo);
+    const [ itemInfo, setItemInfo ] = useState({});
     const title = props.child.title;
     const description = props.child.description;
     const id = props.child._id;
@@ -39,7 +39,6 @@ export default function ChildCard (props) {
 
     async function deleteItemHandler(id, universeId) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
-        console.log('deleteCheck response', deleteCheck)
         if (deleteCheck.pass === true) {
             const index = siblings.map(item => item._id).indexOf(id);
             siblings.splice(index, 1);
@@ -50,7 +49,7 @@ export default function ChildCard (props) {
         } else if (deleteCheck.pass === "continue") {
             // logic to delete item with children
             const index = siblings.map(item => item._id).indexOf(id);
-            setItemInfo({...deleteCheck.message, index: index});
+            setItemInfo({...deleteCheck.message, index: index, title: title});
             setShowDescPrompt(true);
         } else {
             // display error message
@@ -87,8 +86,7 @@ export default function ChildCard (props) {
         {children ? <ul>
             {children.map(child => 
                 <ChildCard key={child._id}
-                    child={child} siblings={children} setSiblings={setChildren} 
-                    itemInfo={itemInfo} setItemInfo={setItemInfo}
+                    child={child} siblings={children} setSiblings={setChildren}
                 />)
             }
         </ul> : null}

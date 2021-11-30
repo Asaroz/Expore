@@ -11,7 +11,7 @@ itemRouter.post('/createItem', tokenController , createItems);
 //remove Items Route:
 itemRouter.delete('/deleteItems',tokenController, deleteItems);
 //move Items Route: 
-itemRouter.put('/moveItem',tokenController, moveItems);
+itemRouter.put('/moveItems',tokenController, moveItems);
 //check Children Route:
 itemRouter.get('/hasChildren', tokenController, hasChildren)
 //get all Children Route:
