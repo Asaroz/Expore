@@ -1,11 +1,11 @@
-import CreatePage from './CreatePage';
+import CreatePage from '../CreatePage';
 import { useContext, useState, useEffect } from 'react';
-import UserContext from '../contexts/UserContext';
-import getItem from '../libs/getItem.js';
-import deleteItemCheck from '../libs/deleteItemCheck.js';
+import UserContext from '../../contexts/UserContext';
+import getItem from '../../libs/getItem.js';
+import deleteItemCheck from '../../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
-import ItemDescPrompt from './ItemDescPrompt';
-import MoveItemsPrompt from './MoveItemsPrompt';
+import ItemDescPrompt from '../ItemDescPrompt';
+import MoveItemsPrompt from '../MoveItemsPrompt';
 
 
 export default function ChildCard (props) { 
@@ -57,7 +57,7 @@ export default function ChildCard (props) {
         }
     }
     
-    return <li key={Math.floor(Math.random() * 10000)} data={id}>
+    return <li key={id} data={id}>
         <h4>
             {title}             
             <Confirm
