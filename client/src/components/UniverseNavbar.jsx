@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import CreatePage from './CreatePage';
-import getItem from '../libs/getItem.js';
+import getItems from '../libs/getItems.js';
 import UserContext from '../contexts/UserContext';
 import ItemCard from './ItemCard';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -28,7 +28,7 @@ export default function UniverseNavbar (props) {
 
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: universe._id });
+            childrenRequest = await getItems({ parentId: universe._id });
             if (childrenRequest.success) {
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {

@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
-import getItem from '../libs/getItem.js';
+import getItems from '../libs/getItems.js';
 
 
 export default function NavCard (props) {
@@ -16,7 +16,7 @@ export default function NavCard (props) {
     useEffect(() => {
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: id});
+            childrenRequest = await getItems({ parentId: id});
             if (childrenRequest.success) {
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {

@@ -34,7 +34,7 @@ export default function UniverseCard (props) {
             }
         };
         fetchData();
-    }, [setUser, id/* , props.universes doesn't change the bug */])
+    }, [setUser, id])
 
     async function deleteItemHandler(id, universeId) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
@@ -59,7 +59,7 @@ export default function UniverseCard (props) {
 
     return <li key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
-            <NavLink to={{ pathname:'/universe', hash: `${id}`, state: { universe: props.universe } }}>
+            <NavLink to={{ pathname:'/item', hash: `${id}` }}>
                 {title}
             </NavLink>
             <Confirm

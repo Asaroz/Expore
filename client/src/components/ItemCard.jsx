@@ -1,7 +1,7 @@
 import CreatePage from './CreatePage';
 import { useContext, useState, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
-import getItem from '../libs/getItem.js';
+import getItems from '../libs/getItems.js';
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
 import ItemDescPrompt from './ItemDescPrompt';
@@ -25,7 +25,7 @@ export default function ItemCard (props) {
     useEffect(() => {
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: id});
+            childrenRequest = await getItems({ parentId: id});
             if (childrenRequest.success) {
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
