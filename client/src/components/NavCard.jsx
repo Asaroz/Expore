@@ -42,7 +42,10 @@ export default function NavCard (props) {
     }
     
     return <li key={id} data={id}>
-        <div className="itemLink" onClick={setItem}>{title}</div>             
+        <div>
+            <span className="navbarArrow">⮞</span>
+            <span className="itemLink" onClick={setItem}>{title}</span>             
+        </div>
         {children ? <ul>
             {children.map(child => 
                 <NavCard 

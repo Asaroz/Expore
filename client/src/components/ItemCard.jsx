@@ -19,6 +19,7 @@ export default function ItemCard (props) {
     const description = props.info.description;
     const id = props.info._id;
     const universeId = props.info.universeId;
+    const isRoot = props.info.isRoot;
     const setUser = useContext(UserContext)[1];
 
     useEffect(() => {
@@ -61,21 +62,24 @@ export default function ItemCard (props) {
     
     return <div key={id} data={id}>
         <h4>
-            {title}             
+            {title}
+            {isRoot ? null :             
             <Confirm
                 onConfirm={() => deleteItemHandler(id, universeId)}
                 body="This action cannot be undone."
                 confirmText="Delete Item"
-                title="Are you sure you want to delete this item?">
+                title="Are you sure you want to delete this item?"
+            >
                 <button>X</button>
             </Confirm>
+            }
         </h4>
         <p>{description}</p>
         {showCreatePage ?
 			<CreatePage 
                 setShow={setShowCreatePage} 
                 show={showCreatePage}
-                isRoot={false}
+                isRoot={isRoot ? true : false}
                 items={children}
                 setItems={setChildren}
                 parentId={id}

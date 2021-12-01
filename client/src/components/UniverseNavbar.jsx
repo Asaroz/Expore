@@ -13,7 +13,7 @@ export default function UniverseNavbar (props) {
     const [ children, setChildren ] = useState(false);
     const [ currentItemInfo, setCurrentItemInfo ] = useState(false);
     const setUser = useContext(UserContext)[1];
-    const [ sidebarCollapse, setSidebarCollapse ] = useState("");
+    const [ sidebarCollapse, setSidebarCollapse ] = useState(true);
     const location = useLocation();
 
     useEffect(() => {
@@ -41,21 +41,25 @@ export default function UniverseNavbar (props) {
         };
         if (universe._id) {
             fetchData();
+            setCurrentItemInfo({...universe});
+        }
+        // sidebar expand on larger screens
+        if (window.screen.width >= 776) {
+            setSidebarCollapse(false);
         }
     }, [setUser, universe, location]);
 
     return <div id="universeWrapper">
         <nav 
             data={universe._id} id="universeSidebar" 
-            className={sidebarCollapse ? "" : "active"}
+            className={sidebarCollapse ? "active" : ""}
         >
             <NavLink to="/" onClick={() => localStorage.removeItem('universe')}>
                 Back to main page
             </NavLink>
-            <h3>
+            <h3 className="itemLink" onClick={() => setCurrentItemInfo({...universe})}>
                 {universe.title}
             </h3>
-            <p>{universe.description}</p>
             {/* List of children */}
             {children ? <ul>
                 {children.map(child => <NavCard key={child._id}
@@ -66,7 +70,7 @@ export default function UniverseNavbar (props) {
         </nav>
         <button 
             type="button" id="sidebarCollapse"
-            className={sidebarCollapse ? "" : "active"} 
+            className={sidebarCollapse ? "active" : ""} 
             onClick={() => setSidebarCollapse(!sidebarCollapse)}
         >
             <span></span>

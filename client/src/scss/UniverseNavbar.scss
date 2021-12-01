@@ -1,10 +1,12 @@
+$sidebar-width: 220px;
+
 #universeWrapper {
     display: flex;
     width: 100%;
     align-items: stretch;
     perspective: 1500px;
     #universeSidebar {
-        width: 190px;
+        width: $sidebar-width;
         min-height: 100vh;
         background-color: #0F1726;
         color: #fff;
@@ -15,12 +17,15 @@
         }
     }
 }
-/* MISSING SCRIPT */
-#universeSidebar.active {
-    margin-left: -190px;
-    transform: rotateY(100deg);
+
+#content {
+    margin-top: 70px;
 }
 
+#universeSidebar.active {
+    margin-left: -$sidebar-width;
+    transform: rotateY(100deg);
+}
 
 /* =x button style */
 #sidebarCollapse {
@@ -33,7 +38,7 @@
     position: absolute;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     top: 20px;
-    left: 210px;
+    left: calc(#{$sidebar-width} + 30px);
         span {
             width: 80%;
             height: 2px;
@@ -61,5 +66,18 @@
             opacity: 1;
             margin: 5px auto;
         }
+}
+
+ul {
+    position: relative;
+    list-style: none;
+    padding-left: 10px;
+    div {
+        width: fit-content;
+        .navbarArrow {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    }
 }
   
