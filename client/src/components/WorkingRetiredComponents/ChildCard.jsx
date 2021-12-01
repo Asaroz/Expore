@@ -1,18 +1,20 @@
-import CreatePage from './CreatePage';
+import CreatePage from '../CreatePage';
 import { useContext, useState, useEffect } from 'react';
-import UserContext from '../contexts/UserContext';
-import getItem from '../libs/getItem.js';
-import deleteItemCheck from '../libs/deleteItemCheck.js';
+import UserContext from '../../contexts/UserContext';
+import getItem from '../../libs/getItem.js';
+import deleteItemCheck from '../../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
-import ItemDescPrompt from './ItemDescPrompt';
+import ItemDescPrompt from '../ItemDescPrompt';
+import MoveItemsPrompt from '../MoveItemsPrompt';
 
 
 export default function ChildCard (props) { 
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
+    const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
     const [ children, setChildren ] = useState([]);
     const [ siblings, setSiblings ] = [ props.siblings, props.setSiblings ];
-    const [ itemInfo, setItemInfo ] = useState(props.itemInfo);
+    const [ itemInfo, setItemInfo ] = useState({});
     const title = props.child.title;
     const description = props.child.description;
     const id = props.child._id;
@@ -35,10 +37,8 @@ export default function ChildCard (props) {
         fetchData();
     }, [setUser, id])
 
-    // TODO:
     async function deleteItemHandler(id, universeId) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
-        console.log('deleteCheck response', deleteCheck)
         if (deleteCheck.pass === true) {
             const index = siblings.map(item => item._id).indexOf(id);
             siblings.splice(index, 1);
@@ -49,7 +49,7 @@ export default function ChildCard (props) {
         } else if (deleteCheck.pass === "continue") {
             // logic to delete item with children
             const index = siblings.map(item => item._id).indexOf(id);
-            setItemInfo({...deleteCheck.message, index: index});
+            setItemInfo({...deleteCheck.message, index: index, title: title});
             setShowDescPrompt(true);
         } else {
             // display error message
@@ -57,7 +57,7 @@ export default function ChildCard (props) {
         }
     }
     
-    return <li key={Math.floor(Math.random() * 10000)} data={id}>
+    return <li key={id} data={id}>
         <h4>
             {title}             
             <Confirm
@@ -85,9 +85,8 @@ export default function ChildCard (props) {
 		}
         {children ? <ul>
             {children.map(child => 
-                <ChildCard 
-                    child={child} siblings={children} setSiblings={setChildren} 
-                    itemInfo={itemInfo} setItemInfo={setItemInfo}
+                <ChildCard key={child._id}
+                    child={child} siblings={children} setSiblings={setChildren}
                 />)
             }
         </ul> : null}
@@ -95,6 +94,16 @@ export default function ChildCard (props) {
             <ItemDescPrompt
                 setShow={setShowDescPrompt}
                 show={showDescPrompt}
+                children={siblings}
+                setChildren={setSiblings}
+                itemInfo={itemInfo}
+                setShowMoveItemsPrompt={setShowMoveItemsPrompt}
+            /> : null
+        }
+        {showMoveItemsPrompt ?
+            <MoveItemsPrompt
+                setShow={setShowMoveItemsPrompt}
+                show={showMoveItemsPrompt}
                 children={siblings}
                 setChildren={setSiblings}
                 itemInfo={itemInfo}

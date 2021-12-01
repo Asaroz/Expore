@@ -1,22 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
-import CreatePage from './CreatePage';
-import ChildrenPrompt from './ChildrenPrompt.jsx';
-import getItem from '../libs/getItem.js';
-import UserContext from '../contexts/UserContext';
+import CreatePage from '../CreatePage';
+import getItem from '../../libs/getItem.js';
+import UserContext from '../../contexts/UserContext';
 import ChildCard from './ChildCard.jsx';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export default function UniversePage (props) {
     const [ showCreatePage, setShowCreatePage] = useState(false);
-    const [ showChildrenPrompt, setShowChildrenPrompt] = useState(false);
     const [ universe, setUniverse ] = useState(false);
     const [ children, setChildren ] = useState(false);
-    const [ itemInfo, setItemInfo ] = useState({});
     const setUser = useContext(UserContext)[1];
     const location = useLocation();
-
-    // add on redirect
-    //localStorage.removeItem('universe')
 
     useEffect(() => {
         if (!universe) {
@@ -24,7 +18,7 @@ export default function UniversePage (props) {
                 localStorage.setItem('universe', JSON.stringify(location.state.universe));
                 setUniverse(location.state.universe);
             } else { // page is refreshed
-            setUniverse(JSON.parse(localStorage.getItem('universe')));
+                setUniverse(JSON.parse(localStorage.getItem('universe')));
             }
         }
 
@@ -32,8 +26,6 @@ export default function UniversePage (props) {
         async function fetchData () {
             childrenRequest = await getItem({ parentId: universe._id });
             if (childrenRequest.success) {
-                console.log('result from request', childrenRequest.result)
-                console.log('id on request', universe._id)
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
                 // token is unauthorized => log out
@@ -48,7 +40,10 @@ export default function UniversePage (props) {
         }
     }, [setUser, universe, location])
 
-    return <div key={Math.floor(Math.random() * 10000)} data={universe._id}>
+    return <div data={universe._id}>
+        <NavLink to="/" onClick={() => localStorage.removeItem('universe')}>
+            Back to main page
+        </NavLink>
         <h3>
             {universe.title}
         </h3>
@@ -70,18 +65,9 @@ export default function UniversePage (props) {
 		}
         {/* List of children */}
         {children ? <ul>
-            {children.map(child => <ChildCard 
-                child={child} siblings={children} setSiblings={setChildren} 
-                itemInfo={itemInfo} setItemInfo={setItemInfo}
+            {children.map(child => <ChildCard key={child._id}
+                child={child} siblings={children} setSiblings={setChildren}
             />)}
         </ul> : null}
-        {showChildrenPrompt ?
-            <ChildrenPrompt
-                setShow={setShowChildrenPrompt}
-                show={showChildrenPrompt}
-                itemInfo={itemInfo}
-                setChildren={setChildren}
-            /> : null
-        }
     </div>
 }

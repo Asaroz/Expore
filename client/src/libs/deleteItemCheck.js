@@ -26,6 +26,7 @@ export default async function deleteItemCheck(params) {
                 result = { pass: "continue", message: {
                         childrenLength: response.data.children.length,
                         descendants: response.data.descendants,
+                        validParents: response.data.validParents,
                         ...params
                     }
                 };

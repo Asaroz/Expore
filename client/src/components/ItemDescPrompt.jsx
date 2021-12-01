@@ -6,26 +6,19 @@ export default function ItemDescPrompt (props) {
     const info = props.itemInfo;
     const children = props.children;
     const setChildren = props.setChildren;
-
-    console.log('deleteDescendants props', props)
-
+ 
     const handleDelete = async () => {
         const message = await deleteDescendants({ _id: info._id, universeId: info.universeId });
-        console.log('index', info.index)
         children.splice(info.index, 1);
         setChildren([...children]);
         alert(message);
-        handleClose();
+        // Not required because the parent that rendered the component is deleted
+        // handleClose();
     }
-
+    
     const handleMove = async () => {
-        
-        // TODO
-
-        //children.splice(info.index, 1);
-        //setChildren([...children]);
-        alert('under construction');
         handleClose();
+        props.setShowMoveItemsPrompt(true);
     }
 
     return <div className="modal">
