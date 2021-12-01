@@ -14,6 +14,8 @@ import UniverseCard from './UniverseCard';
 import UserContext from '../contexts/UserContext';
 import { useContext } from 'react';
 
+import '../scss/UserMenu.scss'
+
 export default function UserMenu (props) {
     const [ universes, setUniverses] = useState(false);
     console.log('Universes:', universes);
@@ -47,7 +49,7 @@ export default function UserMenu (props) {
             <h1>Welcome {user.userName}</h1>
         </header>
         {universes ? <>
-            <div>
+            <div className="universeContainer">
             {universes.length ? <h2>My universes</h2> : null}
             {showCreatePage ?
                 <CreatePage 
