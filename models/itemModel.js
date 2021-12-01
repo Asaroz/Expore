@@ -89,12 +89,12 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     let descendants = [];
     let allItems = [];
     let validParents = [];
-    try{
+    try {
         await getAllDescendants(parentData._id, descendants, userData.userId);
-        const children = await Item.find({parentId:parentData._id});
+        const children = await Item.find({ parentId: parentData._id });
 
-        const universe = await Item.find({universeId: parentData.universeId});
-        const promises =universe.map((universe)=>{
+        const universe = await Item.find({ universeId: parentData.universeId });
+        const promises = universe.map((universe)=>{
             allItems.push(universe._id.toString())
         });
         await Promise.all(promises);
@@ -102,8 +102,8 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
         validParents.splice(validParents.indexOf(parentData._id),1);
         const finalValidParents = []
         const parentPromises = validParents.map(async (parent)=>{
-            const valid = await Item.findById({_id:parent});
-            finalValidParents.push({_id:parent, title:valid.title});
+            const valid = await Item.findById({ _id: parent });
+            finalValidParents.push({ _id:parent, title:valid.title });
         })
         await Promise.all(parentPromises);
         return{
@@ -115,7 +115,7 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
         };
     } catch (error) {
         console.log(error);
-        return {message:"Something whent wrong" , status: 400};
+        return {message:"Something went wrong" , status: 400};
     };
 };
 
@@ -128,7 +128,7 @@ itemSchema.statics.deleteItems = async (userData, queryData)=> {
             count++;
             return await Item.findByIdAndDelete(descendant);
         })
-        await Item.findOneAndDelete({_id:queryData._id, userId:userData.userId})
+        await Item.findOneAndDelete({ _id:queryData._id, userId:userData.userId })
         await Promise.all(promises);
         return{
             message: `${count} items where deleted`, 
@@ -136,7 +136,7 @@ itemSchema.statics.deleteItems = async (userData, queryData)=> {
         };
     } catch (error) {
         console.log(error);
-        return { message:"Something whent wrong" , status: 400 };
+        return { message:"Something went wrong" , status: 400 };
     };
 
 

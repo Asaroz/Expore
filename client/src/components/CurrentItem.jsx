@@ -2,7 +2,8 @@ import { useContext, useState, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import '../scss/UniverseNavbar.scss';
 import { NavLink, useLocation } from 'react-router-dom';
-import getItems from '../libs/getItems';
+import getCurrentInfo from '../libs/getCurrentInfo';
+import '../scss/LoadingRing.scss';
 
 export default function CurrentItem (props) {
     const [ sidebarCollapse, setSidebarCollapse ] = useState(true);
@@ -20,15 +21,12 @@ export default function CurrentItem (props) {
     useEffect(() => {
         let itemRequest;
         async function fetchData () {
-            itemRequest = await getItems({ _id: id });
+            itemRequest = await getCurrentInfo({ _id: id });
             if (itemRequest.success) {
-                console.log('result', itemRequest.result[0]);
-                setItemInfo(itemRequest.result[0]);
-                // data needed:
-                // parent name/parentId
-                // universe name
-                // child names/id getItem({ parentId: id })
-                // sibling names/id
+                console.log('result', itemRequest.result);
+                console.log('extraInfo', itemRequest.extraInfo);
+                setItemInfo(itemRequest.result);
+
             } else if (itemRequest.result === 401 ) {
                 // token is unauthorized => log out
                 localStorage.clear();
@@ -40,24 +38,14 @@ export default function CurrentItem (props) {
         fetchData();
     }, []);
 
-
-    // title = itemInfo.title;
-    // description = itemInfo.description;
-    // universeId = itemInfo.universeId;
-    // isRoot = itemInfo.isRoot;
-    // parentId = itemInfo.parentId;
     const setUser = useContext(UserContext)[1];
-
-
-
 
     return (itemInfo ? 
         <div id="itemWrapper">
             <nav 
                 data={itemInfo.universeId} id="itemSidebar" 
                 className={sidebarCollapse ? "active" : ""}
-            >
-                
+            >  
             </nav>
             <button 
                 type="button" id="sidebarCollapse"
@@ -69,11 +57,12 @@ export default function CurrentItem (props) {
                 <span></span>
             </button>
             <div id='content'>
-                
+                <h1>{itemInfo.title}</h1>
             </div>
         </div>
-        : <div>
-            <div className="spinner"></div>
-            <div>Loading content...</div>
+        : /* Render spinner */ 
+        <div class="loadingRing">
+            Loading
+            <span></span>
         </div>)
 }
