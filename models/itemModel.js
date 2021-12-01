@@ -100,10 +100,9 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
         await Promise.all(promises);
         const validParents = allItems.filter((item) => descendants.indexOf(item) === -1);
         validParents.splice(validParents.indexOf(parentData._id),1);
-        console.log(validParents)
         const finalValidParents = []
         const parentPromises = validParents.map(async (parent)=>{
-            const valid = await Item.findById({_id:parent})
+            const valid = await Item.findById({_id:parent});
             finalValidParents.push({_id:parent, title:valid.title});
         })
         await Promise.all(parentPromises);
