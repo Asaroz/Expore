@@ -7,6 +7,7 @@ import UniverseNavbar from './components/UniverseNavbar';
 import './scss/App.scss';
 import useUserContext from './contexts/useUserContext';
 import UserContext from './contexts/UserContext';
+import CurrentItem from './components/CurrentItem';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
 						:
 						<Switch>
 							<Route path='/universe' component={() => <UniverseNavbar />} />
+							<Route path='/item' component={() => <CurrentItem />} />
 							<Route path='/' component={() => <UserMenu />} />
 							<Route path='*'>
 								<Redirect to='/' />

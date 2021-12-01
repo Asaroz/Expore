@@ -1,11 +1,11 @@
 $sidebar-width: 220px;
 
-#universeWrapper {
+#universeWrapper, #itemWrapper {
     display: flex;
     width: 100%;
     align-items: stretch;
     perspective: 1500px;
-    #universeSidebar {
+    #universeSidebar, #itemSidebar {
         width: $sidebar-width;
         min-height: 100vh;
         background-color: #0F1726;
