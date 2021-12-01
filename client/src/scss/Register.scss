@@ -1,0 +1,33 @@
+.registerContainer{
+    width: 80vw;
+    input{
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+
+
+
+}
+.avatarContainer{
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    grid-template-rows: repeat(3, auto); 
+    .avatar {
+      width: 70px;
+      border-radius: 50%;
+    }   
+}
+
+.regSubmit{
+    margin-top: 20px;
+    height: 40px;
+    width: 200px;
+    font-family: Sora;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #e7e7e7;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

@@ -11,23 +11,26 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    padding-top: 20px;
     
     .logRegNav{
       display: grid;
       justify-content: space-around;
-      border: white 1px solid;
       text-decoration: none;
       color: white;
       margin-bottom: 30px;
       grid-template-columns: repeat(2, 50%);
       grid-template-rows: repeat(1, auto);
 
+      :visited{
+        color: inherit;
+      }
+
       :hover{
         cursor: pointer;
       }
-
       div{
-        border: white 1px solid;
+        text-decoration: none;
       }
     }
 
@@ -36,7 +39,3 @@
 
 
 
-.avatar {
-  width: 100px;
-  border-radius: 50%;
-}
