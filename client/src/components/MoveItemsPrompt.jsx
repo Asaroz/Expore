@@ -15,6 +15,7 @@ export default function MoveItemsPrompt (props) {
         // delete old parent
         children.splice(info.index, 1);
         setChildren([...children]);
+        handleClose();
         alert(message);
     }
 
