@@ -20,6 +20,10 @@ $sidebar-width: 230px;
             content: '›';
             cursor: default;
         }
+        .dotsBefore::before {
+            content: '...›';
+            cursor: default;
+        }
     }
 }
 
