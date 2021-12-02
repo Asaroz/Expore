@@ -3,7 +3,6 @@ import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 import Login from './components/Login';
 import UserMenu from './components/UserMenu';
 import Register from './components/Register';
-import UniverseNavbar from './components/UniverseNavbar';
 import './scss/App.scss';
 import useUserContext from './contexts/useUserContext';
 import UserContext from './contexts/UserContext';
@@ -33,7 +32,6 @@ function App() {
 						</div>
 						:
 						<Switch>
-							<Route path='/universe' component={() => <UniverseNavbar />} />
 							<Route path='/item' component={() => <CurrentItem />} />
 							<Route path='/' component={() => <UserMenu />} />
 							<Route path='*'>
