@@ -17,6 +17,7 @@ export default function CurrentItem (props) {
     const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
     const [ itemInfo, setItemInfo ] = useState(false);
     const [ itemChildren, setItemChildren ] = useState(false);
+    const [ movDelInfo, setMovDelInfo ] = useState(false);
     const location = useLocation();
     const id = location.hash.slice(1);
     const setUser = useContext(UserContext)[1];
@@ -35,8 +36,6 @@ export default function CurrentItem (props) {
         async function fetchData () {
             itemRequest = await getCurrentInfo({ _id: id });
             if (itemRequest.success) {
-                console.log("result", itemRequest.result);
-                console.log("extraInfo", itemRequest.extraInfo);
                 setItemInfo({
                     ...itemRequest.result, 
                     ...itemRequest.extraInfo
@@ -54,8 +53,9 @@ export default function CurrentItem (props) {
         };
         fetchData();
     }, [id, setUser]);
+    console.log('item info', itemInfo)
 
-    async function deleteItemHandler (id, universeId) {
+    async function deleteItemHandler (id, universeId, title) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
         if (deleteCheck.pass === true) {
             const index = itemChildren.map(item => item._id).indexOf(id);
@@ -65,10 +65,13 @@ export default function CurrentItem (props) {
             alert(deleteCheck.message);
         } else if (deleteCheck.pass === "continue") {
             // logic to delete item with children
-            //const index = itemChildren.map(item => item._id).indexOf(id);
-            //setItemInfo({...deleteCheck.message, index: index, title: title});
+            const index = itemChildren.map(item => item._id).indexOf(id);
+            setMovDelInfo({...deleteCheck.message, index: index, title: title});
             setShowDescPrompt(true);
-        } 
+        } else {
+            // display error message
+            alert(deleteCheck.message);
+        }
     }
 
     return (itemInfo ? 
@@ -150,7 +153,7 @@ export default function CurrentItem (props) {
                     <CreatePage 
                         setShow={setShowCreatePage} 
                         show={showCreatePage}
-                        isRoot={itemInfo.isRoot}
+                        isRoot={false}
                         items={itemChildren}
                         setItems={setItemChildren}
                         parentId={id}
@@ -166,7 +169,7 @@ export default function CurrentItem (props) {
                             <h4>
                                 {item.title}             
                                 <Confirm
-                                    onConfirm={() => deleteItemHandler(item.id, item.universeId)}
+                                    onConfirm={() => deleteItemHandler(item._id, item.universeId, item.title)}
                                     body="This action cannot be undone."
                                     confirmText="Delete Item"
                                     title="Are you sure you want to delete this item?"
@@ -187,7 +190,7 @@ export default function CurrentItem (props) {
                     show={showDescPrompt}
                     children={itemChildren}
                     setChildren={setItemChildren}
-                    itemInfo={itemInfo}
+                    itemInfo={movDelInfo}
                     setShowMoveItemsPrompt={setShowMoveItemsPrompt}
                 /> 
             : null }
@@ -197,7 +200,7 @@ export default function CurrentItem (props) {
                     show={showMoveItemsPrompt}
                     children={itemChildren}
                     setChildren={setItemChildren}
-                    itemInfo={itemInfo}
+                    itemInfo={movDelInfo}
                 /> 
             : null }
         </div>

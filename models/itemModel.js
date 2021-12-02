@@ -70,10 +70,10 @@ itemSchema.statics.moveItems = async (userData) => {
     try {
         // we deconstruct the userData which is "req.body" into the newParentId and searchData.
         // searchData now includes only properties that are part of the item Schema
-        const { newParentId, ...searchData } = userData
+        const { newParentId, ...searchData } = userData;
         const item = await Item.updateMany(searchData, {parentId: newParentId});
         return { 
-            message: `${item.length} items moved to ${newParentId}`,
+            message: `Item${item.length > 1 ? '' : 's'} moved successfully`,
             status: 200
         };
     } catch (error) {

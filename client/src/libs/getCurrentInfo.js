@@ -42,7 +42,6 @@ export default async function getItems (params) {
                 errorMessage = error;
             });
         // get Array with siblings names and ids:
-        console.log('parentId sibling req', extraInfo.parent._id)
         await axios.get('/getItem', { 
             headers: headers, 
             params: { parentId: extraInfo.parent._id }
@@ -93,7 +92,9 @@ export default async function getItems (params) {
         });
     // remove current item from siblings array:
     if (extraInfo.siblings) {
-        const index = extraInfo.siblings.findIndex(item => item._id === currentItem._id);
+        const index = extraInfo.siblings.map(item => item._id).indexOf(currentItem._id);
+        const indexOld = extraInfo.siblings.findIndex(item => item._id === currentItem._id);
+        console.log('correct?', index === indexOld)
         extraInfo.siblings.splice(index, 1);
     }
     return { success: true, result: currentItem, extraInfo: extraInfo }
