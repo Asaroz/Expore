@@ -6,6 +6,8 @@ import UserContext from '../contexts/UserContext';
 import { NavLink } from 'react-router-dom';
 import UniverseDescPrompt from './UniverseDescPrompt.jsx';
 
+import '../scss/UniverseCard.scss'
+
 export default function UniverseCard (props) {
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
     const [ descendantsLength, setDescendantsLength ] = useState(false);
@@ -57,7 +59,7 @@ export default function UniverseCard (props) {
         }
     }
 
-    return <li key={Math.floor(Math.random() * 10000)} data={id}>
+    return <div className="universeCard" key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
             <NavLink to={{ pathname:'/universe', hash: `${id}`, state: { universe: props.universe } }}>
                 {title}
@@ -83,5 +85,5 @@ export default function UniverseCard (props) {
                 itemInfo={itemInfo}
             /> : null
         }
-    </li>
+    </div>
 }
