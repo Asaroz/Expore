@@ -1,8 +1,5 @@
 import axios from "axios";
 
-                // data needed:
-                // child names/id getItem({ parentId: id })
-                // sibling names/id
 export default async function getItems (params) {
     let currentItem;
     let errorMessage;
@@ -29,7 +26,6 @@ export default async function getItems (params) {
     if (!currentItem) {
         return { success: false, result: errorMessage }
     }
-    console.log('currentItem', currentItem)
     if (currentItem.parentId) {
         // get parent parentId and name:
         await axios.get('/getItem', { headers: headers, params: { _id: currentItem.parentId }})
@@ -97,8 +93,7 @@ export default async function getItems (params) {
         });
     // remove current item from siblings array:
     if (extraInfo.siblings) {
-        const index = extraInfo.siblings.indexOf(currentItem);
-        console.log(index);
+        const index = extraInfo.siblings.findIndex(item => item._id === currentItem._id);
         extraInfo.siblings.splice(index, 1);
     }
     return { success: true, result: currentItem, extraInfo: extraInfo }

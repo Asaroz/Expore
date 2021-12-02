@@ -59,7 +59,7 @@ export default function UniverseCard (props) {
 
     return <li key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
-            <NavLink to={{ pathname:'/item', hash: `${id}` }}>
+            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
                 {title}
             </NavLink>
             <Confirm

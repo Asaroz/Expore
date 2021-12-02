@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import CreatePage from './CreatePage';
-import getItems from '../libs/getItems.js';
-import UserContext from '../contexts/UserContext';
-import ItemCard from './ItemCard';
+import CreatePage from '../CreatePage';
+import getItems from '../../libs/getItems.js';
+import UserContext from '../../contexts/UserContext';
+import ItemCard from '../ItemCard';
 import { NavLink, useLocation } from 'react-router-dom';
-import NavCard from './NavCard';
-import '../scss/UniverseNavbar.scss';
+import NavCard from '../NavCard';
 
 export default function UniverseNavbar (props) {
     const [ showCreatePage, setShowCreatePage] = useState(false);
