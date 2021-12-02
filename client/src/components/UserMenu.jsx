@@ -8,7 +8,7 @@ import six from '../img/avaLion.jpg';
 import seven from '../img/avaOwl.jpg';
 import eight from '../img/avaYoda.jpg';
 import { useEffect, useState } from 'react';
-import getItem from '../libs/getItem.js';
+import getItems from '../libs/getItems.js';
 import CreatePage from './CreatePage';
 import UniverseCard from './UniverseCard';
 import UserContext from '../contexts/UserContext';
@@ -29,7 +29,7 @@ export default function UserMenu (props) {
     useEffect(() => {
         let rootRequest;
         async function fetchData () {
-            rootRequest = await getItem({ isRoot: true });
+            rootRequest = await getItems({ isRoot: true });
             if (rootRequest.success) {
                 setUniverses(rootRequest.result);
             } else if (rootRequest.result === 401 ) {

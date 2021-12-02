@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import CreatePage from './CreatePage';
-import getItem from '../libs/getItem.js';
+import getItems from '../libs/getItems.js';
 import UserContext from '../contexts/UserContext';
 import ItemCard from './ItemCard';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -13,7 +13,7 @@ export default function UniverseNavbar (props) {
     const [ children, setChildren ] = useState(false);
     const [ currentItemInfo, setCurrentItemInfo ] = useState(false);
     const setUser = useContext(UserContext)[1];
-    const [ sidebarCollapse, setSidebarCollapse ] = useState("");
+    const [ sidebarCollapse, setSidebarCollapse ] = useState(true);
     const location = useLocation();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function UniverseNavbar (props) {
 
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: universe._id });
+            childrenRequest = await getItems({ parentId: universe._id });
             if (childrenRequest.success) {
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
@@ -41,21 +41,25 @@ export default function UniverseNavbar (props) {
         };
         if (universe._id) {
             fetchData();
+            setCurrentItemInfo({...universe});
+        }
+        // sidebar expand on larger screens
+        if (window.screen.width >= 776) {
+            setSidebarCollapse(false);
         }
     }, [setUser, universe, location]);
 
     return <div id="universeWrapper">
         <nav 
             data={universe._id} id="universeSidebar" 
-            className={sidebarCollapse ? "" : "active"}
+            className={sidebarCollapse ? "active" : ""}
         >
             <NavLink to="/" onClick={() => localStorage.removeItem('universe')}>
                 Back to main page
             </NavLink>
-            <h3>
+            <h3 className="itemLink" onClick={() => setCurrentItemInfo({...universe})}>
                 {universe.title}
             </h3>
-            <p>{universe.description}</p>
             {/* List of children */}
             {children ? <ul>
                 {children.map(child => <NavCard key={child._id}
@@ -66,7 +70,7 @@ export default function UniverseNavbar (props) {
         </nav>
         <button 
             type="button" id="sidebarCollapse"
-            className={sidebarCollapse ? "" : "active"} 
+            className={sidebarCollapse ? "active" : ""} 
             onClick={() => setSidebarCollapse(!sidebarCollapse)}
         >
             <span></span>

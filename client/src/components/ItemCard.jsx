@@ -1,7 +1,7 @@
 import CreatePage from './CreatePage';
 import { useContext, useState, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
-import getItem from '../libs/getItem.js';
+import getItems from '../libs/getItems.js';
 import deleteItemCheck from '../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
 import ItemDescPrompt from './ItemDescPrompt';
@@ -19,12 +19,13 @@ export default function ItemCard (props) {
     const description = props.info.description;
     const id = props.info._id;
     const universeId = props.info.universeId;
+    const isRoot = props.info.isRoot;
     const setUser = useContext(UserContext)[1];
 
     useEffect(() => {
         let childrenRequest;
         async function fetchData () {
-            childrenRequest = await getItem({ parentId: id});
+            childrenRequest = await getItems({ parentId: id});
             if (childrenRequest.success) {
                 setChildren(childrenRequest.result);
             } else if (childrenRequest.result === 401 ) {
@@ -61,21 +62,24 @@ export default function ItemCard (props) {
     
     return <div key={id} data={id}>
         <h4>
-            {title}             
+            {title}
+            {isRoot ? null :             
             <Confirm
                 onConfirm={() => deleteItemHandler(id, universeId)}
                 body="This action cannot be undone."
                 confirmText="Delete Item"
-                title="Are you sure you want to delete this item?">
+                title="Are you sure you want to delete this item?"
+            >
                 <button>X</button>
             </Confirm>
+            }
         </h4>
         <p>{description}</p>
         {showCreatePage ?
 			<CreatePage 
                 setShow={setShowCreatePage} 
                 show={showCreatePage}
-                isRoot={false}
+                isRoot={isRoot ? true : false}
                 items={children}
                 setItems={setChildren}
                 parentId={id}
