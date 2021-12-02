@@ -60,8 +60,8 @@ export default function UniverseCard (props) {
     }
 
     return <div className="universeCard" key={Math.floor(Math.random() * 10000)} data={id}>
-        <h2>
-            <NavLink to={{ pathname:'/item', hash: `${id}` }}  style={{ textDecoration: 'none' }}>
+        <h3>
+            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace style={{ textDecoration: 'none' }}>
                 {title}
             </NavLink>
             <Confirm
@@ -71,7 +71,7 @@ export default function UniverseCard (props) {
                 title="Are you sure you want to delete this universe?">
                 <button className="universeCardButton">X</button>
             </Confirm>
-        </h2>
+        </h3>
         <p>{
                 description.length < 40 ? description: description.substring(0,60) + "..."
             }</p>
