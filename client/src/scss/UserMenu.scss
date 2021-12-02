@@ -1,4 +1,37 @@
-.avatar {
+.userPageAvatar {
     width: 70px;
     border-radius: 50%;
+    position: absolute;
+    left: 30px;
+    top:20px;
   } 
+
+.universePageButton{
+  margin-top: 20px;
+  height: 40px;
+  width: 200px;
+  font-family: Sora;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  margin-bottom: 20px;
+  border:none;
+}
+.universePageLogout{
+  border:none;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  margin-top: 20px;
+  height: 40px;
+  width: 100px;
+  font-family: Sora;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  margin-bottom: 20px;
+}
+
+.universePageContainer{
+  margin-top: 60px;
+}

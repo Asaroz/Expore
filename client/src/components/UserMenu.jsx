@@ -43,13 +43,13 @@ export default function UserMenu (props) {
         fetchData();
     }, [setUser]);
 
-    return <>
+    return <div className="universePageContainer">
         <header>
-            <div><img className="avatar" src={images[user.imageIndex]} alt="avatar"/></div>
+            <div><img className="userPageAvatar" src={images[user.imageIndex]} alt="avatar"/></div>
             <h1>Welcome {user.userName}</h1>
         </header>
         {universes ? <>
-            <div className="universeContainer">
+            <div className="universesContainer">
             {universes.length ? <h2>My universes</h2> : null}
             {showCreatePage ?
                 <CreatePage 
@@ -59,25 +59,24 @@ export default function UserMenu (props) {
                     items={universes}
                     setItems={setUniverses}
                 /> :
-                <button onClick={() => setShowCreatePage(true)}>
+                <button className="universePageButton" onClick={() => setShowCreatePage(true)}>
                     New universe
                 </button>
             }
             </div>
             {/* check if length is not 0 */}
             {universes.length ? 
-                 <ul>
-                    {universes.map(universe => <UniverseCard key={universe._id}
+                    universes.map(universe => <UniverseCard key={universe._id}
                         universe={universe} universes={universes} setUniverses={setUniverses}
-                    />)} 
-                </ul> :
+                    />)
+                 :
             /* If request goes through and it's an empty array */
             <p>You don't have any universes</p>}
             </> : <div>Loading universes...</div>
         }
-        <button onClick={() => {
+        <button className="universePageLogout" onClick={() => {
             localStorage.clear();
             setUser(null);
         }}>Logout</button>
-    </>;
+    </div>;
 }

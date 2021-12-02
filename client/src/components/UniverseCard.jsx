@@ -6,6 +6,8 @@ import UserContext from '../contexts/UserContext';
 import { NavLink } from 'react-router-dom';
 import UniverseDescPrompt from './UniverseDescPrompt.jsx';
 
+import '../scss/UniverseCard.scss'
+
 export default function UniverseCard (props) {
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
     const [ descendantsLength, setDescendantsLength ] = useState(false);
@@ -57,9 +59,9 @@ export default function UniverseCard (props) {
         }
     }
 
-    return <li key={Math.floor(Math.random() * 10000)} data={id}>
+    return <div className="universeCard" key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
-            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace style={{ textDecoration: 'none' }}>
                 {title}
             </NavLink>
             <Confirm
@@ -67,12 +69,14 @@ export default function UniverseCard (props) {
                 body="This action cannot be undone."
                 confirmText="Delete Universe"
                 title="Are you sure you want to delete this universe?">
-                <button>X</button>
+                <button className="universeCardButton">X</button>
             </Confirm>
         </h3>
-        <p>{description}</p>
+        <p>{
+                description.length < 40 ? description: description.substring(0,60) + "..."
+            }</p>
         { descendantsLength ?
-            <p> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </p> : null
+            <div> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </div> : <div> no items yet</div>
         }
         {showDescPrompt ?
             <UniverseDescPrompt
@@ -83,5 +87,5 @@ export default function UniverseCard (props) {
                 itemInfo={itemInfo}
             /> : null
         }
-    </li>
+    </div>
 }
