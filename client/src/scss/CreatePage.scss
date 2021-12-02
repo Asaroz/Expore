@@ -1,0 +1,24 @@
+.createPageModal{
+    color: black;
+    position:fixed;
+    background: rgba(27, 27, 27, 0.9);
+    width: 100vw;
+    height: 100vh;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    z-index: 10;
+    .createPageContainer{
+        color: black;
+        position:fixed;
+        background: white;
+        width: 90vw;
+        border-radius:10px;
+        height: auto;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+        box-shadow: 5px 5px 15px 5px #000000;
+    }
+}

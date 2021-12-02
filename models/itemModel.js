@@ -72,8 +72,9 @@ itemSchema.statics.moveItems = async (userData) => {
         // searchData now includes only properties that are part of the item Schema
         const { newParentId, ...searchData } = userData
         const item = await Item.updateMany(searchData, {parentId: newParentId});
+        const newParent = await  Item.findOne({_id: newParentId}) 
         return { 
-            message: `${item.length} items moved to ${newParentId}`,
+            message: `${item.modifiedCount} item${item.modifiedCount > 1 ? "s":""} moved to ${newParent.title}`,
             status: 200
         };
     } catch (error) {

@@ -60,8 +60,8 @@ export default function UniverseCard (props) {
     }
 
     return <div className="universeCard" key={Math.floor(Math.random() * 10000)} data={id}>
-        <h3>
-            <NavLink to={{ pathname:'/item', hash: `${id}` }}>
+        <h2>
+            <NavLink to={{ pathname:'/item', hash: `${id}` }}  style={{ textDecoration: 'none' }}>
                 {title}
             </NavLink>
             <Confirm
@@ -69,12 +69,14 @@ export default function UniverseCard (props) {
                 body="This action cannot be undone."
                 confirmText="Delete Universe"
                 title="Are you sure you want to delete this universe?">
-                <button>X</button>
+                <button className="universeCardButton">X</button>
             </Confirm>
-        </h3>
-        <p>{description}</p>
+        </h2>
+        <p>{
+                description.length < 40 ? description: description.substring(0,60) + "..."
+            }</p>
         { descendantsLength ?
-            <p> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </p> : null
+            <div> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </div> : <div> no items yet</div>
         }
         {showDescPrompt ?
             <UniverseDescPrompt

@@ -43,9 +43,9 @@ export default function UserMenu (props) {
         fetchData();
     }, [setUser]);
 
-    return <>
+    return <div className="universePageContainer">
         <header>
-            <div><img className="avatar" src={images[user.imageIndex]} alt="avatar"/></div>
+            <div><img className="userPageAvatar" src={images[user.imageIndex]} alt="avatar"/></div>
             <h1>Welcome {user.userName}</h1>
         </header>
         {universes ? <>
@@ -59,7 +59,7 @@ export default function UserMenu (props) {
                     items={universes}
                     setItems={setUniverses}
                 /> :
-                <button onClick={() => setShowCreatePage(true)}>
+                <button className="universePageButton" onClick={() => setShowCreatePage(true)}>
                     New universe
                 </button>
             }
@@ -74,9 +74,9 @@ export default function UserMenu (props) {
             <p>You don't have any universes</p>}
             </> : <div>Loading universes...</div>
         }
-        <button onClick={() => {
+        <button className="universePageLogout" onClick={() => {
             localStorage.clear();
             setUser(null);
         }}>Logout</button>
-    </>;
+    </div>;
 }
