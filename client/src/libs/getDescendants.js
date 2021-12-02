@@ -26,7 +26,7 @@ export default async function getDescendants (params) {
             }
             errorMessage = error;
         });
-    if (descendantsLength) {
+    if (descendantsLength >= 0) {
         return { success: true, result: descendantsLength }
     } else {
         return { success: false, result: errorMessage }

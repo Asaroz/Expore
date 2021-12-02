@@ -32,7 +32,7 @@ export default function UniverseCard (props) {
                 localStorage.clear();
                 setUser(null);
             } else {
-                console.log(descendantsRequest.result);
+                console.log("result",descendantsRequest.result);
             }
         };
         fetchData();
@@ -61,7 +61,7 @@ export default function UniverseCard (props) {
 
     return <div className="universeCard" key={Math.floor(Math.random() * 10000)} data={id}>
         <h3>
-            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace style={{ textDecoration: 'none' }}>
+            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace style={{ textDecoration: 'none' , color: "white"}}>
                 {title}
             </NavLink>
             <Confirm
@@ -73,13 +73,19 @@ export default function UniverseCard (props) {
             </Confirm>
         </h3>
         <p>{
-                description.length < 40 ? description: description.substring(0,60) + "..."
+                description.length < 90 ? description: description.substring(0,90) + "..."
             }</p>
-        { descendantsLength ?
-            <div> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </div> : <div> no items yet</div>
+        { 
+            console.log(descendantsLength)}
+        {
+            descendantsLength ?
+                <div> {descendantsLength} {descendantsLength > 1 ? "items" : "item"} </div> 
+                : descendantsLength === 0 ?
+                    <div> no items yet</div>
+                    :<div>loading descendants</div>
         }
         {showDescPrompt ?
-            <UniverseDescPrompt
+            <UniverseDescPrompt         
                 setShow={setShowDescPrompt}
                 show={showDescPrompt}
                 universes={universes}
