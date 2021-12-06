@@ -92,6 +92,6 @@ content-type: application/json
 Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThhOGFkOWU3ZDU1MmUwZjI3OGQ0MGEiLCJpYXQiOjE2Mzg3ODYzODIsImV4cCI6MTYzOTM5MTE4Mn0.Va6Ir0JoxxQB6LSS6PFNxKEHembd9Oi_ue7ECrYmCio
 
 {
-    "description": "A new descritpion",
+    "description": "Yet a new descritpion",
     "_id": "61adcb1907564f119bd6ffff"
 }

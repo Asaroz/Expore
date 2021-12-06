@@ -140,11 +140,12 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
 
 itemSchema.statics.updateDescription = async (body) => {
     try {
-        const item = await Item.findOne({ _id: body._id, userId: body.userId });
-        item.description = body.description;
-        await Item.updateOne(item);
+        const item = await Item.findOneAndUpdate(
+            { _id: body._id, userId: body.userId }, 
+            { description: body.description }
+        );
         return {
-            message: `Updated ${item.title}`,
+            message: `Updated description of ${item.title}`,
             status: 200
         }
     } catch (error) {
