@@ -5,6 +5,8 @@ import getDescendants from '../libs/getDescendants.js';
 import UserContext from '../contexts/UserContext';
 import { NavLink } from 'react-router-dom';
 import UniverseDescPrompt from './UniverseDescPrompt.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import '../scss/UniverseCard.scss'
 
@@ -69,7 +71,7 @@ export default function UniverseCard (props) {
                 body="This action cannot be undone."
                 confirmText="Delete Universe"
                 title="Are you sure you want to delete this universe?">
-                <button className="universeCardButton">X</button>
+                <button className="universeCardButton"><FontAwesomeIcon icon={faTrash}/></button>
             </Confirm>
         </h3>
         <p>{
