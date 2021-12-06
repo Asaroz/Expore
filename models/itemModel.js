@@ -54,16 +54,17 @@ itemSchema.statics.createItems = async (userData) => {
     try {
         const item = await Item.create(userData);
         if (!item.universeId){
-            await Item.findByIdAndUpdate(item._id,{universeId: item._id});
+            await Item.findByIdAndUpdate(item._id,{ universeId: item._id });
         }
-        return { message: `Item ${item.title}, with the Id: ${item._id} successfully created`, status: 201 , _id: item._id };
+        return { 
+            message: `Item ${item.title} successfully created`, status: 201 , _id: item._id };
     } catch (error) {
         console.log(error)
         return { message: "Something went wrong", status: 400 };
     }
 };
 
-itemSchema.statics.deleteItems = async (userData, queryData)=> {
+itemSchema.statics.deleteItems = async (userData, queryData) => {
     let descendants = [];
     let count = 1;
     try{
@@ -82,19 +83,14 @@ itemSchema.statics.deleteItems = async (userData, queryData)=> {
         console.log(error);
         return { message:"Something went wrong" , status: 400 };
     };
-
-
 }
 
-
-
-//userData needs to have a new Property called newParentId 
 itemSchema.statics.moveItems = async (userData) => {
     try {
         // we deconstruct the userData which is "req.body" into the newParentId and searchData.
         // searchData now includes only properties that are part of the item Schema
         const { newParentId, ...searchData } = userData;
-        const item = await Item.updateMany(searchData, {parentId: newParentId});
+        const item = await Item.updateMany(searchData, { parentId: newParentId });
         const newParent = await  Item.findOne({_id: newParentId}) 
         return { 
             message: `${item.modifiedCount} item${item.modifiedCount > 1 ? "s":""} moved to ${newParent.title}`,
@@ -106,7 +102,7 @@ itemSchema.statics.moveItems = async (userData) => {
     }  
 };
 
-//parentData only needs to contain the parentID
+//parentData only needs to contain the parentId
 itemSchema.statics.getDescendants = async (userData, parentData) => {
     //this array will be given into the imported function getAllDescendants
     //where it will be edited by reference
@@ -116,7 +112,6 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     try {
         await getAllDescendants(parentData._id, descendants, userData.userId);
         const children = await Item.find({ parentId: parentData._id });
-
         const universe = await Item.find({ universeId: parentData.universeId });
         const promises = universe.map((universe)=>{
             allItems.push(universe._id.toString())
@@ -130,7 +125,7 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
             finalValidParents.push({ _id:parent, title:valid.title });
         })
         await Promise.all(parentPromises);
-        return{
+        return {
             message: `${descendants.length} descendants found.`, 
             status: 200,
             descendants: descendants,
@@ -139,16 +134,26 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
         };
     } catch (error) {
         console.log(error);
-        return {message:"Something went wrong" , status: 400};
+        return { message: `Something went wrong ${error}` , status: 400 };
     };
 };
 
-
+itemSchema.statics.updateDescription = async (body) => {
+    try {
+        const item = await Item.findOne({ _id: body._id, userId: body.userId });
+        item.description = body.description;
+        await Item.updateOne(item);
+        return {
+            message: `Updated ${item.title}`,
+            status: 200
+        }
+    } catch (error) {
+        console.log(error);
+        return { message: `Not able to PATCH ${error}` , status: 400 };
+    };
+}
 
 dotenv.config();
 console.log('env', process.env.DB_ITEM_COLLECTION);
 
 export const Item = mongoose.model(process.env.DB_ITEM_COLLECTION, itemSchema);
-
-
-

@@ -33,5 +33,18 @@ export async function getDescendants(req, res) {
     res.status(item.status).json(item);
 }
 
+export async function updateDescription(req, res) {
+    if (!req.body.description) {
+        res.status(400).json({ message: "Please provide a valid description" });
+        return;
+    }
+    if (!req.body._id) {
+        res.status(400).json({ message: "Please provide a valid id" });
+        return;
+    }
+    const item = await Item.updateDescription(req.body);
+    res.status(item.status).json(item);
+}
+
 
 
