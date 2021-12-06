@@ -4,19 +4,22 @@ import { NavLink, useLocation } from 'react-router-dom';
 import getCurrentInfo from '../libs/getCurrentInfo';
 import Confirm from 'react-confirm-bootstrap';
 import deleteItemCheck from '../libs/deleteItemCheck';
-import '../scss/LoadingRing.scss';
-import '../scss/CurrentItem.scss';
+import updateDescription from '../libs/updateDescription';
 import ItemDescPrompt from './ItemDescPrompt';
 import MoveItemsPrompt from './MoveItemsPrompt';
 import CreatePage from './CreatePage';
+import '../scss/LoadingRing.scss';
+import '../scss/CurrentItem.scss';
 
 export default function CurrentItem (props) {
     const [ sidebarCollapse, setSidebarCollapse ] = useState(true);
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
+    const [ itemInfo, setItemInfo ] = useState(false);
+    const [ editDescription, setEditDescription ] = useState(false);
+    const [ description, setDescription ] = useState("");
     const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
     const [ toggle, setToggle ] = useState(true);
-    const [ itemInfo, setItemInfo ] = useState(false);
     const [ itemChildren, setItemChildren ] = useState(false);
     const [ movDelInfo, setMovDelInfo ] = useState(false);
     const location = useLocation();
@@ -44,6 +47,11 @@ export default function CurrentItem (props) {
                 if (itemRequest.extraInfo.children) {
                     setItemChildren(itemRequest.extraInfo.children);
                 }
+                if (itemRequest.result.description) {
+                    setDescription(itemRequest.result.description);
+                } else {
+                    setDescription("");
+                }
             } else if (itemRequest.result === 401 ) {
                 // token is unauthorized => log out
                 localStorage.clear();
@@ -55,8 +63,17 @@ export default function CurrentItem (props) {
         fetchData();
     }, [id, setUser, toggle]);
 
-    console.log('info:',itemInfo)
-
+    // Update description:
+    function updateHandler () {
+        updateDescription(description, id);
+        setEditDescription(false);
+    }
+    // Discard changes to the description:
+    function discardHandler () {
+        setDescription(itemInfo.description);
+        setEditDescription(false);
+    }
+    // Delete items: (child items can be deleted)
     async function deleteItemHandler (id, universeId, title) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
         if (deleteCheck.pass === true) {
@@ -78,6 +95,7 @@ export default function CurrentItem (props) {
 
     return (itemInfo ? 
         <div id="itemWrapper">
+            {/* Sidebar */}
             <nav 
                 data={itemInfo.universeId} id="itemSidebar" 
                 className={sidebarCollapse ? "active" : ""}
@@ -138,6 +156,7 @@ export default function CurrentItem (props) {
                     </ul>
                 </>: null : null}
             </nav>
+            {/* Button to collapse sidebar */}
             <button 
                 type="button" id="sidebarCollapse"
                 className={sidebarCollapse ? "active" : ""} 
@@ -147,10 +166,50 @@ export default function CurrentItem (props) {
                 <span></span>
                 <span></span>
             </button>
+            {/* Main area with cards */}
             <div id="content">
+                <button className="itemPageLogout" onClick={() => {
+                    localStorage.clear();
+                    setUser(null);
+                }}>
+                    Logout
+                </button>
                 <div className="itemCard">
                     <h1>{itemInfo.title}</h1>
-                    <p>{itemInfo.description}</p>
+                    {editDescription ? <> 
+                        <div>
+                            <label htmlFor="newDescription">New description:</label>
+                        </div>
+                        <textarea
+                            rows={10} cols={60} id="newDescription" placeholder="Add a description..." 
+                            maxLength={9000} value={description}
+                            onChange={e => setDescription(e.target.value)}
+                        />
+                        <div>
+                            <Confirm
+                                onConfirm={() => discardHandler()}
+                                confirmText="Discard"
+                                title="Discard changes?"
+                            >
+                                <button>Discard Changes</button>
+                            </Confirm>
+                            <Confirm
+                                onConfirm={() => updateHandler()}
+                                confirmText="Update"
+                                title="Are you sure you want to update?"
+                                body="The existing description will be overwritten"
+                            >
+                                <button>Save</button>
+                            </Confirm>
+                        </div>
+                    </> : <>
+                        <p>
+                            {description}
+                            <button onClick={() => setEditDescription(true)}>
+                                Edit description
+                            </button>
+                        </p>
+                    </>}
                 </div>
                 {showCreatePage ?
                     <CreatePage 
@@ -172,9 +231,9 @@ export default function CurrentItem (props) {
                                 {item.title}             
                                 <Confirm
                                     onConfirm={() => deleteItemHandler(item._id, item.universeId, item.title)}
-                                    body="This action cannot be undone."
                                     confirmText="Delete Item"
                                     title="Are you sure you want to delete this item?"
+                                    body="This action cannot be undone"
                                 >
                                     <button>X</button>
                                 </Confirm>
@@ -186,6 +245,7 @@ export default function CurrentItem (props) {
                     </div>
                 : null}
             </div>
+            {/* Prompts when deleting items with children */}
             {showDescPrompt ?
                 <ItemDescPrompt
                     setShow={setShowDescPrompt}
@@ -205,7 +265,7 @@ export default function CurrentItem (props) {
                 /> 
             : null }
         </div>
-        : /* Render spinner */ 
+        : /* Render spinner while loading */ 
         <div class="loadingRing">
             Loading
             <span></span>
