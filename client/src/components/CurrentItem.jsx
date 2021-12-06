@@ -8,6 +8,8 @@ import updateDescription from '../libs/updateDescription';
 import ItemDescPrompt from './ItemDescPrompt';
 import MoveItemsPrompt from './MoveItemsPrompt';
 import CreatePage from './CreatePage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import '../scss/LoadingRing.scss';
 import '../scss/CurrentItem.scss';
 
@@ -168,13 +170,15 @@ export default function CurrentItem (props) {
             </button>
             {/* Main area with cards */}
             <div id="content">
-                <button className="itemPageLogout" onClick={() => {
-                    localStorage.clear();
-                    setUser(null);
-                }}>
-                    Logout
-                </button>
-                <div className="itemCard">
+                <div className="buttonContainer">
+                    <button id="itemPageLogout" onClick={() => {
+                        localStorage.clear();
+                        setUser(null);
+                    }}>
+                        Logout
+                    </button>
+                </div>
+                <div id="itemCard">
                     <h1>{itemInfo.title}</h1>
                     {editDescription ? <> 
                         <div>
@@ -206,7 +210,7 @@ export default function CurrentItem (props) {
                         <p>
                             {description}
                             <button onClick={() => setEditDescription(true)}>
-                                Edit description
+                                <FontAwesomeIcon icon={faEdit}/>
                             </button>
                         </p>
                     </>}
@@ -235,7 +239,7 @@ export default function CurrentItem (props) {
                                     title="Are you sure you want to delete this item?"
                                     body="This action cannot be undone"
                                 >
-                                    <button>X</button>
+                                    <button><FontAwesomeIcon icon={faTrash}/></button>
                                 </Confirm>
                             </h4>
                             <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
