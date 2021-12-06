@@ -63,6 +63,29 @@ itemSchema.statics.createItems = async (userData) => {
     }
 };
 
+itemSchema.statics.deleteItems = async (userData, queryData)=> {
+    let descendants = [];
+    let count = 1;
+    try{
+        await getAllDescendants(queryData._id, descendants, userData.userId);
+        const promises = descendants.map(async (descendant)=>{
+            count++;
+            return await Item.findByIdAndDelete(descendant);
+        })
+        await Item.findOneAndDelete({ _id:queryData._id, userId:userData.userId })
+        await Promise.all(promises);
+        return{
+            message: `${count} items where deleted`, 
+            status: 200,
+        };
+    } catch (error) {
+        console.log(error);
+        return { message:"Something went wrong" , status: 400 };
+    };
+
+
+}
+
 
 
 //userData needs to have a new Property called newParentId 
@@ -120,28 +143,7 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     };
 };
 
-itemSchema.statics.deleteItems = async (userData, queryData)=> {
-    let descendants = [];
-    let count = 1;
-    try{
-        await getAllDescendants(queryData._id, descendants, userData.userId);
-        const promises = descendants.map(async (descendant)=>{
-            count++;
-            return await Item.findByIdAndDelete(descendant);
-        })
-        await Item.findOneAndDelete({ _id:queryData._id, userId:userData.userId })
-        await Promise.all(promises);
-        return{
-            message: `${count} items where deleted`, 
-            status: 200,
-        };
-    } catch (error) {
-        console.log(error);
-        return { message:"Something went wrong" , status: 400 };
-    };
 
-
-}
 
 dotenv.config();
 console.log('env', process.env.DB_ITEM_COLLECTION);
@@ -150,18 +152,3 @@ export const Item = mongoose.model(process.env.DB_ITEM_COLLECTION, itemSchema);
 
 
 
-
-// itemSchema.statics.hasChildren = async (queryData) => {
-//     console.log('data', queryData._id);
-//     try {
-//         const children = await Item.find({parentId: queryData._id});
-//         return {
-//             message: `${children.length} items found.`, 
-//             status: 200,
-//             children: children.length
-//         }
-//     } catch (error) {
-//         console.log(error);
-//         return { message:"Something went wrong" , status: 401 };
-//     }
-// };
