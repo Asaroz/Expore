@@ -12,8 +12,7 @@ export default function ItemDescPrompt (props) {
         children.splice(info.index, 1);
         setChildren([...children]);
         alert(message);
-        // Not required because the parent that rendered the component is deleted
-        // handleClose();
+        handleClose();
     }
     
     const handleMove = async () => {

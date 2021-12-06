@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function deleteItem(id) {
+export default async function deleteItem(params) {
     let message = '';
     const token = localStorage.getItem('authToken');
     const request = {
@@ -8,9 +8,7 @@ export default async function deleteItem(id) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer: ${token}`
         },   
-        params: {
-            parentId: id
-        }
+        params
     };
     
     await axios.delete('/deleteItems', request)

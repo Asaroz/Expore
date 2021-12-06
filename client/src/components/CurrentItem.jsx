@@ -15,6 +15,7 @@ export default function CurrentItem (props) {
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
     const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
+    const [ toggle, setToggle ] = useState(true);
     const [ itemInfo, setItemInfo ] = useState(false);
     const [ itemChildren, setItemChildren ] = useState(false);
     const [ movDelInfo, setMovDelInfo ] = useState(false);
@@ -52,8 +53,9 @@ export default function CurrentItem (props) {
             }
         };
         fetchData();
-    }, [id, setUser]);
-    console.log('item info', itemInfo)
+    }, [id, setUser, toggle]);
+
+    console.log('info:',itemInfo)
 
     async function deleteItemHandler (id, universeId, title) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
@@ -85,9 +87,9 @@ export default function CurrentItem (props) {
                 <div>
                     {itemInfo.isRoot ? 
                         /* Current Item is Universe */
-                        <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+                        <span className="activeLink">
                             {itemInfo.isRoot ? itemInfo.title : itemInfo.parent.title}
-                        </NavLink> : <>
+                        </span> : <>
                         <NavLink 
                             exact to={{ pathname:'/item', hash: `${itemInfo.universeId}` }} 
                             replace className="breadcrumb"
@@ -96,9 +98,9 @@ export default function CurrentItem (props) {
                         </NavLink>
                         { itemInfo.universeId === itemInfo.parentId ? 
                             /* Current Item is child of Universe */
-                            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+                            <span className="activeLink">
                                 {itemInfo.title}
-                            </NavLink> : <>
+                            </span> : <>
                             <NavLink exact to={{ pathname:'/item', hash: `${itemInfo.parentId}` }} replace
                                 className={`breadcrumb ${itemInfo.parent.parentId === itemInfo.universeId ?
                                     null : "dotsBefore"}`
@@ -106,9 +108,9 @@ export default function CurrentItem (props) {
                             >
                                 {itemInfo.parent.title}
                             </NavLink>
-                            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+                            <span className="activeLink">
                                 {itemInfo.title}
-                            </NavLink> </>
+                            </span> </>
                         }
                     </>}
                 </div>
@@ -124,7 +126,8 @@ export default function CurrentItem (props) {
                         </ul>
                     : null}
                 </ul>
-                { itemInfo.siblings ? <>
+                { itemInfo.siblings ? 
+                    itemInfo.siblings.length > 0 ? <>
                     <h3>Siblings</h3>
                     <ul>
                         {itemInfo.siblings.map(item => <li key={item._id}>
@@ -133,7 +136,7 @@ export default function CurrentItem (props) {
                             </NavLink>
                         </li>)}
                     </ul>
-                </>: null}
+                </>: null : null}
             </nav>
             <button 
                 type="button" id="sidebarCollapse"
@@ -154,8 +157,7 @@ export default function CurrentItem (props) {
                         setShow={setShowCreatePage} 
                         show={showCreatePage}
                         isRoot={false}
-                        items={itemChildren}
-                        setItems={setItemChildren}
+                        items={itemChildren} setItems={setItemChildren}
                         parentId={id}
                         universeId={itemInfo.universeId}
                     /> :
@@ -188,8 +190,7 @@ export default function CurrentItem (props) {
                 <ItemDescPrompt
                     setShow={setShowDescPrompt}
                     show={showDescPrompt}
-                    children={itemChildren}
-                    setChildren={setItemChildren}
+                    children={itemChildren} setChildren={setItemChildren}
                     itemInfo={movDelInfo}
                     setShowMoveItemsPrompt={setShowMoveItemsPrompt}
                 /> 
@@ -198,9 +199,9 @@ export default function CurrentItem (props) {
                 <MoveItemsPrompt
                     setShow={setShowMoveItemsPrompt}
                     show={showMoveItemsPrompt}
-                    children={itemChildren}
-                    setChildren={setItemChildren}
+                    children={itemChildren} setChildren={setItemChildren}
                     itemInfo={movDelInfo}
+                    toggle={toggle} setToggle={setToggle}
                 /> 
             : null }
         </div>

@@ -1,21 +1,25 @@
 import { useState } from 'react';
+import deleteItem from '../libs/deleteItem';
 import moveDescendants from '../libs/moveDescendants';
 
 export default function MoveItemsPrompt (props) {
     const handleClose = () => props.setShow(false);
     const [ newParentId, setNewParentId ] = useState(false);
-
+    const [ toggle, setToggle ] = [ props.toggle, props.setToggle ];
     const [ children, setChildren ] = [ props.children, props.setChildren ];
     const info = props.itemInfo;
     
-    console.log('info', info)
     const handleMove = async (newParentId) => {
 
         const message = await moveDescendants({ parentId: info._id, newParentId: newParentId });
         // delete old parent
         children.splice(info.index, 1);
         setChildren([...children]);
+        // re-render page
+        setToggle(!toggle);
         handleClose();
+        // delete item
+        await deleteItem({ _id: info._id, universeId: info.universeId });
         alert(message);
     }
 
