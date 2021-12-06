@@ -1,6 +1,6 @@
 import express from 'express';
 import tokenController from '../controllers/tokenController.js'
-import {getItems, createItems, deleteItems, moveItems , hasChildren, getDescendants} from '../controllers/itemController.js';
+import {getItems, createItems, deleteItems, moveItems , getDescendants} from '../controllers/itemController.js';
 
 const itemRouter = express.Router();
 

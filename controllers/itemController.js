@@ -15,6 +15,10 @@ export async function createItems(req, res) {
 };
 
 export async function deleteItems(req, res) {
+    if (!req.query.parentId) {
+        res.status(400).json({ message: "Please provide a valid parentId" });
+        return;
+    }
     const item = await Item.deleteItems(req.body, req.query);
     res.status(item.status).json(item);
 };
@@ -24,13 +28,10 @@ export async function moveItems (req, res) {
     res.status(item.status).json(item);
 };
 
-export async function hasChildren(req, res){
-    const item = await Item.hasChildren(req.body);
-    res.status(item.status).json(item);
-};
-
 export async function getDescendants(req, res) {
     const item = await Item.getDescendants(req.body, req.query);
     res.status(item.status).json(item);
 }
+
+
 
