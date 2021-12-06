@@ -69,13 +69,13 @@ itemSchema.statics.deleteItems = async (userData, queryData) => {
     let count = 1;
     try{
         await getAllDescendants(queryData._id, descendants, userData.userId);
-        const promises = descendants.map(async (descendant)=>{
+        const promises = descendants.map( async (descendant) => {
             count++;
             return await Item.findByIdAndDelete(descendant);
         })
         await Item.findOneAndDelete({ _id:queryData._id, userId:userData.userId })
         await Promise.all(promises);
-        return{
+        return {
             message: `${count} items where deleted`, 
             status: 200,
         };
@@ -108,7 +108,7 @@ itemSchema.statics.getDescendants = async (userData, parentData) => {
     //where it will be edited by reference
     let descendants = [];
     let allItems = [];
-    let validParents = [];
+    //let validParents = [];
     try {
         await getAllDescendants(parentData._id, descendants, userData.userId);
         const children = await Item.find({ parentId: parentData._id });
