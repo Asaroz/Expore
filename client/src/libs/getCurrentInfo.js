@@ -93,8 +93,6 @@ export default async function getItems (params) {
     // remove current item from siblings array:
     if (extraInfo.siblings) {
         const index = extraInfo.siblings.map(item => item._id).indexOf(currentItem._id);
-        const indexOld = extraInfo.siblings.findIndex(item => item._id === currentItem._id);
-        console.log('correct?', index === indexOld)
         extraInfo.siblings.splice(index, 1);
     }
     return { success: true, result: currentItem, extraInfo: extraInfo }
