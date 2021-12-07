@@ -1,20 +1,27 @@
-import express from 'express';
-import tokenController from '../controllers/tokenController.js'
-import {getItems, createItems, deleteItems, moveItems , getDescendants} from '../controllers/itemController.js';
+import express from "express";
+import tokenController from "../controllers/tokenController.js";
+import {
+    getItems,
+    createItems,
+    deleteItems,
+    moveItems,
+    getDescendants,
+    updateDescription
+} from "../controllers/itemController.js";
 
 const itemRouter = express.Router();
 
-//get Items Route:
-itemRouter.get('/getItem', tokenController , getItems);
-//create Item Route: 
-itemRouter.post('/createItem', tokenController , createItems);
-//remove Items Route:
-itemRouter.delete('/deleteItems',tokenController, deleteItems);
-//move Items Route: 
-itemRouter.put('/moveItems',tokenController, moveItems);
-//get all Children Route:
-itemRouter.get('/getDescendants',tokenController, getDescendants)
-
-
+//get items route:
+itemRouter.get("/getItem", tokenController, getItems);
+//create item route:
+itemRouter.post("/createItem", tokenController, createItems);
+//remove items route:
+itemRouter.delete("/deleteItems", tokenController, deleteItems);
+//move items route:
+itemRouter.put("/moveItems", tokenController, moveItems);
+//get all children route:
+itemRouter.get("/getDescendants", tokenController, getDescendants);
+//update description route:
+itemRouter.patch("/updateDescription", tokenController, updateDescription);
 
 export default itemRouter;

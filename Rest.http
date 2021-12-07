@@ -2,7 +2,7 @@ POST http://localhost:5000/login
 content-type: application/json
 
 {
-    "email":"hi@hi.de",
+    "email":"helga@de",
     "password": "123456",
     "stayLogged": true
 }
@@ -52,7 +52,6 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
     "isRoot": true
 }
 
-
 ### Check for Children
 
 GET http://localhost:5000/hasChildren
@@ -84,4 +83,15 @@ Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTg5Mzc3
 {
     "newParentId":  "619f5378e7f655bcd246f6ca",
     "parentId": "619f535fe7f655bcd246f6c8"
+}
+
+###
+
+PATCH http://localhost:5000/updateDescription
+content-type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MThhOGFkOWU3ZDU1MmUwZjI3OGQ0MGEiLCJpYXQiOjE2Mzg3ODYzODIsImV4cCI6MTYzOTM5MTE4Mn0.Va6Ir0JoxxQB6LSS6PFNxKEHembd9Oi_ue7ECrYmCio
+
+{
+    "description": "Yet a new descritpion",
+    "_id": "61adcb1907564f119bd6ffff"
 }

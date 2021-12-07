@@ -5,6 +5,7 @@ $sidebar-width: 230px;
     width: 100%;
     align-items: stretch;
     perspective: 1500px;
+    overflow-x: hidden;
     #itemSidebar {
         width: $sidebar-width;
         min-height: 100vh;
@@ -28,8 +29,27 @@ $sidebar-width: 230px;
 }
 
 #content {
-    margin-top: 70px;
+    padding-top: 0px;
     width: inherit;
+    margin-right: -$sidebar-width;
+    .buttonContainer {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        #itemPageLogout {
+            width: max-content;
+            height: 40px;
+            margin-top: 20px;
+            margin-right: 20px;
+            background: #f5f5f5;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: blue 0 0 10px;
+        }
+    }
+    #itemCard {
+        margin-top: 10px;
+    }
 }
 
 #itemSidebar.active {

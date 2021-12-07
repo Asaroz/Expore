@@ -15,8 +15,8 @@ export async function createItems(req, res) {
 };
 
 export async function deleteItems(req, res) {
-    if (!req.query.parentId) {
-        res.status(400).json({ message: "Please provide a valid parentId" });
+    if (!req.query._id) {
+        res.status(400).json({ message: "Request doesn't have an Id" });
         return;
     }
     const item = await Item.deleteItems(req.body, req.query);
@@ -30,6 +30,19 @@ export async function moveItems (req, res) {
 
 export async function getDescendants(req, res) {
     const item = await Item.getDescendants(req.body, req.query);
+    res.status(item.status).json(item);
+}
+
+export async function updateDescription(req, res) {
+    if (!req.body.description) {
+        res.status(400).json({ message: "Please provide a valid description" });
+        return;
+    }
+    if (!req.body._id) {
+        res.status(400).json({ message: "Request doesn't have an Id" });
+        return;
+    }
+    const item = await Item.updateDescription(req.body);
     res.status(item.status).json(item);
 }
 

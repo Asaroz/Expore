@@ -4,18 +4,24 @@ import { NavLink, useLocation } from 'react-router-dom';
 import getCurrentInfo from '../libs/getCurrentInfo';
 import Confirm from 'react-confirm-bootstrap';
 import deleteItemCheck from '../libs/deleteItemCheck';
-import '../scss/LoadingRing.scss';
-import '../scss/CurrentItem.scss';
+import updateDescription from '../libs/updateDescription';
 import ItemDescPrompt from './ItemDescPrompt';
 import MoveItemsPrompt from './MoveItemsPrompt';
 import CreatePage from './CreatePage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
+import '../scss/LoadingRing.scss';
+import '../scss/CurrentItem.scss';
 
 export default function CurrentItem (props) {
     const [ sidebarCollapse, setSidebarCollapse ] = useState(true);
     const [ showCreatePage, setShowCreatePage] = useState(false);
     const [ showDescPrompt, setShowDescPrompt] = useState(false);
-    const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
     const [ itemInfo, setItemInfo ] = useState(false);
+    const [ editDescription, setEditDescription ] = useState(false);
+    const [ description, setDescription ] = useState("");
+    const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
+    const [ toggle, setToggle ] = useState(true);
     const [ itemChildren, setItemChildren ] = useState(false);
     const [ movDelInfo, setMovDelInfo ] = useState(false);
     const location = useLocation();
@@ -43,6 +49,11 @@ export default function CurrentItem (props) {
                 if (itemRequest.extraInfo.children) {
                     setItemChildren(itemRequest.extraInfo.children);
                 }
+                if (itemRequest.result.description) {
+                    setDescription(itemRequest.result.description);
+                } else {
+                    setDescription("");
+                }
             } else if (itemRequest.result === 401 ) {
                 // token is unauthorized => log out
                 localStorage.clear();
@@ -52,9 +63,19 @@ export default function CurrentItem (props) {
             }
         };
         fetchData();
-    }, [id, setUser]);
-    console.log('item info', itemInfo)
+    }, [id, setUser, toggle]);
 
+    // Update description:
+    function updateHandler () {
+        updateDescription(description, id);
+        setEditDescription(false);
+    }
+    // Discard changes to the description:
+    function discardHandler () {
+        setDescription(itemInfo.description);
+        setEditDescription(false);
+    }
+    // Delete items: (child items can be deleted)
     async function deleteItemHandler (id, universeId, title) {
         const deleteCheck = await deleteItemCheck({ _id: id, universeId: universeId });
         if (deleteCheck.pass === true) {
@@ -76,6 +97,7 @@ export default function CurrentItem (props) {
 
     return (itemInfo ? 
         <div id="itemWrapper">
+            {/* Sidebar */}
             <nav 
                 data={itemInfo.universeId} id="itemSidebar" 
                 className={sidebarCollapse ? "active" : ""}
@@ -85,9 +107,9 @@ export default function CurrentItem (props) {
                 <div>
                     {itemInfo.isRoot ? 
                         /* Current Item is Universe */
-                        <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+                        <span className="activeLink">
                             {itemInfo.isRoot ? itemInfo.title : itemInfo.parent.title}
-                        </NavLink> : <>
+                        </span> : <>
                         <NavLink 
                             exact to={{ pathname:'/item', hash: `${itemInfo.universeId}` }} 
                             replace className="breadcrumb"
@@ -96,9 +118,9 @@ export default function CurrentItem (props) {
                         </NavLink>
                         { itemInfo.universeId === itemInfo.parentId ? 
                             /* Current Item is child of Universe */
-                            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+                            <span className="activeLink">
                                 {itemInfo.title}
-                            </NavLink> : <>
+                            </span> : <>
                             <NavLink exact to={{ pathname:'/item', hash: `${itemInfo.parentId}` }} replace
                                 className={`breadcrumb ${itemInfo.parent.parentId === itemInfo.universeId ?
                                     null : "dotsBefore"}`
@@ -106,9 +128,9 @@ export default function CurrentItem (props) {
                             >
                                 {itemInfo.parent.title}
                             </NavLink>
-                            <NavLink exact to={{ pathname:'/item', hash: `${id}` }} replace>
+                            <span className="activeLink">
                                 {itemInfo.title}
-                            </NavLink> </>
+                            </span> </>
                         }
                     </>}
                 </div>
@@ -124,7 +146,8 @@ export default function CurrentItem (props) {
                         </ul>
                     : null}
                 </ul>
-                { itemInfo.siblings ? <>
+                { itemInfo.siblings ? 
+                    itemInfo.siblings.length > 0 ? <>
                     <h3>Siblings</h3>
                     <ul>
                         {itemInfo.siblings.map(item => <li key={item._id}>
@@ -133,8 +156,9 @@ export default function CurrentItem (props) {
                             </NavLink>
                         </li>)}
                     </ul>
-                </>: null}
+                </>: null : null}
             </nav>
+            {/* Button to collapse sidebar */}
             <button 
                 type="button" id="sidebarCollapse"
                 className={sidebarCollapse ? "active" : ""} 
@@ -144,18 +168,59 @@ export default function CurrentItem (props) {
                 <span></span>
                 <span></span>
             </button>
+            {/* Main area with cards */}
             <div id="content">
-                <div className="itemCard">
+                <div className="buttonContainer">
+                    <button id="itemPageLogout" onClick={() => {
+                        localStorage.clear();
+                        setUser(null);
+                    }}>
+                        Logout
+                    </button>
+                </div>
+                <div id="itemCard">
                     <h1>{itemInfo.title}</h1>
-                    <p>{itemInfo.description}</p>
+                    {editDescription ? <> 
+                        <div>
+                            <label htmlFor="newDescription">New description:</label>
+                        </div>
+                        <textarea
+                            rows={10} cols={60} id="newDescription" placeholder="Add a description..." 
+                            maxLength={9000} value={description}
+                            onChange={e => setDescription(e.target.value)}
+                        />
+                        <div>
+                            <Confirm
+                                onConfirm={() => discardHandler()}
+                                confirmText="Discard"
+                                title="Discard changes?"
+                            >
+                                <button>Discard Changes</button>
+                            </Confirm>
+                            <Confirm
+                                onConfirm={() => updateHandler()}
+                                confirmText="Update"
+                                title="Are you sure you want to update?"
+                                body="The existing description will be overwritten"
+                            >
+                                <button>Save</button>
+                            </Confirm>
+                        </div>
+                    </> : <>
+                        <p>
+                            {description}
+                            <button onClick={() => setEditDescription(true)}>
+                                <FontAwesomeIcon icon={faEdit}/>
+                            </button>
+                        </p>
+                    </>}
                 </div>
                 {showCreatePage ?
                     <CreatePage 
                         setShow={setShowCreatePage} 
                         show={showCreatePage}
                         isRoot={false}
-                        items={itemChildren}
-                        setItems={setItemChildren}
+                        items={itemChildren} setItems={setItemChildren}
                         parentId={id}
                         universeId={itemInfo.universeId}
                     /> :
@@ -170,11 +235,11 @@ export default function CurrentItem (props) {
                                 {item.title}             
                                 <Confirm
                                     onConfirm={() => deleteItemHandler(item._id, item.universeId, item.title)}
-                                    body="This action cannot be undone."
                                     confirmText="Delete Item"
                                     title="Are you sure you want to delete this item?"
+                                    body="This action cannot be undone"
                                 >
-                                    <button>X</button>
+                                    <button><FontAwesomeIcon icon={faTrash}/></button>
                                 </Confirm>
                             </h4>
                             <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
@@ -184,12 +249,12 @@ export default function CurrentItem (props) {
                     </div>
                 : null}
             </div>
+            {/* Prompts when deleting items with children */}
             {showDescPrompt ?
                 <ItemDescPrompt
                     setShow={setShowDescPrompt}
                     show={showDescPrompt}
-                    children={itemChildren}
-                    setChildren={setItemChildren}
+                    children={itemChildren} setChildren={setItemChildren}
                     itemInfo={movDelInfo}
                     setShowMoveItemsPrompt={setShowMoveItemsPrompt}
                 /> 
@@ -198,13 +263,13 @@ export default function CurrentItem (props) {
                 <MoveItemsPrompt
                     setShow={setShowMoveItemsPrompt}
                     show={showMoveItemsPrompt}
-                    children={itemChildren}
-                    setChildren={setItemChildren}
+                    children={itemChildren} setChildren={setItemChildren}
                     itemInfo={movDelInfo}
+                    toggle={toggle} setToggle={setToggle}
                 /> 
             : null }
         </div>
-        : /* Render spinner */ 
+        : /* Render spinner while loading */ 
         <div class="loadingRing">
             Loading
             <span></span>
