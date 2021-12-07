@@ -1,4 +1,5 @@
-$sidebar-width: 230px;
+@import './Colors.scss';
+$sidebar-width: 250px;
 
 #itemWrapper {
     display: flex;
@@ -9,8 +10,8 @@ $sidebar-width: 230px;
     #itemSidebar {
         width: $sidebar-width;
         min-height: 100vh;
-        background-color: #0F1726;
-        color: #fff;
+        background-color: $background;
+        color: $text;
         transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
         transform-origin: bottom left;
         flex-shrink: 0;
@@ -19,10 +20,12 @@ $sidebar-width: 230px;
         }
         .breadcrumb::after {
             content: '›';
+            font-size: x-large;
             cursor: default;
         }
         .dotsBefore::before {
             content: '...›';
+            font-size: x-large;
             cursor: default;
         }
     }
@@ -35,20 +38,37 @@ $sidebar-width: 230px;
     .buttonContainer {
         width: 100%;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         #itemPageLogout {
             width: max-content;
             height: 40px;
             margin-top: 20px;
             margin-right: 20px;
-            background: #f5f5f5;
             cursor: pointer;
+            border: none;
             border-radius: 5px;
-            box-shadow: blue 0 0 10px;
+            box-shadow: $link-text 0 0 10px;
         }
     }
     #itemCard {
-        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .subitemsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        .subitemContainer {
+            background-color: $dark-secondary;
+            margin: 10px;
+            flex-basis: 120px;
+            border-radius: 25px;
+            padding: 15px 0;
+            box-shadow: 3px 3px 10px 5px #000000;
+            a {
+                color: $text-secondary;
+            }
+        }
     }
 }
 
@@ -61,20 +81,20 @@ $sidebar-width: 230px;
 #sidebarCollapse {
     width: 40px;
     height: 40px;
-    background: #f5f5f5;
     cursor: pointer;
     border-radius: 5px;
-    box-shadow: blue 0 0 10px;
+    box-shadow: $link-text 0 0 10px;
     position: absolute;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     top: 20px;
     left: calc(#{$sidebar-width} + 15px);
+    border: none;
         span {
             width: 80%;
             height: 2px;
             margin: 0 auto;
             display: block;
-            background: #555;
+            background: $dark-background;
             transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
             transition-delay: 0.2s;
         }

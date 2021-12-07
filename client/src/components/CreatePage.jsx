@@ -52,7 +52,7 @@ export default function CreatePage(props) {
                         <label htmlFor="description">Description:</label>
                     </div>
                     <textarea
-                        rows={10} cols={60} id="description" placeholder="Add a description..." maxLength={9000}
+                        rows={12} cols={40} id="description" placeholder="Add a description..." maxLength={9000}
                         onChange={e => setDescription(e.target.value)}
                     />
                 </div>
