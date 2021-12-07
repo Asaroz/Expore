@@ -110,24 +110,23 @@ export default function CurrentItem (props) {
                         <span className="activeLink">
                             {itemInfo.isRoot ? itemInfo.title : itemInfo.parent.title}
                         </span> : <>
-                        <NavLink 
-                            exact to={{ pathname:'/item', hash: `${itemInfo.universeId}` }} 
-                            replace className="breadcrumb"
-                        >
-                            {itemInfo.universe ? itemInfo.universe.title : itemInfo.parent.title}
-                        </NavLink>
+                        <span className="breadcrumb">
+                            <NavLink exact to={{ pathname:'/item', hash: `${itemInfo.universeId}` }} replace>
+                                {itemInfo.universe ? itemInfo.universe.title : itemInfo.parent.title}
+                            </NavLink>
+                        </span>
                         { itemInfo.universeId === itemInfo.parentId ? 
                             /* Current Item is child of Universe */
                             <span className="activeLink">
                                 {itemInfo.title}
                             </span> : <>
-                            <NavLink exact to={{ pathname:'/item', hash: `${itemInfo.parentId}` }} replace
-                                className={`breadcrumb ${itemInfo.parent.parentId === itemInfo.universeId ?
-                                    null : "dotsBefore"}`
-                                }
-                            >
-                                {itemInfo.parent.title}
-                            </NavLink>
+                            <span className={`breadcrumb ${itemInfo.parent.parentId === itemInfo.universeId ?
+                                null : "dotsBefore"}`
+                            }>
+                                <NavLink exact to={{ pathname:'/item', hash: `${itemInfo.parentId}` }} replace>
+                                    {itemInfo.parent.title}
+                                </NavLink>
+                            </span>
                             <span className="activeLink">
                                 {itemInfo.title}
                             </span> </>
@@ -178,14 +177,14 @@ export default function CurrentItem (props) {
                         Logout
                     </button>
                 </div>
-                <div id="itemCard">
+                <div id="itemCard" className="universeCard">
                     <h1>{itemInfo.title}</h1>
                     {editDescription ? <> 
                         <div>
                             <label htmlFor="newDescription">New description:</label>
                         </div>
                         <textarea
-                            rows={10} cols={60} id="newDescription" placeholder="Add a description..." 
+                            rows={12} cols={35} id="newDescription" placeholder="Add a description..." 
                             maxLength={9000} value={description}
                             onChange={e => setDescription(e.target.value)}
                         />
@@ -229,22 +228,21 @@ export default function CurrentItem (props) {
                     </button>
                 }
                 { itemChildren ? 
-                    <div>
-                        {itemChildren.map(item => <div>
-                            <h4>
-                                {item.title}             
-                                <Confirm
-                                    onConfirm={() => deleteItemHandler(item._id, item.universeId, item.title)}
-                                    confirmText="Delete Item"
-                                    title="Are you sure you want to delete this item?"
-                                    body="This action cannot be undone"
-                                >
-                                    <button><FontAwesomeIcon icon={faTrash}/></button>
-                                </Confirm>
-                            </h4>
+                    <div className="subitemsContainer">
+                        {itemChildren.map(item => <div className="subitemContainer">
                             <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
-                                Go to item
+                                <h4>
+                                    {item.title}            
+                                </h4>
                             </NavLink>
+                            <Confirm
+                                onConfirm={() => deleteItemHandler(item._id, item.universeId, item.title)}
+                                confirmText="Delete Item"
+                                title="Are you sure you want to delete this item?"
+                                body="This action cannot be undone"
+                            >
+                                <button><FontAwesomeIcon icon={faTrash}/></button>
+                            </Confirm>
                         </div>)}
                     </div>
                 : null}
