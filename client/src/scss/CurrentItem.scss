@@ -53,20 +53,21 @@ $sidebar-width: 250px;
     #itemCard {
         margin-left: auto;
         margin-right: auto;
+        margin-top: 25px;
     }
     .subitemsContainer {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         .subitemContainer {
-            background-color: $dark-secondary;
+            background-color: $secondary;
             margin: 10px;
             flex-basis: 120px;
             border-radius: 25px;
             padding: 15px 0;
             box-shadow: 3px 3px 10px 5px #000000;
             a {
-                color: $text-secondary;
+                color: $text;
             }
         }
     }
