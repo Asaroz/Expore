@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import register from '../libs/register.js';
 import avaPoultryOne from '../img/avaPoultryOne.jpg';
 import avaDogOne from '../img/avaDogOne.jpg';
@@ -10,8 +10,7 @@ import avaLion from '../img/avaLion.jpg';
 import avaOwl from '../img/avaOwl.jpg';
 import avaYoda from '../img/avaYoda.jpg';
 import UserContext from '../contexts/UserContext';
-
-import '../scss/Register.scss'
+import '../scss/Register.scss';
 
 export default function Register(props) {
     const [password, setPassword] = useState("");
@@ -34,6 +33,11 @@ export default function Register(props) {
             register(email, name, imageIndex, password, setUser, setMessage);
         }
     };
+
+    // Scroll down when message is set:
+    useEffect(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+    }, [message]);
 
     return <div>
         <form onSubmit={submitHandler}>
@@ -136,7 +140,7 @@ export default function Register(props) {
             <button type="submit" className="regSubmit">
                 Register
             </button>
-            <div>{`${message}`}</div>
+            <div className="warning">{`${message}`}</div>
         </form>
     </div>
 }
