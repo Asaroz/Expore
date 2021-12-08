@@ -17,7 +17,7 @@ export default function Login(props){
 
     function submitHandler(e) {
         e.preventDefault();
-        login(email, password, stay, setUser, setToken, setMessage);
+        login(email, password, stay, setUser, setMessage);
     }
 
     return <div className="loginContainer">
