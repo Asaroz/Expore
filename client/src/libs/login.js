@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default function login (email, password, stay, setUser, setMessage) {
+export default function login (email, password, stay, setUser,  setMessage) {
     axios.post('/login', {
         email: email,
         password: password,

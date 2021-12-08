@@ -64,7 +64,34 @@ userSchema.statics.register = async (userData) => {
     }
 };
 
+userSchema.statics.updateUser = async (userData) => {
+    try{
+        const { userId, ...updateData } = userData;
+        await User.findOneAndUpdate({_id:userId}, updateData)
+        const newUser = await User.findOne({_id:userId})
+        return {message: 'User was updated succesfully', status: 200 , newUser: newUser}
+    } catch (error) {
+        return { message: "Could not update", status: 400 };
+    }
+}
 
+userSchema.statics.updatePassword = async (userData) => {
+    const oldPw = userData.oldPw;
+    const newPw = userData.newPw;
+    const _id = userData.userId;
+    try{
+        const user = await User.findOne({ _id: _id});
+        const success = await compare(oldPw, user.password);
+        if (!success) {
+            return { message: "Old password is not correct", status: 401 };
+        }
+        const password = await hash(newPw);
+        await User.findByIdAndUpdate(_id,{password:password});
+        return {message: 'Password was successfully updated', status: 200 };
+    } catch (error){
+        return { message: "Could not change the password", status: 400 };
+    }
+}
 
 
 

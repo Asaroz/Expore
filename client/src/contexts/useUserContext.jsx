@@ -21,11 +21,11 @@ function useUserContext (key) {
         return getSavedValue(key);
     });
 
-    // Set localStorage when user is set
-    //useEffect(() => {
+    //Set localStorage when user is set
+    // useEffect(() => {
         localStorage.setItem(key, JSON.stringify(value));
-    //}, [value]);
-
+    //  }, [value]);
+    
     return [ value, setValue ];
 };
 
