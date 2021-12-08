@@ -13,6 +13,7 @@ import CreatePage from './CreatePage';
 import UniverseCard from './UniverseCard';
 import UserContext from '../contexts/UserContext';
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import '../scss/UserMenu.scss'
 
@@ -45,7 +46,13 @@ export default function UserMenu (props) {
 
     return <div className="universePageContainer">
         <header>
-            <div><img className="userPageAvatar" src={images[user.imageIndex]} alt="avatar"/></div>
+            <div>
+            <NavLink exact to={{ pathname:'/userSettings' }} replace>
+                <img className="userPageAvatar" src={images[user.imageIndex]} alt="avatar"/>
+            </NavLink>
+                
+                
+                </div>
             <h1>Welcome {user.userName}</h1>
         </header>
         {universes ? <>

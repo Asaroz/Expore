@@ -7,6 +7,7 @@ import './scss/App.scss';
 import useUserContext from './contexts/useUserContext';
 import UserContext from './contexts/UserContext';
 import CurrentItem from './components/CurrentItem';
+import UserSettings from './components/UserSettings';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
 						:
 						<Switch>
 							<Route path='/item' component={() => <CurrentItem />} />
+							<Route path='/userSettings' component={() => <UserSettings />} />
 							<Route path='/' component={() => <UserMenu />} />
 							<Route path='*'>
 								<Redirect to='/' />
