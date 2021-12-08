@@ -12,9 +12,6 @@ export default function Login(props){
 
     const setUser = useContext(UserContext)[1];
 
-    const setToken = props.setToken;
-
-
     function submitHandler(e) {
         e.preventDefault();
         login(email, password, stay, setUser, setMessage);
@@ -42,7 +39,7 @@ export default function Login(props){
             <button type="submit">
                 Login
             </button>
-            <div>{`${message}`}</div>
         </form>
+        <div className="warning">{`${message}`}</div>
     </div>
 }
