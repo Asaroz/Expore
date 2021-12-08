@@ -133,29 +133,30 @@ export default function CurrentItem (props) {
                         }
                     </>}
                 </div>
-                <ul>
-                    <li key={id}>{itemInfo.title}</li>
-                    { itemChildren ? 
+                <div className="listsContainer">
+                    <ul className="rootUl">
+                        <li key={id} className={itemChildren.length > 0 ? "rotateBefore" : ""}>{itemInfo.title}</li>
+                        { itemChildren ? 
+                            <ul>
+                                {itemChildren.map(item => <li key={item._id}>
+                                    <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
+                                        {item.title}
+                                    </NavLink>
+                                </li>)}
+                            </ul>
+                        : null}
+                    </ul>
+                    { itemInfo.siblings ? 
+                        itemInfo.siblings.length > 0 ? <>
                         <ul>
-                            {itemChildren.map(item => <li key={item._id}>
+                            {itemInfo.siblings.map(item => <li key={item._id}>
                                 <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
                                     {item.title}
                                 </NavLink>
                             </li>)}
                         </ul>
-                    : null}
-                </ul>
-                { itemInfo.siblings ? 
-                    itemInfo.siblings.length > 0 ? <>
-                    <h3>Siblings</h3>
-                    <ul>
-                        {itemInfo.siblings.map(item => <li key={item._id}>
-                            <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
-                                {item.title}
-                            </NavLink>
-                        </li>)}
-                    </ul>
-                </>: null : null}
+                    </>: null : null}
+                </div>
             </nav>
             {/* Button to collapse sidebar */}
             <button 
@@ -208,7 +209,7 @@ export default function CurrentItem (props) {
                     </> : <>
                         <p>
                             {description}
-                            <button onClick={() => setEditDescription(true)}>
+                            <button className="iconButton" onClick={() => setEditDescription(true)}>
                                 <FontAwesomeIcon icon={faEdit}/>
                             </button>
                         </p>
@@ -241,7 +242,7 @@ export default function CurrentItem (props) {
                                 title="Are you sure you want to delete this item?"
                                 body="This action cannot be undone"
                             >
-                                <button><FontAwesomeIcon icon={faTrash}/></button>
+                                <button className="iconButton"><FontAwesomeIcon icon={faTrash}/></button>
                             </Confirm>
                         </div>)}
                     </div>
