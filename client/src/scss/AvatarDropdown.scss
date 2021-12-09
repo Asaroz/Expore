@@ -1,0 +1,87 @@
+@import './Colors.scss';
+@import './CurrentItem.scss';
+
+.userPageAvatar, #dropdown {
+    position: absolute;
+    box-shadow: 3px 3px 10px 5px black;
+    border: 2px solid $link-text;
+}
+
+.userPageAvatar {
+    width: 70px;
+    border-radius: 50%;
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    background-color: $link-text;
+}
+
+.userPageAvatar.right {
+    left: auto;
+    right: 35px;
+    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+}
+
+.userPageAvatar.right.active {
+    right: -$sidebar-width;
+    transform: rotateY(100deg);
+}
+
+@media (min-width: 576px) {
+    .userPageAvatar.right.active {
+        right: 35px;
+        transform: none;
+    }
+}
+
+#dropdown {
+    transition: 0.3s ease-out;
+    max-height: 100vh;
+    top: 90px;
+    left: 35px;
+    background-color: $text;
+    width: max-content;
+    border-radius: 15px;
+    z-index: 3;
+    padding: 5px;
+    text-align: left;
+    > div {
+        color: $link-text;
+        text-decoration: underline;
+        cursor: pointer;
+        padding: 5px;
+        transition: 0.3s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+        a {
+            transition: 0.3s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+        }
+    }
+    > div:first-child {
+        border-bottom: 1px solid $link-text;
+    }
+    > div:nth-child(3) {
+        border-top: 1px solid $link-text;
+    }
+}
+
+#dropdown.dropdownTransition {
+    max-height: 0;
+    overflow: hidden;
+    > div, > div > a {
+        border: 1px solid transparent;
+        color: transparent !important;
+    }
+}
+
+#dropdown.right {
+    left: auto;
+    right: 35px;
+}
+
+#wrapper {
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 2;
+}

@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
-import UserContext from '../contexts/UserContext';
-import getItems from '../libs/getItems.js';
+import UserContext from '../../contexts/UserContext';
+import getItems from '../../libs/getItems.js';
 
 
 export default function NavCard (props) {

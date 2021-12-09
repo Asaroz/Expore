@@ -1,5 +1,9 @@
 @import "./Colors.scss";
 
+* {
+	box-sizing: border-box;
+}
+
 .App {
 	text-align: center;
 	font-family: Sora, sans-serif;
@@ -43,4 +47,4 @@
 		cursor: pointer;
 		background-color: $text;
 	}
-}
+} 

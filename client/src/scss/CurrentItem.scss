@@ -32,7 +32,7 @@ $sidebar-width: 250px;
 }
 
 #content {
-    padding-top: 0px;
+    padding-top: 80px;
     width: inherit;
     margin-right: -$sidebar-width;
     .buttonContainer {
@@ -85,8 +85,7 @@ $sidebar-width: 250px;
     transform: rotateY(100deg);
 }
 
-
-@media (min-width: 776px) {
+@media (min-width: 768px) {
     #itemWrapper {
         overflow-x: scroll;
     }
