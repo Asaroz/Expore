@@ -1,3 +1,8 @@
+import zero from '../img/avaPoultryOne.jpg'; import one from '../img/avaDogOne.jpg';
+import two from '../img/avaDogTwo.jpg'; import three from '../img/avaFaceOne.jpg';
+import four from '../img/avaFaceTwo.jpg'; import five from '../img/avaCat.jpg';
+import six from '../img/avaLion.jpg'; import seven from '../img/avaOwl.jpg';
+import eight from '../img/avaYoda.jpg';
 import { useContext, useState, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -12,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import '../scss/LoadingRing.scss';
 import '../scss/CurrentItem.scss';
+import AvatarDropdown from './AvatarDropdown';
 
 export default function CurrentItem (props) {
     const [ sidebarCollapse, setSidebarCollapse ] = useState(true);
@@ -20,17 +26,20 @@ export default function CurrentItem (props) {
     const [ itemInfo, setItemInfo ] = useState(false);
     const [ editDescription, setEditDescription ] = useState(false);
     const [ description, setDescription ] = useState("");
-    const [ showMoveItemsPrompt, setShowMoveItemsPrompt] = useState(false);
+    const [ showMoveItemsPrompt, setShowMoveItemsPrompt ] = useState(false);
+    const [ showDropdown, setShowDropdown ] = useState(false);
     const [ toggle, setToggle ] = useState(true);
     const [ itemChildren, setItemChildren ] = useState(false);
     const [ movDelInfo, setMovDelInfo ] = useState(false);
     const location = useLocation();
     const id = location.hash.slice(1);
-    const setUser = useContext(UserContext)[1];
+    const [ user, setUser ] = useContext(UserContext);
+
+    const images = [zero, one, two, three, four, five, six, seven, eight];
 
     useEffect(() => {
         // sidebar expand on larger screens
-        if (window.screen.width >= 776) {
+        if (window.screen.width >= 768) {
             setSidebarCollapse(false);
         }
     }, []);
@@ -170,13 +179,15 @@ export default function CurrentItem (props) {
             </button>
             {/* Main area with cards */}
             <div id="content">
-                <div className="buttonContainer">
-                    <button id="itemPageLogout" onClick={() => {
-                        localStorage.clear();
-                        setUser(null);
-                    }}>
-                        Logout
-                    </button>
+                <div>
+                    <img 
+                        className={`userPageAvatar right ${sidebarCollapse ? "" : "active"}`} 
+                        src={images[user.imageIndex]} alt="avatar" 
+                        onClick={() => setShowDropdown(true)}
+                    />
+                    {showDropdown ? 
+                        <AvatarDropdown show={showDropdown} setShow={setShowDropdown} isRight={true}/>
+                    : null}
                 </div>
                 <div id="itemCard" className="universeCard">
                     <h1>{itemInfo.title}</h1>

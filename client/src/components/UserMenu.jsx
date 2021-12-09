@@ -1,11 +1,7 @@
-import zero from '../img/avaPoultryOne.jpg';
-import one from '../img/avaDogOne.jpg';
-import two from '../img/avaDogTwo.jpg';
-import three from '../img/avaFaceOne.jpg';
-import four from '../img/avaFaceTwo.jpg';
-import five from '../img/avaCat.jpg';
-import six from '../img/avaLion.jpg';
-import seven from '../img/avaOwl.jpg';
+import zero from '../img/avaPoultryOne.jpg'; import one from '../img/avaDogOne.jpg';
+import two from '../img/avaDogTwo.jpg'; import three from '../img/avaFaceOne.jpg';
+import four from '../img/avaFaceTwo.jpg'; import five from '../img/avaCat.jpg';
+import six from '../img/avaLion.jpg'; import seven from '../img/avaOwl.jpg';
 import eight from '../img/avaYoda.jpg';
 import { useEffect, useState } from 'react';
 import getItems from '../libs/getItems.js';
@@ -13,15 +9,15 @@ import CreatePage from './CreatePage';
 import UniverseCard from './UniverseCard';
 import UserContext from '../contexts/UserContext';
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
-
-import '../scss/UserMenu.scss'
+import '../scss/UserMenu.scss';
+import AvatarDropdown from './AvatarDropdown';
 
 export default function UserMenu (props) {
     const [ universes, setUniverses] = useState(false);
     console.log('Universes:', universes);
     // This state controls the modal "CreatePage":
     const [ showCreatePage, setShowCreatePage] = useState(false);
+    const [ showDropdown, setShowDropdown ] = useState(false);
     
     const [ user, setUser ] = useContext(UserContext);
 
@@ -47,12 +43,14 @@ export default function UserMenu (props) {
     return <div className="universePageContainer">
         <header>
             <div>
-            <NavLink exact to={{ pathname:'/userSettings' }} replace>
-                <img className="userPageAvatar" src={images[user.imageIndex]} alt="avatar"/>
-            </NavLink>
-                
-                
-                </div>
+                <img 
+                    className="userPageAvatar" src={images[user.imageIndex]} 
+                    alt="avatar" onClick={() => setShowDropdown(true)}
+                />
+                {showDropdown ? 
+                    <AvatarDropdown show={showDropdown} setShow={setShowDropdown}/>
+                : null}
+            </div>
             <h1>Welcome {user.userName}</h1>
         </header>
         {universes ? <>
@@ -81,9 +79,5 @@ export default function UserMenu (props) {
             <p>You don't have any universes</p>}
             </> : <div>Loading universes...</div>
         }
-        <button className="universePageLogout" onClick={() => {
-            localStorage.clear();
-            setUser(null);
-        }}>Logout</button>
     </div>;
 }

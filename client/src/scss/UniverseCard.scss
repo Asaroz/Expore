@@ -1,7 +1,9 @@
+@import './Colors.scss';
+
 .universeCard {
     margin: 10px 10vw 30px;
     padding: 1px;
-    background-color: #DBA11C;
+    background-color: $secondary;
     border-radius: 10px;
     box-shadow: 5px 5px 15px 5px #000000;
     -webkit-box-shadow: 5px 5px 15px 5px #000000;

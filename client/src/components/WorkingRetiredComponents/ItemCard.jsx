@@ -1,11 +1,11 @@
-import CreatePage from './CreatePage';
+import CreatePage from '../CreatePage';
 import { useContext, useState, useEffect } from 'react';
-import UserContext from '../contexts/UserContext';
-import getItems from '../libs/getItems.js';
-import deleteItemCheck from '../libs/deleteItemCheck.js';
+import UserContext from '../../contexts/UserContext';
+import getItems from '../../libs/getItems.js';
+import deleteItemCheck from '../../libs/deleteItemCheck.js';
 import Confirm from 'react-confirm-bootstrap';
-import ItemDescPrompt from './ItemDescPrompt';
-import MoveItemsPrompt from './MoveItemsPrompt';
+import ItemDescPrompt from '../ItemDescPrompt';
+import MoveItemsPrompt from '../MoveItemsPrompt';
 
 
 export default function ItemCard (props) { 

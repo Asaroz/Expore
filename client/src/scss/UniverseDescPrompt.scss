@@ -1,28 +1,32 @@
-
-  .modal {
-    border-radius: 10px;
-    color: black;
-    position:fixed;
-    background: white;
-    width: 80%;
-    height: auto;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    padding: 10px;
-    -webkit-box-shadow: 5px 5px 15px 5px #000000; 
-    box-shadow: 5px 5px 15px 5px #000000;
-    text-align: center;
-    font-family: Sora;
-    div{
-      .modal-footer{
-        margin-top: 30px;
-        display: flex;
-        justify-content: space-around;
-        button{
-          text-align: center;
-          font-family: Sora;
-        }
-      }
-    }
-  }
+@import './Colors.scss';
+.modal {
+	border-radius: 10px;
+	color: black;
+	position:fixed;
+	background-color: white;
+	width: 80%;
+	height: auto;
+	top:50%;
+	left:50%;
+	transform: translate(-50%,-50%);
+	padding: 10px;
+	-webkit-box-shadow: 5px 5px 15px 5px #000000; 
+	box-shadow: 5px 5px 15px 5px #000000;
+	text-align: center;
+	font-family: Sora;
+	div {
+		.modal-footer {
+		margin-top: 30px;
+		display: flex;
+		justify-content: space-around;
+			button {
+				text-align: center;
+				font-family: Sora;
+				background-color: $text;
+				border-radius: 10px;
+				width: 120px;
+				padding: 10px;
+			}
+		}
+	}
+}
