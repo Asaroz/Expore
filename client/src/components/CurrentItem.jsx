@@ -185,13 +185,13 @@ export default function CurrentItem (props) {
                         src={images[user.imageIndex]} alt="avatar" 
                         onClick={() => setShowDropdown(true)}
                     />
-                    {showDropdown ? 
+                    {showDropdown ?
                         <AvatarDropdown show={showDropdown} setShow={setShowDropdown} isRight={true}/>
                     : null}
                 </div>
                 <div id="itemCard" className="universeCard">
                     <h1>{itemInfo.title}</h1>
-                    {editDescription ? <> 
+                    {editDescription ? <>
                         <div>
                             <label htmlFor="newDescription">New description:</label>
                         </div>
@@ -227,8 +227,8 @@ export default function CurrentItem (props) {
                     </>}
                 </div>
                 {showCreatePage ?
-                    <CreatePage 
-                        setShow={setShowCreatePage} 
+                    <CreatePage
+                        setShow={setShowCreatePage}
                         show={showCreatePage}
                         isRoot={false}
                         items={itemChildren} setItems={setItemChildren}
@@ -239,12 +239,12 @@ export default function CurrentItem (props) {
                         New item
                     </button>
                 }
-                { itemChildren ? 
+                { itemChildren ?
                     <div className="subitemsContainer">
                         {itemChildren.map(item => <div className="subitemContainer">
                             <NavLink exact to={{ pathname:'/item', hash: `${item._id}` }} replace>
                                 <h4>
-                                    {item.title}            
+                                    {item.title}          
                                 </h4>
                             </NavLink>
                             <Confirm
