@@ -33,15 +33,24 @@ export default function UserSettings() {
         setEdit(false);
     }
 
-    function updatePassword(){
-        if(newPassword !== repeatNewPassword){
+    function updatePassword() {
+        if (newPassword !== repeatNewPassword) {
             alert("Passwords dont match");
             return;
         }
-        updatePasswordF(oldPassword,newPassword)
+        updatePasswordF(oldPassword, newPassword)
         setEditPassword(false)
     }
 
+    function emailValidation(enteredEmail) {
+        var mail_format = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+        if (enteredEmail.match(mail_format)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
 
     return <div>
@@ -55,11 +64,11 @@ export default function UserSettings() {
         <div>
             {editUserEmail ? <>
                 <div>
-                    <label htmlFor="newDescription">New Email:</label>
+                    <label htmlFor="newEmail">New Email:</label>
                 </div>
-                <textarea
-                    rows={1} cols={40} id="newUserName" placeholder="Add a new Email"
-                    maxLength={50} value={newUser.username}
+                <input
+                    rows={1} cols={40} id="newEmail" placeholder="Add a new Email"
+                    maxLength={50} value={newUser.email} type="email"
                     onChange={e => setUserEmail(e.target.value)}
                 />
                 <div>
@@ -71,7 +80,14 @@ export default function UserSettings() {
                         <button>Discard Changes</button>
                     </Confirm>
                     <Confirm
-                        onConfirm={() => updateHandler({ email: userEmail }, setEditUserEmail)}
+                        onConfirm={() => {
+                            if (emailValidation(userEmail)) {
+                                updateHandler({ email: userEmail }, setEditUserEmail)
+                            } else {
+                                alert("invalid email")
+                            }
+                        }
+                        }
                         confirmText="Update"
                         title="Are you sure you want to update your Email?"
                     >
@@ -95,7 +111,7 @@ export default function UserSettings() {
         <div>
             {editUserName ? <>
                 <div>
-                    <label htmlFor="newDescription">New Username:</label>
+                    <label htmlFor="newUserName">New Username:</label>
                 </div>
                 <textarea
                     rows={1} cols={40} id="newUserName" placeholder="Add a new Username"
@@ -103,7 +119,7 @@ export default function UserSettings() {
                     onChange={e => setUserName(e.target.value)}
                 />
                 <div>
-                    
+
                     <Confirm
                         onConfirm={() => discardHandler(setUserName, newUser.username, setEditUserName)}
                         confirmText="Discard"
@@ -132,50 +148,50 @@ export default function UserSettings() {
         <div>
             {editPassword ? <>
                 <div>
-                <div>
-                    <label htmlFor="newPassword">Old Password:</label>
-                </div>
-                <textarea
-                    rows={1} cols={40} id="newUserName" placeholder=""
-                    maxLength={50} 
-                    onChange={e => setOldPassword(e.target.value)}
-                />
-                </div>
-                <div>
-                <div>
-                    <label htmlFor="newPassword">New Password:</label>
-                </div>
-                <textarea
-                    rows={1} cols={40} id="newUserName" placeholder=""
-                    maxLength={50} 
-                    onChange={e => setNewPassword(e.target.value)}
-                />
+                    <div>
+                        <label htmlFor="oldPassword">Old Password:</label>
+                    </div>
+                    <input
+                        rows={1} cols={40} id="oldPassword" placeholder=""
+                        maxLength={50} type="password"
+                        onChange={e => setOldPassword(e.target.value)}
+                    />
                 </div>
                 <div>
-                <div>
-                    <label htmlFor="newPassword">Repeat New Password:</label>
+                    <div>
+                        <label htmlFor="newPassword">New Password:</label>
+                    </div>
+                    <input
+                        rows={1} cols={40} id="newPassword" placeholder=""
+                        maxLength={50} type="password"
+                        onChange={e => setNewPassword(e.target.value)}
+                    />
                 </div>
-                <textarea
-                    rows={1} cols={40} id="newUserName" placeholder=""
-                    maxLength={50} 
-                    onChange={e => setRepeatNewPassword(e.target.value)}
-                />
+                <div>
+                    <div>
+                        <label htmlFor="repeatNewPassword">Repeat New Password:</label>
+                    </div>
+                    <input
+                        rows={1} cols={40} id="repeatNewPassword" placeholder=""
+                        maxLength={50} type="password"
+                        onChange={e => setRepeatNewPassword(e.target.value)}
+                    />
                 </div>
                 <Confirm
-                        onConfirm={() => discardHandler((x)=>null, null, setEditPassword)}
-                        confirmText="Discard"
-                        title="Discard changes?"
-                    >
-                        <button>Discard Changes</button>
-                    </Confirm>
-                    <Confirm
-                        onConfirm={() => updatePassword()}
-                        confirmText="Update"
-                        title="Are you sure you want to update?"
-                        body="The existing description will be overwritten"
-                    >
-                        <button>Save</button>
-                    </Confirm>
+                    onConfirm={() => discardHandler((x) => null, null, setEditPassword)}
+                    confirmText="Discard"
+                    title="Discard changes?"
+                >
+                    <button>Discard Changes</button>
+                </Confirm>
+                <Confirm
+                    onConfirm={() => updatePassword()}
+                    confirmText="Update"
+                    title="Are you sure you want to update?"
+                    body="The existing description will be overwritten"
+                >
+                    <button>Save</button>
+                </Confirm>
             </>
                 :
                 <p>
