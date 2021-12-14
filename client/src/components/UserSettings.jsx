@@ -43,13 +43,13 @@ export default function UserSettings() {
     }
 
     function emailValidation(enteredEmail) {
-        var mail_format = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
-        if (enteredEmail.match(mail_format)) {
-            return true;
-        } else {
-            return false;
-        }
-
+        // var mail_format = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+        // if (enteredEmail.match(mail_format)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+        return true
     }
 
 

@@ -13,6 +13,7 @@ import updateDescription from '../libs/updateDescription';
 import ItemDescPrompt from './ItemDescPrompt';
 import MoveItemsPrompt from './MoveItemsPrompt';
 import CreatePage from './CreatePage';
+import Searchbar from './Searchbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import '../scss/LoadingRing.scss';
@@ -112,7 +113,7 @@ export default function CurrentItem (props) {
                 className={sidebarCollapse ? "active" : ""}
             >  
                 <NavLink to="/">Main page</NavLink>
-                <div>Search bar goes here</div>
+                <Searchbar universeId={itemInfo.universeId}/>
                 <div>
                     {itemInfo.isRoot ? 
                         /* Current Item is Universe */

@@ -1,0 +1,28 @@
+.searchButton {
+    background-color: white;
+    color: Black;
+    width: 80%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition:1s;
+
+}
+
+.searchModal{
+    position: absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width: 100%;
+    background-color: white;
+    z-index:1;
+    input{
+        margin-top: 10px;
+        border-radius: 10px;
+        width: 95%;
+        height: 50px;
+        font-size: 40px;
+    }
+}
