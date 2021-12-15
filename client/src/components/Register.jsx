@@ -80,10 +80,11 @@ export default function Register(props) {
                     />
                     <label htmlFor="avaPoultryOne"><img className="avatar" src={avaPoultryOne} alt="avatar" /></label>
                 </div>
-                <div>                <input
+                <div>                
+                    <input
                     type="radio" name="action" id="avaDogOne" value={1}
                     onChange={e => setImageIndex(e.target.value)}
-                />
+                    />
                     <label htmlFor="avaDogOne"><img className="avatar" src={avaDogOne} alt="avatar" /></label></div>
                 <div>
                     <input
