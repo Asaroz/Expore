@@ -11,18 +11,58 @@
 }
 
 .searchModal{
-    position: absolute;
+    .searchBarContainer{
+        button{
+            width: 80px;
+            height: 30px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        position: fixed;
+        top:0;
+        background-color: white;
+        border-bottom: black 1px solid;
+        height: 120px;
+        -moz-box-shadow:    3px 3px 5px 6px #ccc;
+        -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+        box-shadow:         3px 3px 5px 6px #ccc;
+    }
+    position: fixed;
     top:0;
     left:0;
     height:100%;
     width: 100%;
     background-color: white;
     z-index:1;
+
     input{
         margin-top: 10px;
         border-radius: 10px;
         width: 95%;
         height: 50px;
         font-size: 40px;
+    }
+    .searchNav{
+
+        font-size: 25px;
+        text-decoration: none;
+        color: black;
+    }
+    .searchContainer{
+
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 80%;
+        height: 50px;
+        margin: auto;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: whitesmoke;
+
+    }
+    .resultContainer{
+        margin-top: 130px;
     }
 }

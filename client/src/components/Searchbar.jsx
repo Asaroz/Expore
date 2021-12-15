@@ -30,7 +30,6 @@ export default function Searchbar(props){
 
     function handleChange(e){
         setSearchString(e.target.value);
-        
     };
 
     return <div >
@@ -41,16 +40,20 @@ export default function Searchbar(props){
         </div>
         {searchModal ?
         <div className='searchModal'>
-            <button onClick={()=>setSearchModal(!searchModal)}>close</button>
-            <input placeholder="search here..." onChange={handleChange} type="text" />
-            <hr></hr>
-            {currentItems.map((item)=>{
-                return<div>
-                    <NavLink onClick={()=>setSearchModal(!searchModal)} exact replace to={{ pathname:'/item', hash: `${item._id}` } }>{item.title}</NavLink>
+            <div className='searchBarContainer'>
+                <button onClick={()=>setSearchModal(!searchModal)}>close</button>
+                <input placeholder="search here..." onChange={handleChange} type="text" />
+            </div>
+            <div className="resultContainer">
+            {searchString ?
+            currentItems.map((item)=>{
+                return<div className='searchContainer'>
+                    <NavLink className='searchNav' onClick={()=>setSearchModal(!searchModal)} exact replace to={{ pathname:'/item', hash: `${item._id}` } }>{item.title}</NavLink>
                 </div>
-            })
-                
+            }) :
+            null 
             }
+            </div>
         </div>
         :
         null
