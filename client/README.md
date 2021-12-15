@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Frontend of the Expore repository
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This folder was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
