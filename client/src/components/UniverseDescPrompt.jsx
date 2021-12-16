@@ -22,7 +22,7 @@ export default function UniverseDescPrompt (props) {
             <h3>This universe has {info.descendants.length} subitem are you sure you wanna delete it?</h3> :
             <h3>This universe has {info.descendants.length} subitems are you sure you wanna delete them all?</h3>
         }
-        <button onClick={handleDelete}>
+        <button onClick={handleDelete} testId="confirmDelete">
             Yes I would like to delete the universe and the {info.descendants.length === 1 ? "subitem" : "subitems" }
         </button>
         <button onClick={handleClose}>
